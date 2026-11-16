@@ -4,7 +4,9 @@ Rebuilt website for **Network for Active Citizens (NAC)** — a network of youth
 
 The current Drupal/PHP site will not be converted. This repo rebuilds the public site and a staff back office on iONA’s stack so NAC can present its work clearly to partners and funders.
 
-Full requirements and user stories: [`documentation/NAC_Website_Requirements_and_User_Stories.md`](documentation/NAC_Website_Requirements_and_User_Stories.md)
+Requirements (v3): [`documentation/NAC_Rebuild_Requirements_Updated.md`](documentation/NAC_Rebuild_Requirements_Updated.md)  
+User stories by developer: [`documentation/user-stories/`](documentation/user-stories/) — [`frontend/`](documentation/user-stories/frontend/) (Dev A) · [`admin/`](documentation/user-stories/admin/) (Dev B)  
+Database schema (shared contract): [`documentation/database-schema.md`](documentation/database-schema.md) · Prisma draft [`packages/database/prisma/schema.prisma`](packages/database/prisma/schema.prisma)
 
 ---
 
@@ -27,7 +29,7 @@ Full requirements and user stories: [`documentation/NAC_Website_Requirements_and
 | Apps | Next.js + TypeScript (public site and back office) |
 | Repo | Turborepo monorepo (npm workspaces) |
 | Hosting | Vercel (single project) |
-| Database | TBD after review of the existing Drupal SQL (likely MySQL); must work with Vercel |
+| Database | PostgreSQL + Prisma (`@repo/database`); separate managed DB (NAC-owned) for Vercel Hobby |
 
 Design cues: [DreamTown](https://dreamtown.org) (especially spaces / “where we work” and menus), plus NAC’s current information architecture and homepage slider.
 

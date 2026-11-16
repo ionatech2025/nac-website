@@ -1,0 +1,492 @@
+// NAC Website — Prisma schema draft
+// Source of truth for humans: documentation/database-schema.md
+// Owner: Dev B. Dev A consumes typed data-access helpers only.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum AdminRole {
+  ADMIN
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  ARCHIVED
+}
+
+/// Overrides for derived Open/Closed. Do not store derived status as source of truth.
+enum OpportunityManualStatus {
+  NONE
+  CLOSED
+  ARCHIVED
+}
+
+enum VideoProvider {
+  YOUTUBE
+  VIMEO
+}
+
+enum ComplaintStatus {
+  NEW
+  REVIEWED
+  CLOSED
+}
+
+enum DeviceClass {
+  MOBILE
+  TABLET
+  DESKTOP
+  UNKNOWN
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id           String    @id @default(uuid()) @db.Uuid
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(ADMIN)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// ─── Configuration & pages ───────────────────────────────────────────────────
+
+model SiteSetting {
+  id        String   @id @default(uuid()) @db.Uuid
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model PageContent {
+  id        String   @id @default(uuid()) @db.Uuid
+  key       String   @unique
+  title     String
+  body      String
+  updatedAt DateTime @updatedAt
+}
+
+model KeyFigure {
+  id        String   @id @default(uuid()) @db.Uuid
+  label     String
+  value     String
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+// ─── Media ───────────────────────────────────────────────────────────────────
+
+model MediaAsset {
+  id         String   @id @default(uuid()) @db.Uuid
+  url        String
+  storageKey String
+  fileName   String
+  mimeType   String
+  byteSize   Int
+  width      Int?
+  height     Int?
+  altText    String?
+  createdAt  DateTime @default(now())
+
+  programmeImages        Programme[]             @relation("ProgrammeImage")
+  teamMemberPhotos       TeamMember[]            @relation("TeamMemberPhoto")
+  articleCovers          Article[]               @relation("ArticleCover")
+  articleOgImages        Article[]               @relation("ArticleOgImage")
+  opportunityAttachments OpportunityAttachment[]
+  eventImages            Event[]                 @relation("EventImage")
+  albumCovers            PhotoAlbum[]            @relation("AlbumCover")
+  photoImages            PhotoImage[]
+  videoThumbnails        VideoLink[]             @relation("VideoThumbnail")
+  documents              Document[]
+  partnerLogos           Partner[]               @relation("PartnerLogo")
+  featuredConceptImages  FeaturedConcept[]       @relation("FeaturedConceptImage")
+  slideshowImages        SlideshowImage[]
+  youthSpaceImages       YouthSpaceImage[]
+}
+
+// ─── Programmes & youth spaces ───────────────────────────────────────────────
+
+model Programme {
+  id          String              @id @default(uuid()) @db.Uuid
+  title       String
+  slug        String              @unique
+  summary     String?
+  body        String
+  imageId     String?             @db.Uuid
+  image       MediaAsset?         @relation("ProgrammeImage", fields: [imageId], references: [id])
+  sortOrder   Int                 @default(0)
+  status      ContentStatus       @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  strategies  ProgrammeStrategy[]
+
+  @@index([status, sortOrder])
+}
+
+model ProgrammeStrategy {
+  id          String    @id @default(uuid()) @db.Uuid
+  programmeId String    @db.Uuid
+  programme   Programme @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  title       String
+  body        String?
+  sortOrder   Int       @default(0)
+
+  @@index([programmeId, sortOrder])
+}
+
+model YouthRegion {
+  id        String       @id @default(uuid()) @db.Uuid
+  name      String       @unique
+  sortOrder Int          @default(0)
+  spaces    YouthSpace[]
+
+  @@index([sortOrder])
+}
+
+model YouthSpace {
+  id              String            @id @default(uuid()) @db.Uuid
+  regionId        String            @db.Uuid
+  region          YouthRegion       @relation(fields: [regionId], references: [id])
+  name            String
+  slug            String            @unique
+  location        String?
+  description     String
+  managingPartner String?
+  services        String[]          @default([])
+  mapUrl          String?
+  sortOrder       Int               @default(0)
+  status          ContentStatus     @default(DRAFT)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  images          YouthSpaceImage[]
+
+  @@index([regionId, status, sortOrder])
+}
+
+model YouthSpaceImage {
+  id        String     @id @default(uuid()) @db.Uuid
+  spaceId   String     @db.Uuid
+  space     YouthSpace @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  mediaId   String     @db.Uuid
+  media     MediaAsset @relation(fields: [mediaId], references: [id])
+  caption   String?
+  sortOrder Int        @default(0)
+
+  @@index([spaceId, sortOrder])
+}
+
+model TeamMember {
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String
+  roleTitle String
+  photoId   String?       @db.Uuid
+  photo     MediaAsset?   @relation("TeamMemberPhoto", fields: [photoId], references: [id])
+  biography String?
+  sortOrder Int           @default(0)
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+// ─── Articles & homepage blocks ──────────────────────────────────────────────
+
+model Article {
+  id             String        @id @default(uuid()) @db.Uuid
+  title          String
+  slug           String        @unique
+  excerpt        String?
+  body           String
+  coverImageId   String?       @db.Uuid
+  coverImage     MediaAsset?   @relation("ArticleCover", fields: [coverImageId], references: [id])
+  author         String?
+  status         ContentStatus @default(DRAFT)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  ogImageId      String?       @db.Uuid
+  ogImage        MediaAsset?   @relation("ArticleOgImage", fields: [ogImageId], references: [id])
+  viewCount      Int           @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status, publishedAt])
+}
+
+model Partner {
+  id         String        @id @default(uuid()) @db.Uuid
+  name       String
+  logoId     String?       @db.Uuid
+  logo       MediaAsset?   @relation("PartnerLogo", fields: [logoId], references: [id])
+  websiteUrl String?
+  sortOrder  Int           @default(0)
+  status     ContentStatus @default(DRAFT)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+model FeaturedConcept {
+  id             String        @id @default(uuid()) @db.Uuid
+  title          String
+  summary        String?
+  imageId        String?       @db.Uuid
+  image          MediaAsset?   @relation("FeaturedConceptImage", fields: [imageId], references: [id])
+  destinationUrl String?
+  sortOrder      Int           @default(0)
+  status         ContentStatus @default(DRAFT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+model SlideshowImage {
+  id             String        @id @default(uuid()) @db.Uuid
+  mediaId        String        @db.Uuid
+  media          MediaAsset    @relation(fields: [mediaId], references: [id])
+  caption        String?
+  altText        String?
+  destinationUrl String?
+  sortOrder      Int           @default(0)
+  status         ContentStatus @default(DRAFT)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+// ─── Opportunities & events ──────────────────────────────────────────────────
+
+model OpportunityType {
+  id            String        @id @default(uuid()) @db.Uuid
+  name          String        @unique
+  slug          String        @unique
+  sortOrder     Int           @default(0)
+  opportunities Opportunity[]
+}
+
+model Opportunity {
+  id                      String                  @id @default(uuid()) @db.Uuid
+  title                   String
+  slug                    String                  @unique
+  typeId                  String?                 @db.Uuid
+  type                    OpportunityType?        @relation(fields: [typeId], references: [id])
+  description             String
+  openingDate             DateTime?               @db.Date
+  closingDate             DateTime?               @db.Date
+  contactEmail            String
+  contactPhone            String?
+  applicationInstructions String?
+  /// NONE = derive from dates; CLOSED/ARCHIVED = admin override
+  manualStatus            OpportunityManualStatus @default(NONE)
+  /// Draft/publish of the record itself (separate from derived Open/Closed)
+  status                  ContentStatus           @default(DRAFT)
+  viewCount               Int                     @default(0)
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  attachments             OpportunityAttachment[]
+
+  @@index([status, manualStatus, closingDate])
+  @@index([openingDate])
+}
+
+model OpportunityAttachment {
+  id            String      @id @default(uuid()) @db.Uuid
+  opportunityId String      @db.Uuid
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  mediaId       String      @db.Uuid
+  media         MediaAsset  @relation(fields: [mediaId], references: [id])
+  title         String?
+  sortOrder     Int         @default(0)
+
+  @@index([opportunityId, sortOrder])
+}
+
+model Event {
+  id              String      @id @default(uuid()) @db.Uuid
+  title           String
+  slug            String      @unique
+  description     String
+  startAt         DateTime
+  endAt           DateTime
+  timezone        String      @default("Africa/Kampala")
+  location        String?
+  imageId         String?     @db.Uuid
+  image           MediaAsset? @relation("EventImage", fields: [imageId], references: [id])
+  registrationUrl String?
+  contact         String?
+  status          EventStatus @default(DRAFT)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([status, startAt])
+  @@index([endAt])
+}
+
+// ─── Galleries & downloads ───────────────────────────────────────────────────
+
+model PhotoAlbum {
+  id           String        @id @default(uuid()) @db.Uuid
+  title        String
+  slug         String        @unique
+  coverMediaId String?       @db.Uuid
+  coverMedia   MediaAsset?   @relation("AlbumCover", fields: [coverMediaId], references: [id])
+  sortOrder    Int           @default(0)
+  status       ContentStatus @default(DRAFT)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  images       PhotoImage[]
+
+  @@index([status, sortOrder])
+}
+
+model PhotoImage {
+  id        String     @id @default(uuid()) @db.Uuid
+  albumId   String     @db.Uuid
+  album     PhotoAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  mediaId   String     @db.Uuid
+  media     MediaAsset @relation(fields: [mediaId], references: [id])
+  caption   String?
+  altText   String?
+  sortOrder Int        @default(0)
+
+  @@index([albumId, sortOrder])
+}
+
+model VideoLink {
+  id               String        @id @default(uuid()) @db.Uuid
+  title            String
+  description      String?
+  provider         VideoProvider
+  url              String
+  thumbnailMediaId String?       @db.Uuid
+  thumbnailMedia   MediaAsset?   @relation("VideoThumbnail", fields: [thumbnailMediaId], references: [id])
+  sortOrder        Int           @default(0)
+  status           ContentStatus @default(DRAFT)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status, sortOrder])
+}
+
+model DocumentCategory {
+  id        String     @id @default(uuid()) @db.Uuid
+  name      String     @unique
+  slug      String     @unique
+  sortOrder Int        @default(0)
+  documents Document[]
+}
+
+model Document {
+  id            String            @id @default(uuid()) @db.Uuid
+  title         String
+  description   String?
+  categoryId    String?           @db.Uuid
+  category      DocumentCategory? @relation(fields: [categoryId], references: [id])
+  mediaId       String            @db.Uuid
+  media         MediaAsset        @relation(fields: [mediaId], references: [id])
+  fileType      String
+  byteSize      Int
+  publishedAt   DateTime?
+  downloadCount Int               @default(0)
+  status        ContentStatus     @default(DRAFT)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([categoryId])
+}
+
+// ─── Forms ───────────────────────────────────────────────────────────────────
+
+model Inquiry {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String
+  email      String
+  subject    String
+  message    String
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([isRead, createdAt])
+  @@index([isArchived])
+}
+
+/// Anonymous complaints. NEVER add IP, UA, referrer, geo, or identity fields.
+model Complaint {
+  id               String          @id @default(uuid()) @db.Uuid
+  description      String
+  category         String?
+  incidentDate     DateTime?       @db.Date
+  programmeOrPlace String?
+  status           ComplaintStatus @default(NEW)
+  adminNotes       String?
+  /// Prefer calendar date only (privacy).
+  submittedOn      DateTime        @db.Date
+  createdAt        DateTime        @default(now())
+
+  @@index([status, submittedOn])
+}
+
+// ─── Analytics ───────────────────────────────────────────────────────────────
+
+model AnalyticsEvent {
+  id           String      @id @default(uuid()) @db.Uuid
+  occurredAt   DateTime    @default(now())
+  path         String
+  referrerHost String?
+  country      String?
+  region       String?
+  city         String?
+  deviceClass  DeviceClass @default(UNKNOWN)
+  browser      String?
+  os           String?
+  /// Daily-rotating salted hash — not stable across days.
+  visitorHash  String
+
+  @@index([occurredAt])
+  @@index([path, occurredAt])
+}
+
+model AnalyticsDaily {
+  id             String       @id @default(uuid()) @db.Uuid
+  date           DateTime     @db.Date
+  path           String
+  referrerHost   String?
+  country        String?
+  city           String?
+  deviceClass    DeviceClass?
+  browser        String?
+  os             String?
+  views          Int          @default(0)
+  uniqueVisitors Int          @default(0)
+
+  @@unique([date, path, referrerHost, country, city, deviceClass, browser, os])
+  @@index([date])
+  @@index([path])
+}
