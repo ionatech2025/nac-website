@@ -1,6 +1,6 @@
 # B7 — Media and file uploads
 
-## AD-B7-01 PDF upload with 4 MB cap
+## AD-B7-01 PDF upload with 2.5 MB cap
 
 | | |
 | --- | --- |
@@ -8,12 +8,12 @@
 | **Requirements** | B7-01, E11-04 |
 
 **As the** Site Admin,  
-**I want** PDF uploads rejected above 4 MB on client and server with a clear message,  
+**I want** PDF uploads rejected above 2.5 MB on client and server with a clear message,  
 **so that** Hobby request limits are respected and visitors get workable files.
 
 ### Acceptance criteria
 
-- [ ] Client and server both enforce max 4 MB for PDFs.
+- [ ] Client and server both enforce max **2.5 MB** (`2_621_440` bytes) for PDFs.
 - [ ] Clear error when limit exceeded.
 - [ ] Prefer direct-to-storage upload if body size risk remains.
 
@@ -25,17 +25,17 @@
 | --- | --- |
 | **Priority** | P1 |
 | **Requirements** | B7-02, B7-03 |
-| **Note** | Exact image size cap `[Open]` Q10 — propose 4 MB until confirmed.
+| **Note** | Q10 decided: **2.5 MB** for images as well as PDFs.
 
 **As the** Site Admin,  
-**I want** to upload JPEG/PNG/WebP images with type validation and compression/resize,  
+**I want** to upload JPEG/PNG/WebP images with type validation, a 2.5 MB cap, and compression/resize,  
 **so that** galleries and cards stay sharp without huge payloads.
 
 ### Acceptance criteria
 
 - [ ] Allowed image types only; validate by content, not extension alone.
 - [ ] Large images resized/compressed before or during upload.
-- [ ] Apply agreed size cap (default proposal 4 MB pending Q10).
+- [ ] Enforce max **2.5 MB** for images (same as PDFs).
 
 ---
 

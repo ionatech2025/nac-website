@@ -57,12 +57,12 @@
 | **Requirements** | B3-02, B7-01 |
 
 **As the** Site Admin,  
-**I want** to upload/replace PDFs (max 4 MB), edit metadata/category and publish/archive,  
+**I want** to upload/replace PDFs (max 2.5 MB), edit metadata/category and publish/archive,  
 **so that** the document library stays accurate.
 
 ### Acceptance criteria
 
-- [ ] PDF-only documents; reject over 4 MB with a clear message.
+- [ ] PDF-only documents; reject over 2.5 MB with a clear message.
 - [ ] Metadata and category editable; publish/archive available.
 
 ---

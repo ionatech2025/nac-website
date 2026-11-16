@@ -93,12 +93,12 @@
 
 ---
 
-## AD-B9-06 Extra reports — blocked
+## AD-B9-06 Extra reports — out of scope for v1
 
 | | |
 | --- | --- |
-| **Priority** | P3 |
+| **Priority** | — |
 | **Requirements** | B9-09 |
-| **Status** | **Blocked** — open question Q6 |
+| **Status** | **Out of scope** — Q6: Dashboard + Content only |
 
-Dashboard replaces reports unless NAC names specific additional reports after the current-admin walkthrough.
+Dashboard replaces separate Reports. Do not build Structure/Configuration/Comments extras unless NAC later requests them.

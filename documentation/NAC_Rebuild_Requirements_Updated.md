@@ -84,7 +84,7 @@ These replace the earlier open questions and are the basis for scope.
 **Additional technical decisions from the project team**
 
 - Next.js full stack with an ORM and PostgreSQL.
-- **Uploaded PDF documents must not exceed 4 MB.**
+- **Uploaded PDF documents and images must not exceed 2.5 MB each.**
 - Two developers: one on the frontend UI, one on the back office.
 - The admin dashboard must show a **visitor count**, plus other basic visitor information (Section 9).
 
@@ -116,7 +116,7 @@ These replace the earlier open questions and are the basis for scope.
 - PostgreSQL with an ORM (Prisma recommended). Migrations are version controlled.
 - Zod (or equivalent) for shared validation.
 - Authentication for the single admin account (for example Auth.js credentials, or an equivalent secure session solution).
-- Styling system to be agreed (for example Tailwind CSS).
+- Tailwind CSS and CSS Modules as the styling system.
 - Suggested structure (single deployable app inside a light monorepo):
 
 ```text
@@ -137,7 +137,7 @@ The Vercel documentation checked on 16 November 2026 shows the following. Confir
 
 | Constraint (Hobby) | Consequence for this project |
 |---|---|
-| Function request and response bodies are limited to 4.5 MB | The **4 MB PDF cap fits** but leaves little room for form overhead. Enforce 4 MB on client and server. For a safer path, upload directly to storage from the browser (signed or client upload) |
+| Function request and response bodies are limited to 4.5 MB | The **2.5 MB file cap** fits comfortably under the 4.5 MB body limit. Enforce 2.5 MB on client and server for PDFs and images. For a safer path, upload directly to storage from the browser (signed or client upload) |
 | Cron jobs run at most once per day | Do **not** rely on a scheduler to close opportunities. Derive open/closed from the closing date when reading data. Use the daily cron only for analytics roll-ups and cleanup |
 | Function duration is capped on Hobby (the cap has changed over time, so check the current figure) | Keep admin operations and migrations light. Run bulk migration as local scripts, not as web requests |
 | Hobby is for **personal, non-commercial use**, with one team member | **Compliance risk** for an organisation website. See Section 15.2 (R1) |
@@ -147,7 +147,7 @@ The Vercel documentation checked on 16 November 2026 shows the following. Confir
 
 ### 4.3 Accounts and ownership
 
-- NAC owns the Vercel, database, storage, domain and backup accounts. iONA administers them.
+- NAC owns the database, storage, domain and backup accounts. iONA administers them.
 - Domain: the existing NAC domain (nacuganda.org) is kept. DNS changes are made by whoever controls DNS (confirm).
 - Secrets are stored as environment variables, never in the repository.
 
@@ -272,7 +272,7 @@ Story seeds: *As a visitor, I can browse youth spaces by region so that I can fi
 | ID | Requirement | Dev | P | Src |
 |---|---|---|---|---|
 | E8-01 | Opportunities listing page | A+B | P1 | [Observed] |
-| E8-02 | Each opportunity has title, description, type, opening date, closing date, attached documents (PDF, up to 4 MB each) | A+B | P1 | [Observed] |
+| E8-02 | Each opportunity has title, description, type, opening date, closing date, attached documents (PDF, up to 2.5 MB each) | A+B | P1 | [Observed] |
 | E8-03 | **Contact information shown on each opportunity** (email, optional phone, application instructions). Applicants apply by email, outside the site | A+B | P1 | [Confirmed] |
 | E8-04 | The email contact is a `mailto:` link with a prefilled subject containing the opportunity title | A | P2 | [Proposed] |
 | E8-05 | **Status is derived automatically:** Open until the end of the closing date (Africa/Kampala), then Closed. No scheduled job required. Admin may close or archive earlier | B | P1 | [Confirmed] |
@@ -310,7 +310,7 @@ Story seeds: *As an applicant, I can see only open opportunities and find the em
 | E11-01 | Document library with title, description, category, date and download link, with pagination | A+B | P1 | [Observed] |
 | E11-02 | Filter or group by category | A+B | P2 | [Proposed] |
 | E11-03 | Latest downloads block reused on home page, footer and programme pages | A+B | P1 | [Observed] |
-| E11-04 | **PDF only for documents, maximum 4 MB per file**, with a clear message if the limit is exceeded | A+B | P1 | [Confirmed] |
+| E11-04 | **PDF only for documents, maximum 2.5 MB per file**, with a clear message if the limit is exceeded | A+B | P1 | [Confirmed] |
 | E11-05 | File size and type shown next to each download | A | P2 | [Proposed] |
 
 ### E12 — Contact and inquiries
@@ -322,7 +322,7 @@ Story seeds: *As an applicant, I can see only open opportunities and find the em
 | E12-03 | **Contact form** with name, email, subject and message, with field validation and success/error feedback | A+B | P1 | [Confirmed] |
 | E12-04 | Submitted inquiries are stored and visible to the admin (Epic B4) | B | P1 | [Confirmed] |
 | E12-05 | Spam protection (hidden honeypot field, rate limiting, optional privacy-friendly CAPTCHA) | A+B | P1 | [Proposed] |
-| E12-06 | Email notification to NAC when an inquiry arrives | B | P3 | [Open] |
+| E12-06 | Email notification when an inquiry arrives (configurable address; testing address per Q5) | B | P2 | [Confirmed] |
 
 ### E13 — Complaints (anonymous)
 
@@ -345,7 +345,8 @@ Story seeds: *As a complainant, I can report a concern without giving my name so
 | E14-01 | Links to youthgobudgetapp.org and slogbaa.org, editable in site settings | A+B | P1 | [Confirmed] |
 | E14-02 | Social media profile links in the footer, editable in site settings | A+B | P1 | [Confirmed] |
 | E14-03 | Share buttons on articles, events and opportunities | A | P2 | [Confirmed] |
-| E14-04 | Embedded social feeds | A | P3 | [Open] (which platforms and accounts) |
+| E14-04 | WhatsApp action buttons (share / contact), not embedded social feeds or deep platform integration | A | P2 | [Confirmed] |
+| E14-05 | Embedded social feeds | A | P3 | [Open] — deferred; may come later |
 
 ### E15 — SEO, performance and accessibility (cross-cutting, Dev A)
 
@@ -371,7 +372,7 @@ Story seeds: *As a complainant, I can report a concern without giving my name so
 | B1-02 | Secure password hashing, secure HTTP-only cookies, session expiry, logout | P1 | [Proposed] |
 | B1-03 | Login rate limiting and generic error messages | P1 | [Proposed] |
 | B1-04 | Authorisation is enforced on the server for every admin operation, never only by hiding pages | P1 | [Proposed] |
-| B1-05 | Password reset or recovery route (email reset, or iONA-assisted reset) | P2 | [Open] |
+| B1-05 | Password reset via email | P2 | [Confirmed] |
 | B1-06 | Multi-factor authentication | P3 | [Proposed] |
 | B1-07 | Data model keeps a `role` field so more users and roles can be added later without redesign | P3 | [Proposed] |
 
@@ -405,9 +406,9 @@ Every content type has its own **list page** (search, sort, filter, pagination w
 | ID | Content type (menu label) | Admin capability | P | Src |
 |---|---|---|---|---|
 | B3-01 | Blog / News Article | Create, edit, preview, publish, unpublish, archive; image, author, SEO fields | P1 | [Observed] |
-| B3-02 | Download | Upload PDF (**max 4 MB**), replace file, edit metadata and category, publish, archive | P1 | [Observed] |
+| B3-02 | Download | Upload PDF (**max 2.5 MB**), replace file, edit metadata and category, publish, archive | P1 | [Observed] |
 | B3-03 | Featured Concept | Create, edit, order, publish | P2 | [Observed] |
-| B3-04 | Opportunity | Create, edit, set type and dates, contact details, attach PDFs (max 4 MB each), publish, close early, archive. Status shown as derived | P1 | [Observed] |
+| B3-04 | Opportunity | Create, edit, set type and dates, contact details, attach PDFs (max 2.5 MB each), publish, close early, archive. Status shown as derived | P1 | [Observed] |
 | B3-05 | Partner | Name, logo, link, order, publish | P2 | [Observed] |
 | B3-06 | Photo Album | Create album, add/remove/reorder images, captions, alt text, publish | P1 | [Observed] |
 | B3-07 | Programme | Description, image, ordered strategies, order, publish | P1 | [Observed] |
@@ -449,14 +450,14 @@ Every content type has its own **list page** (search, sort, filter, pagination w
 | B6-02 | Edit social profile links and the external service links (youthgobudgetapp.org, slogbaa.org) | P1 | [Confirmed] |
 | B6-03 | Edit homepage section order and visibility | P2 | [Proposed] |
 | B6-04 | Edit the list of opportunity types and document categories | P2 | [Proposed] |
-| B6-05 | Navigation menu editing (the existing admin has a "Structure" area) | P3 | [Open] |
+| B6-05 | Navigation menu editing (Structure area) — not required for v1; Dashboard + Content only (Q6) | — | [Confirmed, out of scope] |
 
 ### B7 — Media and file uploads
 
 | ID | Requirement | P | Src |
 |---|---|---|---|
-| B7-01 | **PDF documents: maximum 4 MB.** Reject larger files on the client and again on the server with a clear message | P1 | [Confirmed] |
-| B7-02 | Images: JPEG, PNG, WebP. Propose the same **4 MB** cap (Hobby request limit is 4.5 MB). Resize or compress large images before upload | P1 | [Proposed, Open] |
+| B7-01 | **PDF documents: maximum 2.5 MB.** Reject larger files on the client and again on the server with a clear message | P1 | [Confirmed] |
+| B7-02 | Images: JPEG, PNG, WebP. **Maximum 2.5 MB** (same as PDFs). Resize or compress large images before upload | P1 | [Confirmed] |
 | B7-03 | Validate file type by content, not only by extension | P1 | [Proposed] |
 | B7-04 | Store files in object storage, store only metadata and the file URL in the database | P1 | [Proposed] |
 | B7-05 | Replacing a document keeps its public URL working | P2 | [Proposed] |
@@ -486,7 +487,7 @@ Every content type has its own **list page** (search, sort, filter, pagination w
 | B9-06 | Security headers and HTTPS only | P1 | [Proposed] |
 | B9-07 | Database and file backups with a tested restore process, in NAC-owned accounts | P1 | [Proposed] |
 | B9-08 | Help page in the admin portal with content-entry guidance and iONA support contact | P3 | [Observed] |
-| B9-09 | Reports: replaced by the dashboard. Any further reports only if NAC names them | P3 | [Open] |
+| B9-09 | Reports: replaced by the dashboard. Structure/Configuration/Comments not required for v1 (Q6) | — | [Confirmed, out of scope] |
 
 ---
 
@@ -547,7 +548,7 @@ The dashboard must show a visitor count. The following basic information can als
 | Event | id, title, slug, description, startAt, endAt, timezone, location, image, registrationUrl, contact, status |
 | PhotoAlbum / PhotoImage | album: id, title, cover, sortOrder, status. image: id, albumId, file, caption, altText, sortOrder |
 | VideoLink | id, title, description, provider, url, thumbnail, sortOrder, status |
-| Document | id, title, description, category, fileUrl, fileType, fileSize (max 4 MB), publishedAt, downloadCount, status |
+| Document | id, title, description, category, fileUrl, fileType, fileSize (max 2.5 MB), publishedAt, downloadCount, status |
 | Partner | id, name, logo, websiteUrl, sortOrder, status |
 | FeaturedConcept | id, title, summary, image, destinationUrl, sortOrder, status |
 | SlideshowImage | id, image, caption, altText, destinationUrl, sortOrder, status |
@@ -590,7 +591,7 @@ NAC confirmed that **all existing content** will be migrated.
 
 1. Keep original wording unless NAC approves changes. The improvements document overrides older text where they differ.
 2. Keep original publication dates and authors where verified.
-3. Check every document: PDFs larger than **4 MB** must be compressed or split before import.
+3. Check every document: PDFs larger than **2.5 MB** must be compressed, split, or left out of the first import (R6).
 4. Flag duplicate, outdated, expired or broken items for NAC review. Do not republish expired opportunities as open.
 5. Preserve legacy URLs where possible and create redirects where they change.
 6. Confirm image rights. NAC supplies logos, brand guidelines, fonts, photographs and partner logos (12.5.17).
@@ -609,7 +610,7 @@ NAC confirmed that **all existing content** will be migrated.
 5. An opportunity passes its closing date and is shown as Closed without admin action.
 6. A visitor browses the calendar in month, week, day and year views, opens an event and follows its registration link.
 7. A visitor finds a past event in the archive.
-8. A visitor downloads a PDF. Uploading a PDF larger than 4 MB is rejected.
+8. A visitor downloads a PDF. Uploading a PDF or image larger than 2.5 MB is rejected.
 9. A visitor submits the contact form and the admin sees it in the portal.
 10. A visitor submits an anonymous complaint. The admin sees the complaint and its date. No identifying data exists in the database record or logs.
 11. The Site Admin signs in, sees visitor counts on the dashboard, creates and publishes an article, and sees it on the site.
@@ -641,32 +642,32 @@ NAC confirmed that **all existing content** will be migrated.
 
 ### 15.1 Questions still open
 
-| # | Question | Needed for |
-|---|---|---|
-| Q1 | Which programme list is final: four (GAP, YCR, Community Journalism, Youth Spaces) or the earlier five? What happens to Youth CSO Village and C4D? | E5, nav, B3-07 |
-| Q2 | Does "Governance and Participation (GAP)" replace "GAAP"? | E5 |
-| Q3 | The document says 15 youth spaces but describes 13 (and Kunya appears twice, see Appendix A). Which spaces are final, and is Kunya one space or two? Also confirm the spelling of names such as Kitintale and Afrikovikoo | E6, key figures |
-| Q4 | Retention period and deletion rules for complaints | B5-06 |
-| Q5 | Should NAC receive an email when an inquiry arrives, and at which address? | E12-06 |
-| Q6 | The existing admin shows Structure, Configuration, Reports, Help and Comments. What do these do today, and which are still needed? (12.5.21 confirmed there are other private features, especially in the admin portal) | B6-05, B9-09 |
-| Q7 | Password recovery approach for the single admin | B1-05 |
-| Q8 | Social media: which accounts, and are embedded feeds wanted or only share and profile links? | E14 |
-| Q9 | What are NAC's privacy, residency and security requirements (12.6.24 says they exist)? | NFR-10 |
-| Q10 | Image upload size cap: confirm 4 MB for images too | B7-02 |
-| Q11 | Opportunity types list and document categories to start with | B6-04 |
+| #   | Question                                                                                                                                                                                                                                                                                | Needed for      |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Q1  | Which programme list is final: four (GAP, YCR, Community Journalism, Youth Spaces) or the earlier five? What happens to Youth CSO Village and C4D?                                                                                                                                      | E5, nav, B3-07  |
+| Q2  | Does "Governance and Participation (GAP)" replace "GAAP"?                                                                                                                                                                                                                               | E5              |
+| Q3  | The document says 15 youth spaces but describes 13 (and Kunya appears twice, see Appendix A). Which spaces are final, and is Kunya one space or two? Also confirm the spelling of names such as Kitintale and Afrikovikoo                                                               | E6, key figures |
+| Q4  | Retention period and deletion rules for complaints                                                                                                                                                                                                                                      | B5-06           |
+| Q5  | Should NAC receive an email when an inquiry arrives, and at which address? [Yes, for now (testing) at [2060newty@gmail.com](mailto:2060newty@gmail.com) - we shall change it later]                                                                                                     | E12-06          |
+| Q6  | The existing admin shows Structure, Configuration, Reports, Help and Comments. What do these do today, and which are still needed? (12.5.21 confirmed there are other private features, especially in the admin portal) [The only one necessary was the Dashboard and Content sections] | B6-05, B9-09    |
+| Q7  | Password recovery approach for the single admin [via email]                                                                                                                                                                                                                             | B1-05           |
+| Q8  | Social media: which accounts, and are embedded feeds wanted or only share and profile links? [ WhatsApp buttons, not actual integration - this may be in the future]                                                                                                                    | E14             |
+| Q9  | What are NAC's privacy, residency and security requirements (12.6.24 says they exist)?                                                                                                                                                                                                  | NFR-10          |
+| Q10 | Image upload size cap: confirm 4 MB for images too [2.5 MB for both PDF and images]                                                                                                                                                                                                     | B7-02           |
+| Q11 | Opportunity types list and document categories to start with [Volunteer]                                                                                                                                                                                                                | B6-04           |
 
 ### 15.2 Risks
 
-| ID | Risk | Mitigation |
-|---|---|---|
-| R1 | **Vercel Hobby is for personal, non-commercial use.** A public site for an organisation may not comply with those terms, and the plan could be restricted | Confirm with NAC and Vercel terms. Plan a fallback: Vercel Pro, or another host that suits a non-profit website. Keep the app host-neutral |
-| R2 | Hobby allows one team member and does not support private repositories owned by a GitHub organisation. Two developers plus NAC ownership complicate deployment | Decide repository ownership and who connects deployments. Developers can work in pull requests while one account owner deploys, or upgrade the plan |
-| R3 | 4.5 MB request limit and short function duration | 4 MB cap, direct-to-storage uploads, migration by script |
-| R4 | Free database or storage tiers may run out, especially with analytics and a large media archive | Roll up analytics, compress media, monitor usage |
-| R5 | Complaint anonymity can be broken by logs, analytics, timestamps or file metadata | Rules E13-04 to E13-07, review before launch |
-| R6 | Old content is outdated or in files above 4 MB | NAC review, compress or split PDFs |
-| R7 | Admin portal features that are not yet known (Q6) | Walkthrough of the current admin before sprint planning |
-| R8 | Single admin account is a single point of failure | Documented recovery process, NAC-owned credentials stored safely |
+| ID  | Risk                                                                                                                                                           | Mitigation                                                                                                                                                                                                               |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| R1  | **Vercel Hobby is for personal, non-commercial use.** A public site for an organisation may not comply with those terms, and the plan could be restricted      | Confirm with NAC and Vercel terms. Plan a fallback: Vercel Pro, or another host that suits a non-profit website. Keep the app host-neutral                                                                               |
+| R2  | Hobby allows one team member and does not support private repositories owned by a GitHub organisation. Two developers plus NAC ownership complicate deployment | Decide repository ownership and who connects deployments. Developers can work in pull requests while one account owner deploys, or upgrade the plan [This is the case - one account owner deploys and upgrades the plan] |
+| R3  | 4.5 MB request limit and short function duration                                                                                                               | 2.5 MB cap, direct-to-storage uploads, migration by script                                                                                                                                                                 |
+| R4  | Free database or storage tiers may run out, especially with analytics and a large media archive                                                                | Roll up analytics, compress media, monitor usage                                                                                                                                                                         |
+| R5  | Complaint anonymity can be broken by logs, analytics, timestamps or file metadata                                                                              | Rules E13-04 to E13-07, review before launch                                                                                                                                                                             |
+| R6  | Old content is outdated or in files above 2.5 MB [Leave oversized files out of the first import]                                                                                      | NAC review, compress or split PDFs                                                                                                                                                                                       |
+| R7  | Admin portal features that are not yet known (Q6)                                                                                                              | Walkthrough of the current admin before sprint planning                                                                                                                                                                  |
+| R8  | Single admin account is a single point of failure [ we shall have more later as need be]                                                                       | Documented recovery process, NAC-owned credentials stored safely                                                                                                                                                         |
 
 ---
 
@@ -676,7 +677,7 @@ NAC confirmed that **all existing content** will be migrated.
 |---|---|---|
 | 0 | Repo, design tokens, layout shell | Repo, schema, seed data, auth skeleton, CI |
 | 1 | Header, footer, home, About, Staff (E1 to E4) | Login, dashboard shell, Team Member, Programme, About/Key Figures, Site Settings (B1, B3, B6) |
-| 2 | Programmes, Youth Spaces, News (E5 to E7) | Article, Youth Space, Download, uploads with 4 MB rules (B3, B7) |
+| 2 | Programmes, Youth Spaces, News (E5 to E7) | Article, Youth Space, Download, uploads with 2.5 MB rules (B3, B7) |
 | 3 | Opportunities with filters, Events calendar, archive (E8, E9) | Opportunity and Event admin, derived status, public data access (B3, B9) |
 | 4 | Galleries, Downloads, Contact, Complaints UI (E10 to E13) | Albums, videos, inquiry and complaint inboxes, anonymity controls (B4, B5) |
 | 5 | SEO, accessibility, performance, share links, privacy page (E14, E15) | Visitor analytics and dashboard statistics (B2, B8), backups |

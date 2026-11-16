@@ -96,12 +96,14 @@ model KeyFigure {
 
 // ─── Media ───────────────────────────────────────────────────────────────────
 
+/// Files live in object storage. Enforce max 2.5 MB (2_621_440 bytes) for PDFs and images in the upload layer.
 model MediaAsset {
   id         String   @id @default(uuid()) @db.Uuid
   url        String
   storageKey String
   fileName   String
   mimeType   String
+  /// Application-enforced max: 2.5 MB for PDFs and images (Q10).
   byteSize   Int
   width      Int?
   height     Int?

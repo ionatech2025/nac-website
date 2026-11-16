@@ -55,12 +55,20 @@
 
 ---
 
-## AD-B4-04 Inquiry email notification — blocked
+## AD-B4-04 Inquiry email notification
 
 | | |
 | --- | --- |
-| **Priority** | P3 |
+| **Priority** | P2 |
 | **Requirements** | E12-06 |
-| **Status** | **Blocked** — open question Q5 |
+| **Status** | Ready — Q5 decided (notify; testing address for now) |
 
-Implement only after NAC confirms email notification and destination address.
+**As the** Site Admin,  
+**I want** an email when a new inquiry arrives,  
+**so that** I notice contact-form messages without checking the portal constantly.
+
+### Acceptance criteria
+
+- [ ] On successful inquiry submit, send notification to the configured address in site settings.
+- [ ] Testing may use the temporary address from Q5; replace with the production NAC address before launch.
+- [ ] Notification failure must not lose the stored inquiry (log/retry separately; never log complaint content).

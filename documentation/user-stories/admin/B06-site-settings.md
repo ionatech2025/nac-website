@@ -35,16 +35,16 @@
 
 - [ ] Homepage section order/visibility configurable (P2).
 - [ ] Opportunity types and document categories editable.
-- [ ] Seed initial types/categories; adjust after Q11 if needed.
+- [ ] Seed `OpportunityType` with at least **Volunteer** (Q11); expand categories when NAC supplies the full list.
 
 ---
 
-## AD-B6-03 Navigation menu editing — blocked
+## AD-B6-03 Navigation menu editing — out of scope for v1
 
 | | |
 | --- | --- |
-| **Priority** | P3 |
+| **Priority** | — |
 | **Requirements** | B6-05 |
-| **Status** | **Blocked** — open question Q6 |
+| **Status** | **Out of scope** — Q6: Dashboard + Content only |
 
-Do not build free-form nav editing until the current admin Structure/Configuration walkthrough answers what is still needed. Primary nav can remain code/IA-driven for v1.
+Do not build free-form Structure/nav editing, Configuration extras, Comments, or separate Reports. Primary nav stays code/IA-driven for v1.

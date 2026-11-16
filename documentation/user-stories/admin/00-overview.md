@@ -6,15 +6,15 @@
 
 ## Suggested sprint order
 
-| Sprint | Focus | Files |
-| --- | --- | --- |
-| 0 | Schema, seed, auth skeleton, CI, shared validation | B01, B09 (partial) |
-| 1 | Login, dashboard shell, Team Member, Programme, About/Key Figures, Site Settings | B01–B03, B06 |
-| 2 | Article, Youth Space, Download, uploads (4 MB) | B03, B07 |
-| 3 | Opportunity & Event admin, derived status, public data access | B03, B09 |
-| 4 | Albums, videos, inquiry & complaint inboxes, anonymity | B03–B05 |
-| 5 | Visitor analytics & dashboard stats, backups | B02, B08, B09 |
-| 6 | Migration scripts, security review, handover | B10 |
+| Sprint | Focus                                                                            | Files              |
+| ------ | -------------------------------------------------------------------------------- | ------------------ |
+| 0      | Schema, seed, auth skeleton, CI, shared validation                               | B01, B09 (partial) |
+| 1      | Login, dashboard shell, Team Member, Programme, About/Key Figures, Site Settings | B01–B03, B06       |
+| 2      | Article, Youth Space, Download, uploads (2.5 MB)                                 | B03, B07           |
+| 3      | Opportunity & Event admin, derived status, public data access                    | B03, B09           |
+| 4      | Albums, videos, inquiry & complaint inboxes, anonymity                           | B03–B05            |
+| 5      | Visitor analytics & dashboard stats, backups                                     | B02, B08, B09      |
+| 6      | Migration scripts, security review, handover                                     | B10                |
 
 ## Story index
 

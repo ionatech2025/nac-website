@@ -54,12 +54,32 @@
 
 ---
 
-## FE-E14-04 Embedded social feeds — blocked
+## FE-E14-04 WhatsApp action buttons
+
+| | |
+| --- | --- |
+| **Priority** | P2 |
+| **Requirements** | E14-04 |
+| **Status** | Ready — Q8 decided (WhatsApp buttons, not feeds)
+
+**As a** visitor,  
+**I want** WhatsApp buttons to share or contact (not embedded feeds),  
+**so that** I can reach NAC on the channel people already use.
+
+### Acceptance criteria
+
+- [ ] WhatsApp share and/or contact buttons appear where designed (e.g. content share, footer/contact).
+- [ ] Target number/link comes from site settings when applicable.
+- [ ] No embedded social feed widgets in v1.
+
+---
+
+## FE-E14-05 Embedded social feeds — deferred
 
 | | |
 | --- | --- |
 | **Priority** | P3 |
-| **Requirements** | E14-04 |
-| **Status** | **Blocked** — open question Q8 |
+| **Requirements** | E14-05 |
+| **Status** | Deferred — may come later |
 
-Do not implement embedded feeds until NAC confirms platforms and accounts. Profile links and share buttons remain in scope.
+Do not implement embedded feeds in v1.

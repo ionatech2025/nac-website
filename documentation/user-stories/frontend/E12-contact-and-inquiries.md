@@ -41,12 +41,12 @@
 
 ---
 
-## FE-E12-03 Inquiry email notification — blocked
+## FE-E12-03 Inquiry email notification — Dev B owns delivery
 
 | | |
 | --- | --- |
-| **Priority** | P3 |
+| **Priority** | P2 |
 | **Requirements** | E12-06 |
-| **Status** | **Blocked** — open question Q5 |
+| **Status** | Ready on server (Q5); no extra public UI beyond success feedback |
 
-Do not implement until NAC confirms whether email notification is required and which address to use. Server story lives with Dev B.
+Public UI only needs success/error after submit. Email notification to the configured address is Dev B (see `AD-B4-04`).

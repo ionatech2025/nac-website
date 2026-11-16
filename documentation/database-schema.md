@@ -9,18 +9,18 @@
 
 ## 1. Conventions both developers follow
 
-| Rule | Detail |
-| --- | --- |
-| IDs | `uuid` primary keys (`gen_random_uuid()` / Prisma `@default(uuid())`) |
-| Timezone | Store timestamps as `timestamptz` (UTC). **Display** public dates in `Africa/Kampala` unless an entity overrides (`Event.timezone`) |
-| Publishing | Most public content uses `ContentStatus`: `DRAFT` \| `PUBLISHED` \| `ARCHIVED` |
-| Public reads | Only `PUBLISHED` (and not archived). Draft/archived never leave the data-access layer to public pages |
-| Slugs | Unique per content type where used; immutable after publish preferred (redirect if changed) |
-| Media | Files live in object storage. DB stores metadata + public URL (`MediaAsset` or typed attachment rows). **PDF max 4 MB** |
-| Soft delete | Prefer `ARCHIVED` (or inbox archive flags) over hard delete; confirm before hard delete in admin |
-| No revision history | Do not add version tables in v1 |
-| Complaints | **No** IP, user agent, referrer, cookies, geo, or visitor identifiers — ever |
-| Secrets | Connection strings and storage keys in env only |
+| Rule                | Detail                                                                                                                              |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| IDs                 | `uuid` primary keys (`gen_random_uuid()` / Prisma `@default(uuid())`)                                                               |
+| Timezone            | Store timestamps as `timestamptz` (UTC). **Display** public dates in `Africa/Kampala` unless an entity overrides (`Event.timezone`) |
+| Publishing          | Most public content uses `ContentStatus`: `DRAFT` | `PUBLISHED` | `ARCHIVED`                                                        |
+| Public reads        | Only `PUBLISHED` (and not archived). Draft/archived never leave the data-access layer to public pages                               |
+| Slugs               | Unique per content type where used; immutable after publish preferred (redirect if changed)                                         |
+| Media               | Files live in object storage. DB stores metadata + public URL (`MediaAsset` or typed attachment rows). **PDF and images max 2.5 MB** |
+| Soft delete         | Prefer `ARCHIVED` (or inbox archive flags) over hard delete; confirm before hard delete in admin                                    |
+| No revision history | Do not add version tables in v1                                                                                                     |
+| Complaints          | **No** IP, user agent, referrer, cookies, geo, or visitor identifiers — ever                                                        |
+| Secrets             | Connection strings and storage keys in env only                                                                                     |
 
 ### Ownership
 
@@ -100,7 +100,7 @@ AnalyticsDaily     ← roll-ups for dashboard
 
 ### 5.1 Auth
 
-**`AdminUser`**
+`AdminUser`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -117,7 +117,7 @@ v1: single row. Keep `role` for future multi-user without redesign.
 
 ### 5.2 Site configuration & static pages
 
-**`SiteSetting`**
+`SiteSetting`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -126,7 +126,7 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | value | jsonb | strings, arrays, or structured config |
 | updatedAt | timestamptz | |
 
-**`PageContent`**
+`PageContent`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -136,7 +136,7 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | body | text | sanitised HTML/Markdown source |
 | updatedAt | timestamptz | |
 
-**`KeyFigure`**
+`KeyFigure`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -150,7 +150,7 @@ v1: single row. Keep `role` for future multi-user without redesign.
 
 ### 5.3 Media
 
-**`MediaAsset`**
+`MediaAsset`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -159,7 +159,7 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | storageKey | text | private key/path |
 | fileName | text | |
 | mimeType | text | validate by content on upload |
-| byteSize | int | PDF ≤ 4_194_304 |
+| byteSize | int | enforce ≤ 2_621_440 (2.5 MB) for PDFs and images in the upload layer |
 | width, height | int? | images |
 | altText | text? | |
 | createdAt | timestamptz | |
@@ -170,7 +170,7 @@ Reusable for covers, logos, gallery images, PDFs.
 
 ### 5.4 Organisation content
 
-**`Programme`**
+`Programme`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -185,7 +185,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | publishedAt | timestamptz? | |
 | createdAt, updatedAt | timestamptz | |
 
-**`ProgrammeStrategy`** — ordered strategies/activities
+`ProgrammeStrategy` — ordered strategies/activities
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -195,7 +195,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | body | text? | |
 | sortOrder | int | |
 
-**`YouthRegion`**
+`YouthRegion`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -203,7 +203,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | name | text UNIQUE | Kampala, West Nile, … |
 | sortOrder | int | |
 
-**`YouthSpace`**
+`YouthSpace`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -220,7 +220,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | status | ContentStatus | |
 | createdAt, updatedAt | timestamptz | |
 
-**`YouthSpaceImage`**
+`YouthSpaceImage`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -230,7 +230,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | sortOrder | int | |
 | caption | text? | |
 
-**`TeamMember`**
+`TeamMember`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -247,7 +247,7 @@ Reusable for covers, logos, gallery images, PDFs.
 
 ### 5.5 News & promotions
 
-**`Article`**
+`Article`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -265,13 +265,13 @@ Reusable for covers, logos, gallery images, PDFs.
 | viewCount | int | default 0 (P3) |
 | createdAt, updatedAt | timestamptz | |
 
-**`Partner`**, **`FeaturedConcept`**, **`SlideshowImage`** — as in conceptual model; each with `sortOrder`, `status`, optional `MediaAsset` / URL fields.
+`Partner`, `FeaturedConcept`, `SlideshowImage` — as in conceptual model; each with `sortOrder`, `status`, optional `MediaAsset` / URL fields.
 
 ---
 
 ### 5.6 Opportunities & events
 
-**`OpportunityType`** (editable taxonomy — B6-04)
+`OpportunityType` (editable taxonomy — B6-04)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -280,7 +280,7 @@ Reusable for covers, logos, gallery images, PDFs.
 | slug | text UNIQUE | |
 | sortOrder | int | |
 
-**`Opportunity`**
+`Opportunity`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -299,17 +299,17 @@ Reusable for covers, logos, gallery images, PDFs.
 | viewCount | int | P3 |
 | createdAt, updatedAt | timestamptz | |
 
-**`OpportunityAttachment`**
+`OpportunityAttachment`
 
 | Column | Type | Notes |
 | --- | --- | --- |
 | id | uuid PK | |
 | opportunityId | uuid FK | |
-| mediaId | uuid FK → MediaAsset | PDF only, ≤ 4 MB |
+| mediaId | uuid FK → MediaAsset | PDF only, ≤ 2.5 MB |
 | title | text? | |
 | sortOrder | int | |
 
-**`Event`**
+`Event`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -332,21 +332,21 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 
 ### 5.7 Galleries & downloads
 
-**`PhotoAlbum`** — title, slug?, coverMediaId?, sortOrder, status, timestamps  
+`PhotoAlbum` — title, slug?, coverMediaId?, sortOrder, status, timestamps  
 
-**`PhotoImage`** — albumId, mediaId, caption, altText, sortOrder  
+`PhotoImage` — albumId, mediaId, caption, altText, sortOrder  
 
-**`VideoLink`** — title, description, provider (`VideoProvider`), url, thumbnailMediaId?, sortOrder, status  
+`VideoLink` — title, description, provider (`VideoProvider`), url, thumbnailMediaId?, sortOrder, status  
 
-**`DocumentCategory`** — name, slug, sortOrder  
+`DocumentCategory` — name, slug, sortOrder  
 
-**`Document`** — title, description, categoryId?, mediaId (PDF), fileType, byteSize, publishedAt, downloadCount, status  
+`Document` — title, description, categoryId?, mediaId (PDF), fileType, byteSize, publishedAt, downloadCount, status  
 
 ---
 
 ### 5.8 Public forms
 
-**`Inquiry`**
+`Inquiry`
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -359,7 +359,7 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 | isArchived | boolean | default false |
 | createdAt | timestamptz | |
 
-**`Complaint`** — anonymity hard rules
+`Complaint` — anonymity hard rules
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -379,7 +379,7 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 
 ### 5.9 Analytics
 
-**`AnalyticsEvent`** (optional raw; short retention)
+`AnalyticsEvent` (optional raw; short retention)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -392,7 +392,7 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 | browser, os | text? | classified then raw UA discarded |
 | visitorHash | text | salted, **rotates daily** — not a stable person id |
 
-**`AnalyticsDaily`** (dashboard source of truth after roll-up)
+`AnalyticsDaily` (dashboard source of truth after roll-up)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -426,14 +426,16 @@ Never write analytics for `/admin/*` or complaint routes.
 
 ## 7. Seed expectations (Sprint 0)
 
-1. One `AdminUser` (credentials via env / secure handoff).  
-2. `SiteSetting` keys for contact, social, Youth Go Budget, SLOGBAA.  
-3. `PageContent` keys `about`, `privacy`.  
-4. Key figures: organisations / youth spaces (defaults 89 / 15 pending Q3).  
-5. Youth regions + Appendix A spaces (flag Kunya duplicate).  
-6. Sample programmes (four improved names until Q1 resolved).  
-7. A few articles, events, opportunities, documents for Dev A UI work.  
-8. Empty inquiry/complaint tables; analytics empty.
+1. One `AdminUser` (credentials via env / secure handoff).
+2. `SiteSetting` keys for contact, social, Youth Go Budget, SLOGBAA.
+3. `PageContent` keys `about`, `privacy`.
+4. Key figures: organisations / youth spaces (defaults 89 / 15 pending Q3).
+5. Youth regions + Appendix A spaces (flag Kunya duplicate).
+6. Sample programmes (four improved names until Q1 resolved).
+7. A few articles, events, opportunities, documents for Dev A UI work.
+8. Seed `OpportunityType` with at least **Volunteer** (Q11); add document categories when NAC supplies the full list.
+9. Empty inquiry/complaint tables; analytics empty.
+10. Site setting for inquiry notification email (testing address per Q5; replace before production).
 
 ---
 
@@ -444,25 +446,29 @@ Never write analytics for `/admin/*` or complaint routes.
 - Content revision / restore tables  
 - Multi-admin membership tables (beyond `role` field)  
 - Complaint attachments  
-- Third-party analytics vendor tables  
+- Third-party analytics vendor tables
 
 ---
 
-## 9. Open items that may change columns
+## 9. Open vs decided items that affect data
 
-| Q | Impact |
-| --- | --- |
-| Q1 / Q2 Programme list / GAP naming | Seed data only if programmes stay admin-managed |
-| Q3 Youth space count / Kunya | Seed + `KeyFigure` values |
-| Q4 Complaint retention | Maybe `deleteAfter` policy, not necessarily a column |
-| Q10 Image size cap | Enforced in upload layer; `MediaAsset.byteSize` already supports it |
-| Q11 Types / categories | Seeds for `OpportunityType` / `DocumentCategory` |
+| Item | Status | Impact |
+| --- | --- | --- |
+| Q1 / Q2 Programme list / GAP naming | Still open | Seed data only; programmes stay admin-managed |
+| Q3 Youth space count / Kunya | Still open | Seed + `KeyFigure` values |
+| Q4 Complaint retention | Still open | Maybe `deleteAfter` policy later; admin delete already supported |
+| Q5 Inquiry email notification | **Decided** | Configurable notification address in `SiteSetting` (testing address for now) |
+| Q6 Structure / Reports / Comments | **Decided — out of v1** | No nav-editing or extra report tables |
+| Q7 Password recovery | **Decided — email** | No schema change; Auth.js (or equivalent) email reset |
+| Q8 Social | **Decided — WhatsApp buttons** | No feed tables; share/contact is UI + settings URLs |
+| Q10 File size cap | **Decided — 2.5 MB** | Enforced in upload layer via `MediaAsset.byteSize` |
+| Q11 Opportunity types | **Partial — Volunteer** | Seed `OpportunityType`; document categories still TBD |
 
 ---
 
 ## 10. Next engineering steps
 
-1. Dev B: add Prisma client package scripts, migrate against a local Postgres, run seed.  
-2. Both: agree Zod schemas mirroring these tables in `packages/validation`.  
-3. Dev B: publish typed `getPublished*` helpers Dev A can import.  
+1. Dev B: add Prisma client package scripts, migrate against a local Postgres, run seed.
+2. Both: agree Zod schemas mirroring these tables in `packages/validation`.
+3. Dev B: publish typed `getPublished*` helpers Dev A can import.
 4. Freeze breaking changes behind migrations + changelog in PRs.

@@ -56,22 +56,23 @@
 
 ---
 
-## AD-B1-04 Password recovery — partially blocked
+## AD-B1-04 Password recovery via email
 
 | | |
 | --- | --- |
 | **Priority** | P2 |
 | **Requirements** | B1-05 |
-| **Status** | **Blocked on approach** — open question Q7 |
+| **Status** | Ready — Q7 decided (email reset) |
 
-**As the** iONA team / Site Admin,  
-**I want** a documented recovery path if the admin is locked out,  
-**so that** a single account is not a permanent lockout.
+**As the** Site Admin,  
+**I want** to reset my password by email if I am locked out,  
+**so that** a single admin account is not a permanent lockout.
 
-### Acceptance criteria (once Q7 decided)
+### Acceptance criteria
 
-- [ ] Either email reset **or** documented iONA-assisted reset is implemented.
-- [ ] Recovery credentials remain NAC-owned.
+- [ ] Email-based password reset is implemented for the admin account.
+- [ ] Reset tokens expire; links are single-use.
+- [ ] Credentials and mailbox remain under NAC-owned control.
 
 ---
 

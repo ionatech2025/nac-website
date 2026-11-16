@@ -50,12 +50,12 @@
 | **Requirements** | §12 rules 3 and 5, E11-04, E15-03 |
 
 **As** Dev B,  
-**I want** migration to enforce the 4 MB PDF rule and preserve or redirect legacy URLs,  
+**I want** migration to enforce the 2.5 MB file rule and preserve or redirect legacy URLs,  
 **so that** downloads and old links keep working.
 
 ### Acceptance criteria
 
-- [ ] PDFs over 4 MB are compressed/split or flagged before import.
+- [ ] PDFs/images over 2.5 MB are compressed, split, or left out of the first import (R6), and flagged for NAC.
 - [ ] Legacy URLs preserved where possible; redirects created where paths change.
 - [ ] Image rights confirmed; NAC-supplied brand assets used.
 

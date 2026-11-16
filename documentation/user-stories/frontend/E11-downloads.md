@@ -69,4 +69,4 @@
 ### Acceptance criteria
 
 - [ ] Size and type shown next to each item.
-- [ ] PDF / 4 MB rule messaging is consistent with upload UX elsewhere (public side only displays; enforcement is Dev B).
+- [ ] PDF / 2.5 MB rule messaging is consistent with upload UX elsewhere (public side only displays; enforcement is Dev B).
