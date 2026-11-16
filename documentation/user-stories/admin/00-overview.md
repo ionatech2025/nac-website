@@ -8,8 +8,10 @@
 
 | Sprint | Focus                                                                            | Files              |
 | ------ | -------------------------------------------------------------------------------- | ------------------ |
-| 0      | Schema, seed, auth skeleton, CI, shared validation                               | B01, B09 (partial) |
-| 1      | Login, dashboard shell, Team Member, Programme, About/Key Figures, Site Settings | B01–B03, B06       |
+| 0      | Schema, seed, auth skeleton, CI, shared validation (**do this before Sprint 1**) | B01, B09 (partial) |
+| 1      | Login polish, dashboard shell, Team Member, Programme, About/Key Figures, Site Settings | B01–B03, B06 |
+
+**Current start:** Sprint 0 unlocks **AD-B1-01** (protect `/admin` with one account). Concepts are noted in [B01-authentication.md](B01-authentication.md).
 | 2      | Article, Youth Space, Download, uploads (2.5 MB)                                 | B03, B07           |
 | 3      | Opportunity & Event admin, derived status, public data access                    | B03, B09           |
 | 4      | Albums, videos, inquiry & complaint inboxes, anonymity                           | B03–B05            |
