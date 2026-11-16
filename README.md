@@ -123,10 +123,11 @@ Back office (hidden login, e.g. `/login`) should let NAC manage events, opportun
 
 ## Documentation and open questions
 
-- Requirements & user stories: [`documentation/NAC_Website_Requirements_and_User_Stories.md`](documentation/NAC_Website_Requirements_and_User_Stories.md)
-- Source PDF: [`documentation/NAC_Website_Requirements_and_User_Stories.pdf`](documentation/NAC_Website_Requirements_and_User_Stories.pdf)
+- Requirements (v3): [`documentation/NAC_Rebuild_Requirements_Updated.md`](documentation/NAC_Rebuild_Requirements_Updated.md)
+- User stories: [`documentation/user-stories/`](documentation/user-stories/)
+- Database schema: [`documentation/database-schema.md`](documentation/database-schema.md)
 
-Still open with NAC (see the doc): Members vs Partners naming, Youth Space page fields/regions, production database on Vercel, AGM example date, logo/assets, whether to ship homepage background video and a spaces map.
+Open items still with NAC are listed in requirements §15.1 (for example programme list, youth-space count/Kunya, complaint retention, privacy details).
 
 ---
 
