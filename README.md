@@ -77,7 +77,7 @@ Each app/package is TypeScript. Shared UI lives in `@repo/ui`.
 
 ## Getting started
 
-**Requirements:** Node.js `>= 24`, npm `10.9.x` (see root `package.json`).
+**Requirements:** Node.js `>= 24`, npm 10+ (Vercel may use a newer npm; do not pin an exact `devEngines.packageManager`).
 
 ```sh
 npm install
@@ -100,6 +100,22 @@ npx turbo build --filter=web
 | `npm run lint` | Lint the monorepo |
 | `npm run check-types` | Type-check across workspaces |
 | `npm run format` | Format with Prettier |
+
+### Deploy (Vercel Hobby)
+
+One production app: **`apps/web`** (public pages for Dev A and `/admin` for Dev B in the same Next.js app). Do **not** deploy `apps/docs` (Turborepo starter only).
+
+Root [`vercel.json`](vercel.json) defines a single service `web` with a catch-all rewrite. In the Vercel project, set at least:
+
+| Variable | Notes |
+| --- | --- |
+| `DATABASE_URL` | Neon (or other) Postgres connection string |
+| `AUTH_SECRET` | Long random string (`openssl rand -base64 32`) |
+| `AUTH_URL` | Production site URL (e.g. `https://your-app.vercel.app`) |
+
+Apply migrations against that database before relying on login (`npm run db:migrate:deploy --workspace=@repo/database` with a local `.env` pointing at Neon, or Prisma from CI). Seed the admin user once for production.
+
+Connect the Git branch that contains `/admin` (e.g. merge `b01-authentication` into `main`, or deploy that branch’s preview).
 
 ---
 

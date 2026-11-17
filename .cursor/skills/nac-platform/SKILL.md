@@ -18,18 +18,22 @@ description: >-
 ## Monorepo / Vercel layout
 
 ```text
-apps/web          → Vercel Root Directory (or turbo filter) for production
+apps/web          → sole Vercel service (`vercel.json` → services.web)
 packages/database → Prisma schema, migrations, client (Dev B)
 packages/ui       → shared UI (Dev A)
 packages/validation → shared Zod (when added)
+apps/docs         → Turborepo starter only — do not deploy
 ```
+
+Dev A (public UI) and Dev B (admin) share **one** Next.js app and one Hobby deployment. Split is by routes/stories, not by Vercel services.
 
 When adding config for deploy:
 
 - Keep `apps/web` able to import workspace packages (`transpilePackages` / Turborepo).
 - Put server-only DB/auth code in packages or `apps/web` server modules that Vercel can bundle.
 - Avoid relying on Docker at runtime on Vercel; Docker Compose is **local Postgres only**.
-- Use env vars in the Vercel project: `DATABASE_URL`, `AUTH_SECRET`, etc.
+- Use env vars in the Vercel project: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`, etc.
+- Root `vercel.json` uses Services mode with a single public `web` service; no bindings; no `docs` service.
 
 ## File size rule (hard preference)
 

@@ -8,10 +8,11 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "db:generate": "dotenv -e ../../.env -- prisma generate",
+    "db:generate": "prisma generate",
     "db:validate": "dotenv -e ../../.env -- prisma validate",
     "db:format": "prisma format",
     "db:migrate:dev": "dotenv -e ../../.env -- prisma migrate dev",
+    "db:migrate:deploy": "dotenv -e ../../.env -- prisma migrate deploy",
     "db:seed": "dotenv -e ../../.env -- tsx prisma/seed.ts",
     "db:studio": "dotenv -e ../../.env -- prisma studio"
   },
