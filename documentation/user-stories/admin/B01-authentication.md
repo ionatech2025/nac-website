@@ -1,5 +1,15 @@
 # B1 — Authentication (single admin)
 
+## Prerequisite (Sprint 0)
+
+Before full login UX (Sprint 1), Sprint 0 delivers: Postgres + Prisma client, seed `AdminUser`, Auth.js credentials skeleton, hidden `/login`, and `/admin` route protection. **AD-B1-01** is the first story to implement once that skeleton is in place (this repo now starts there).
+
+## Concepts (local study notes)
+
+Detailed learner notes live in **`documentation/learning/auth-concepts.md`** (gitignored — not pushed). Use that file as your reference while working through AD-B1-01–05.
+
+---
+
 ## AD-B1-01 Protect admin portal with one account
 
 | | |
@@ -13,9 +23,11 @@
 
 ### Acceptance criteria
 
-- [ ] All `/admin` pages require an authenticated session.
-- [ ] All admin server actions/route handlers enforce auth on the server (not only by hiding UI).
-- [ ] Unauthenticated users cannot call admin operations (journey 13).
+- [x] All `/admin` pages require an authenticated session. *(Sprint 0 skeleton: `proxy.ts` + `requireAdmin`)*
+- [x] All admin server actions/route handlers enforce auth on the server (not only by hiding UI). *(use `requireAdmin()` in handlers)*
+- [x] Unauthenticated users cannot call admin operations (journey 13).
+
+**Status:** Done — continue hardening with AD-B1-02/03.
 
 ---
 
@@ -32,9 +44,11 @@
 
 ### Acceptance criteria
 
-- [ ] Passwords stored hashed (modern algorithm).
-- [ ] Session cookie is HTTP-only, Secure in production, appropriately SameSite.
-- [ ] Sessions expire; logout clears the session.
+- [x] Passwords stored hashed (modern algorithm). *(bcrypt cost 12 in seed; `passwordHash` only in DB)*
+- [x] Session cookie is HTTP-only, Secure in production, appropriately SameSite. *(`lib/session-security.ts`)*
+- [x] Sessions expire; logout clears the session. *(8h JWT `maxAge`; admin **Sign out** → `signOut`)*
+
+**Status:** Done.
 
 ---
 
@@ -51,8 +65,10 @@
 
 ### Acceptance criteria
 
-- [ ] Repeated failed logins are rate limited.
-- [ ] Error messages do not reveal whether email/username exists.
+- [x] Repeated failed logins are rate limited. *(5 failures / 10 min → 15 min lock; `lib/login-rate-limit.ts`)*
+- [x] Error messages do not reveal whether email/username exists. *(generic copy + dummy bcrypt when email missing)*
+
+**Status:** Done — in-memory limiter for v1; shared store (Redis) later if multi-instance needs it.
 
 ---
 
@@ -89,5 +105,5 @@
 
 ### Acceptance criteria
 
-- [ ] Data model includes `role`; v1 still uses a single admin account.
-- [ ] MFA (B1-06) remains out of v1 unless later prioritised.
+- [x] Data model includes `role`; v1 still uses a single admin account. *(Prisma `AdminUser.role` / `AdminRole`)*
+- [x] MFA (B1-06) remains out of v1 unless later prioritised.
