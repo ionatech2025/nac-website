@@ -1,5 +1,5 @@
 import { requireAdmin } from "../../lib/require-admin";
-import { signOut } from "../../auth";
+import { logoutAction } from "./logout-action";
 import styles from "./admin.module.css";
 
 export default async function AdminLayout({
@@ -8,11 +8,6 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await requireAdmin();
-
-  async function logoutAction() {
-    "use server";
-    await signOut({ redirectTo: "/login" });
-  }
 
   return (
     <div className={styles.shell}>

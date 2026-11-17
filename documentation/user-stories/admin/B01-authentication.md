@@ -27,7 +27,7 @@ Detailed learner notes live in **`documentation/learning/auth-concepts.md`** (gi
 - [x] All admin server actions/route handlers enforce auth on the server (not only by hiding UI). *(use `requireAdmin()` in handlers)*
 - [x] Unauthenticated users cannot call admin operations (journey 13).
 
-**Status:** In progress — skeleton landed; harden with AD-B1-02/03 next.
+**Status:** Done — continue hardening with AD-B1-02/03.
 
 ---
 
@@ -44,9 +44,11 @@ Detailed learner notes live in **`documentation/learning/auth-concepts.md`** (gi
 
 ### Acceptance criteria
 
-- [ ] Passwords stored hashed (modern algorithm).
-- [ ] Session cookie is HTTP-only, Secure in production, appropriately SameSite.
-- [ ] Sessions expire; logout clears the session.
+- [x] Passwords stored hashed (modern algorithm). *(bcrypt cost 12 in seed; `passwordHash` only in DB)*
+- [x] Session cookie is HTTP-only, Secure in production, appropriately SameSite. *(`lib/session-security.ts`)*
+- [x] Sessions expire; logout clears the session. *(8h JWT `maxAge`; admin **Sign out** → `signOut`)*
+
+**Status:** Done.
 
 ---
 
@@ -63,8 +65,10 @@ Detailed learner notes live in **`documentation/learning/auth-concepts.md`** (gi
 
 ### Acceptance criteria
 
-- [ ] Repeated failed logins are rate limited.
-- [ ] Error messages do not reveal whether email/username exists.
+- [x] Repeated failed logins are rate limited. *(5 failures / 10 min → 15 min lock; `lib/login-rate-limit.ts`)*
+- [x] Error messages do not reveal whether email/username exists. *(generic copy + dummy bcrypt when email missing)*
+
+**Status:** Done — in-memory limiter for v1; shared store (Redis) later if multi-instance needs it.
 
 ---
 

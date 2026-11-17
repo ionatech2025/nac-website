@@ -48,3 +48,4 @@ When adding config for deploy:
 
 - Protect `/admin` in `proxy.ts` **and** re-check with `requireAdmin` / `assertAdminSession` on server operations.
 - Credentials + JWT session is OK for the single admin; hash passwords with bcrypt; never store plaintext.
+- Login must rate-limit failed attempts server-side and use generic errors (see `lib/login-rate-limit.ts`).

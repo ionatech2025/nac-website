@@ -4,6 +4,11 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { prisma } from "@repo/database";
+import {
+  authSessionOptions,
+  sessionTokenCookie,
+  useSecureCookies,
+} from "./lib/session-security";
 
 const credentialsSchema = z.object({
   email: z.string().trim().email(),
@@ -13,6 +18,10 @@ const credentialsSchema = z.object({
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // Must be set (AUTH_SECRET). Local monorepo: load root .env via `dotenv -e ../../.env` in npm scripts.
   secret: process.env.AUTH_SECRET,
+  useSecureCookies,
+  cookies: {
+    sessionToken: sessionTokenCookie,
+  },
   providers: [
     Credentials({
       credentials: {
@@ -27,12 +36,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         const email = parsed.data.email.toLowerCase();
         const admin = await prisma.adminUser.findUnique({ where: { email } });
-        if (!admin) {
-          return null;
-        }
-
-        const valid = await compare(parsed.data.password, admin.passwordHash);
-        if (!valid) {
+        // Dummy hash keeps compare time similar when the email is unknown (anti-enumeration).
+        const hash =
+          admin?.passwordHash ??
+          "$2b$12$hOlXq0BsYiSQM3rqvQeezO/hRWwPsvisoNDdwRfHi23lfDhGrDDeC";
+        const valid = await compare(parsed.data.password, hash);
+        if (!admin || !valid) {
           return null;
         }
 
@@ -45,10 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60 * 8, // 8 hours
-  },
+  session: authSessionOptions,
   pages: {
     signIn: "/login",
   },

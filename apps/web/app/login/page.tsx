@@ -1,11 +1,22 @@
-import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { auth, signIn } from "../../auth";
+import { auth } from "../../auth";
+import { loginAction } from "./login-action";
 import styles from "./login.module.css";
 
 type LoginPageProps = {
   searchParams: Promise<{ callbackUrl?: string; error?: string }>;
 };
+
+function errorMessage(error: string | undefined): string | null {
+  if (!error) {
+    return null;
+  }
+  if (error === "TooManyAttempts") {
+    return "Too many sign-in attempts. Please try again later.";
+  }
+  // CredentialsSignin and any other auth error — never reveal which field failed.
+  return "Invalid email or password.";
+}
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const session = await auth();
@@ -19,35 +30,18 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       ? params.callbackUrl
       : "/admin";
 
-  async function loginAction(formData: FormData) {
-    "use server";
-
-    const email = String(formData.get("email") ?? "");
-    const password = String(formData.get("password") ?? "");
-
-    try {
-      await signIn("credentials", {
-        email,
-        password,
-        redirectTo: callbackUrl,
-      });
-    } catch (error) {
-      if (error instanceof AuthError) {
-        redirect("/login?error=CredentialsSignin");
-      }
-      throw error;
-    }
-  }
+  const message = errorMessage(params.error);
+  const boundLogin = loginAction.bind(null, callbackUrl);
 
   return (
     <main className={styles.main}>
-      <form action={loginAction} className={styles.card}>
+      <form action={boundLogin} className={styles.card}>
         <h1 className={styles.title}>NAC Admin</h1>
         <p className={styles.hint}>Sign in to manage site content.</p>
 
-        {params.error ? (
+        {message ? (
           <p className={styles.error} role="alert">
-            Invalid email or password.
+            {message}
           </p>
         ) : null}
 
