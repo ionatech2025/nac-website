@@ -1,0 +1,61 @@
+.trigger,
+.cancel,
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.trigger {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #dc2626;
+}
+
+.trigger:hover { background: #fef2f2; }
+
+.panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+}
+
+.text {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #7f1d1d;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.row form { display: contents; }
+
+.cancel {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+}
+
+.confirm {
+  border: 0;
+  background: #dc2626;
+  color: #fff;
+}
+
+.confirm:hover { background: #b91c1c; }

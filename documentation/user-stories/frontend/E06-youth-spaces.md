@@ -1,6 +1,22 @@
 # E6 — Youth Spaces
 
-> New public section. Spaces grouped by region: Kampala, West Nile, Western Uganda, Eastern Uganda. Seed content in requirements Appendix A (confirm Q3 before treating counts as final).
+> New public section. Spaces grouped by region: Kampala, West Nile, Western Uganda, Eastern Uganda. Seed content in requirements Appendix A. Q3: Kunya is **one** space (don't list it twice); treat the total count as provisional. Admin side: [`../admin/B11-youth-spaces.md`](../admin/B11-youth-spaces.md).
+
+## Server contract (ready — Dev B)
+
+Import from `@repo/database` in server components. Both helpers return **published** content only.
+
+| Helper | Returns |
+| --- | --- |
+| `listPublishedYouthRegions()` | `[{ id, name, spaces: [{ id, name, slug, location, description, managingPartner, services: string[], mapUrl, images: [first photo] }] }]` — regions in admin order; empty regions omitted |
+| `getPublishedYouthSpaceBySlug(slug)` | `{ …space, region: { name }, images: [{ caption, media }] }` or `null` → call `notFound()` |
+| `mediaVariantUrl(media, "thumb" \| "medium")` | Sized image URL (cards: `thumb`, detail/lightbox: `medium`); falls back to the original |
+
+Each photo's `media` has `url`, `altText`, `thumbUrl`, `mediumUrl`, `width`, `height`. Admin saves revalidate `/youth-spaces` and `/youth-spaces/<slug>`, so use those routes (or tell Dev B if they change).
+
+Starter spaces are loaded as **drafts**; publish a few in `/admin/youth-spaces` to see data locally.
+
+---
 
 ## FE-E6-01 Youth Spaces landing by region
 
@@ -15,9 +31,10 @@
 
 ### Acceptance criteria
 
-- [ ] Landing page has intro copy and regions as groupings.
-- [ ] Only published spaces appear, grouped under their region.
-- [ ] Regions follow admin order.
+- [ ] `/youth-spaces` has intro copy (Appendix A programme summary) and one section per region.
+- [ ] Only published spaces appear, grouped under their region; empty regions are not shown. *(helper does this)*
+- [ ] Regions and spaces follow admin order.
+- [ ] Optional in-page jump links per region on long pages.
 
 ---
 
@@ -34,8 +51,9 @@
 
 ### Acceptance criteria
 
-- [ ] Card/summary shows: name, region, area/location, short description, managing/coordinating partner, services list.
-- [ ] Missing optional fields are omitted cleanly.
+- [ ] Card shows: first photo (`thumb`, with alt text), name, location, short description, managing/coordinating partner, services list.
+- [ ] Missing optional fields (photo, location, partner, services) are omitted cleanly — no empty labels.
+- [ ] Card links to the detail page.
 
 ---
 
@@ -47,14 +65,15 @@
 | **Requirements** | E6-03 |
 
 **As a** visitor,  
-**I want** an optional detail page per space with photos,  
+**I want** a detail page per space with photos,  
 **so that** I can learn more about a specific space.
 
 ### Acceptance criteria
 
-- [ ] Detail route exists for a space slug.
-- [ ] Photos render with alt text when provided.
-- [ ] Unpublished spaces 404.
+- [ ] Route `/youth-spaces/[slug]` uses `getPublishedYouthSpaceBySlug`.
+- [ ] Up to 5 photos render (`medium`) with alt text and captions when provided.
+- [ ] Unpublished, archived or unknown spaces 404.
+- [ ] Page title/description use the space name and description (E15 SEO).
 
 ---
 
@@ -71,5 +90,5 @@
 
 ### Acceptance criteria
 
-- [ ] If a location URL/coords exist, show a map or external map link.
-- [ ] External map links open safely.
+- [ ] If `mapUrl` exists, show an "Open in maps" link (admin validates it is `http(s)`).
+- [ ] External map links open in a new tab with `rel="noopener noreferrer"`.

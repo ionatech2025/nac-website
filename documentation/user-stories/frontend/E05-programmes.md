@@ -1,6 +1,6 @@
 # E5 — Programmes
 
-> **Note:** Final programme list is `[Open]` (Q1/Q2). Build admin-driven listing/detail so the list can change without code changes. Seed with the four improved programmes until NAC confirms.
+> **Note:** Q1/Q2 answered — use the four improved programmes with **GAP** naming (NAC may change it later). Build admin-driven listing/detail so the list can change without code changes.
 
 ## FE-E5-01 Programmes menu and listing
 
@@ -54,7 +54,7 @@
 
 - [ ] GAP page surfaces external links to Youth Go Budget and SLOGBAA safely.
 - [ ] Seed/migrated copy follows improvements document once available.
-- [ ] Programme names remain admin-editable pending Q1/Q2.
+- [ ] Programme names remain admin-editable (GAP for now; may change later per Q1/Q2).
 
 ---
 

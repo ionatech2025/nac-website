@@ -1,0 +1,96 @@
+.lead { margin: 6px 0 22px; max-width: 46rem; font-size: 0.95rem; line-height: 1.55; color: #475569; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 20px;
+  align-items: start;
+}
+
+.topics { display: grid; gap: 14px; }
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.toc a {
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.toc a:hover { border-color: #0b4f8a; color: #0b4f8a; }
+
+.card {
+  padding: 18px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  scroll-margin-top: 16px;
+}
+
+.card h2 { margin: 0 0 10px; font-size: 1rem; color: #0f172a; }
+
+.card ul,
+.contacts { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+
+.card li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #334155;
+}
+
+.card li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e67e22;
+}
+
+.goto { display: inline-block; margin-top: 12px; font-size: 13px; font-weight: 600; color: #0b4f8a; }
+
+.support {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid #c7d7ea;
+  border-radius: 12px;
+  background: #f5f9fd;
+}
+
+.support h2 { margin: 0; font-size: 1rem; color: #08345c; }
+.support p { margin: 0; font-size: 0.88rem; line-height: 1.55; color: #334155; }
+
+.contacts li { display: grid; gap: 2px; }
+.contacts span { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; }
+
+.contacts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0b4f8a;
+  word-break: break-all;
+}
+
+.support .note { font-size: 0.82rem; color: #64748b; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .support { position: static; }
+}

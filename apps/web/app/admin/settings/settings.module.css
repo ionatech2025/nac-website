@@ -1,0 +1,47 @@
+.stack {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.asideList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.55rem;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.stats {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.stats div { display: grid; gap: 2px; }
+
+.stats dt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 13.5px;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.mono { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 12.5px; }
+
+.asideNote {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #166534;
+}

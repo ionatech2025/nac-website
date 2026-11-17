@@ -13,9 +13,9 @@
 
 ### Acceptance criteria
 
-- [ ] Functions exist for each public content type used by Dev A.
-- [ ] Draft, archived and unpublished content never returned to public callers.
-- [ ] Lists are paginated or otherwise bounded.
+- [x] Functions exist for each public content type used by Dev A. *(`packages/database/src/public-*.ts`, all exported from `@repo/database`; new `public-organisation.ts` covers team, programmes + strategies, About page content, key figures and opportunity-type chips; `listDocumentCategoriesInUse` for download filters. Page-by-page map in `frontend/00-overview.md` → "Data contract")*
+- [x] Draft, archived and unpublished content never returned to public callers. *(every query filters `status: "PUBLISHED"`; detail helpers use `findFirst({ slug, status })` so a draft slug returns `null`. Verified with temporary draft/archived/published rows: only the published ones came back)*
+- [x] Lists are paginated or otherwise bounded. *(`pagination.ts`: every `take` goes through `boundedTake` → max 100 whatever the caller passes; the long lists (news, past events, albums, downloads) have `…Page({ page, pageSize })` variants returning `{ items, page, pageSize, total, pageCount }`)*
 
 ---
 
@@ -32,10 +32,10 @@
 
 ### Acceptance criteria
 
-- [ ] Shared Zod (or equivalent) schemas validate all inputs server-side.
-- [ ] Rich text sanitised before storage/display.
-- [ ] Rate limiting on login, contact and complaint submissions.
-- [ ] Consistent error responses.
+- [x] Shared Zod (or equivalent) schemas validate all inputs server-side. *(every admin server action parses `FormData` with Zod before touching the DB; public forms share `inquiry-schema.ts` / `complaint-schema.ts` between the server action and the API route; login credentials are length-capped in `auth.ts`)*
+- [x] Rich text sanitised before storage/display. *(`lib/rich-text.ts`: `richText()` / `optionalRichText()` Zod fields strip all HTML, scripts, comments and control characters **before storage**; `<RichText>` (`lib/rich-text-view.tsx`) renders the light text conventions as React elements on **display** — no `dangerouslySetInnerHTML`, links are https-only with `rel="noopener noreferrer"`. Admin long-text fields show the formatting hint)*
+- [x] Rate limiting on login, contact and complaint submissions. *(login: 5 failures / 10 min → 15-min lock, `login-rate-limit.ts`; contact 5 / 10 min and complaints 3 / 30 min, `form-rate-limit.ts`)*
+- [x] Consistent error responses. *(`lib/api-response.ts`: every public API error is `{ ok:false, error, message, …details }` with fixed codes `invalid` 400 · `unexpected-fields` 400 · `validation` 422 (+ `fieldErrors`) · `rate-limited` 429 (+ `Retry-After`) · `server` 500; used by `/api/inquiries`, `/api/complaints`, `/api/analytics/view`)*
 
 ---
 
@@ -52,12 +52,12 @@
 
 ### Acceptance criteria
 
-- [ ] HTTPS enforced in production.
-- [ ] Sensible security headers configured for Next.js/Vercel.
+- [x] HTTPS enforced in production. *(Vercel redirects HTTP → HTTPS on every domain, free on Hobby; we add `Strict-Transport-Security: max-age=63072000; includeSubDomains` and CSP `upgrade-insecure-requests` in production builds only, so local `http://localhost` keeps working)*
+- [x] Sensible security headers configured for Next.js/Vercel. *(`apps/web/security-headers.js`, applied site-wide in `next.config.js`: Content-Security-Policy (self + Vercel Blob + YouTube/Vimeo/Google embeds, `frame-ancestors 'none'`, `object-src 'none'`), `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`; `X-Powered-By` removed. Verified with `curl -I` and the admin still hydrates under the CSP)*
 
 ---
 
-## AD-B9-04 Backups and restore
+##  AD-B9-04 Backups and restore [LATER]
 
 | | |
 | --- | --- |
@@ -83,13 +83,13 @@
 | **Requirements** | B9-08 |
 
 **As the** Site Admin,  
-**I want** a help page with content-entry guidance and iONA support contact,  
+**I want** a help page with content-entry guidance and iONA support contact (support@ionatec.com | 2060iona.shemuel@gmail.com),  
 **so that** I can manage content after handover.
 
 ### Acceptance criteria
 
-- [ ] Help page reachable inside admin.
-- [ ] Includes support contact for technical issues (not content editing by iONA).
+- [x] Help page reachable inside admin. *(`/admin/help`, sidebar "Support → Help & support"; topics: publishing workflow, writing long text, images & PDFs (limits read from `MAX_UPLOAD_BYTES`), articles/events/opportunities, team/programmes/youth spaces, inbox & complaints, signing in safely. Content lives in `help/help-content.ts`)*
+- [x] Includes support contact for technical issues (not content editing by iONA). *(support card with both mailto links, what to include when reporting, and "iONA looks after the technical side only")*
 
 ---
 

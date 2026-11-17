@@ -3,66 +3,105 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: #f4f6f8;
+  font-family: var(--font-plus-jakarta), var(--font-geist-sans), sans-serif;
+  color: #0f172a;
+  color-scheme: light;
+  background:
+    radial-gradient(ellipse 70% 50% at 85% 0%, #ffe8d2 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 100%, #d9e8f5 0%, transparent 50%),
+    #f8fafc;
 }
 
 .card {
-  width: min(100%, 24rem);
+  width: min(100%, 24.5rem);
   display: grid;
   gap: 0.85rem;
   padding: 1.75rem;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   background: #fff;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 5%), 0 16px 40px rgb(15 23 42 / 6%);
+}
+
+.logo {
+  width: min(100%, 12.5rem);
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0b4f8a;
+  text-align: center;
 }
 
 .title {
   margin: 0;
-  font-size: 1.35rem;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #e67e22;
+  text-align: center;
 }
 
 .hint {
   margin: 0;
   color: #64748b;
   font-size: 0.95rem;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .error {
   margin: 0;
-  padding: 0.65rem 0.75rem;
-  border-radius: 0.5rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
   background: #fef2f2;
-  color: #991b1b;
+  border: 1px solid #fecaca;
+  color: #dc2626;
   font-size: 0.9rem;
 }
 
 .label {
   display: grid;
   gap: 0.35rem;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
 }
 
 .input {
-  padding: 0.65rem 0.75rem;
+  height: 40px;
+  padding: 0 0.75rem;
   border: 1px solid #cbd5e1;
-  border-radius: 0.5rem;
+  border-radius: 8px;
+  background: #fff;
   font: inherit;
+  color: #0f172a;
+}
+
+.input:focus {
+  outline: 2px solid rgb(11 79 138 / 28%);
+  border-color: #0b4f8a;
 }
 
 .button {
-  margin-top: 0.35rem;
-  padding: 0.7rem 1rem;
+  height: 40px;
+  margin-top: 0.25rem;
   border: 0;
-  border-radius: 0.5rem;
-  background: #0f766e;
+  border-radius: 8px;
+  background: #e67e22;
   color: #fff;
   font: inherit;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 }
 
 .button:hover {
-  background: #0d9488;
+  background: #c96a1a;
 }

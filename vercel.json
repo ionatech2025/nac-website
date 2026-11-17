@@ -8,6 +8,20 @@
       "buildCommand": "cd ../.. && npm run db:generate --workspace=@repo/database && npm run build --workspace=web"
     }
   },
+  "crons": [
+    {
+      "path": "/api/cron/complaint-retention",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/analytics-rollup",
+      "schedule": "15 0 * * *"
+    },
+    {
+      "path": "/api/cron/media-cleanup",
+      "schedule": "30 0 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
