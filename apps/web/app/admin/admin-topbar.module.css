@@ -1,0 +1,83 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 56px;
+  padding: 0 32px;
+  background: rgb(255 255 255 / 85%);
+  border-bottom: 1px solid #e2e8f0;
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+}
+
+.org {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b4f8a;
+  white-space: nowrap;
+}
+
+.sep {
+  color: #cbd5e1;
+  flex-shrink: 0;
+}
+
+.crumbLink {
+  color: #64748b;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.crumbLink:hover {
+  color: #0f172a;
+}
+
+.crumbCurrent {
+  color: #0f172a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.viewSite {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+}
+
+.viewSite:hover {
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .org {
+    display: none;
+  }
+}

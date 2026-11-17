@@ -53,3 +53,8 @@ When adding config for deploy:
 - Protect `/admin` in `proxy.ts` **and** re-check with `requireAdmin` / `assertAdminSession` on server operations.
 - Credentials + JWT session is OK for the single admin; hash passwords with bcrypt; never store plaintext.
 - Login must rate-limit failed attempts server-side and use generic errors (see `lib/login-rate-limit.ts`).
+
+## Public data contract (Dev A)
+
+- Public pages must call named helpers from `@repo/database`, never `prisma`. Enforced by ESLint in `apps/web/eslint.config.js` and by `.cursor/rules/public-data-contract.mdc`.
+- Contract map: `documentation/user-stories/frontend/00-overview.md`. Do not weaken the ESLint rule to “make a page work” — add a helper in `packages/database` instead.

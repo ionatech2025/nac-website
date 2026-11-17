@@ -1,0 +1,77 @@
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.row:hover {
+  background: #f8fafc;
+}
+
+.date {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 42px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+
+.month {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #e67e22;
+}
+
+.day {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  font-variant-numeric: tabular-nums;
+}
+
+.text {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagOrange,
+.tagBlue {
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.tagOrange {
+  color: #c2620f;
+}
+
+.tagBlue {
+  color: #0b4f8a;
+}

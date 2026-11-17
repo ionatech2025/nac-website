@@ -36,6 +36,31 @@
 | [E14-external-links-and-social.md](E14-external-links-and-social.md) | External & social | Footer links, share buttons |
 | [E15-seo-performance-accessibility.md](E15-seo-performance-accessibility.md) | Cross-cutting | SEO, CWV, WCAG 2.2 AA |
 
+## Data contract (ready, AD-B9-01 / AD-B9-02)
+
+Import everything from `@repo/database` in **server components only**. Every helper returns PUBLISHED content only (drafts and archived rows are never returned) and every list is capped at `MAX_PAGE_SIZE` (100).
+
+**Enforced:** ESLint fails if a public page (anything outside `/admin`, `/api`, `/login`, `/downloads`) imports `prisma` from `@repo/database`, or uses `dangerouslySetInnerHTML`. Cursor agents also get `.cursor/rules/public-data-contract.mdc` on every chat.
+
+| Page | Helpers |
+| --- | --- |
+| Home (E02) | `listPublishedSlideshowImages`, `listPublishedFeaturedConcepts`, `listPublishedPartners`, `listPublishedArticles(3)`, `listPublishedVideos`, `listPublishedDocuments(4)`, `listKeyFigures` |
+| About (E03) | `getPageContent(ABOUT_PAGE_KEY)`, `listKeyFigures` |
+| Staff (E04) | `listPublishedTeamMembers` |
+| Programmes (E05) | `listPublishedProgrammes`, `getPublishedProgrammeBySlug` (includes ordered `strategies`) |
+| Youth spaces (E06) | `listPublishedYouthRegions`, `getPublishedYouthSpaceBySlug` |
+| News (E07) | `listPublishedArticlesPage({ page })`, `getPublishedArticleBySlug` |
+| Opportunities (E08) | `listPublishedOpportunities`, `getPublishedOpportunityBySlug`, `listOpportunityTypesInUse` (filter chips), `deriveOpportunityStatus` |
+| Events (E09) | `listPublishedUpcomingEvents`, `listPublishedPastEventsPage({ page })`, `getPublishedEventBySlug` |
+| Galleries (E10) | `listPublishedAlbumsPage({ page })`, `getPublishedAlbumBySlug`, `listPublishedVideos`, `getPublishedVideoById` |
+| Downloads (E11) | `listPublishedDocumentsPage({ page, categorySlug })`, `listDocumentCategoriesInUse`; link to each row's `downloadPath` |
+| Footer / Contact / Social (E01, E12, E14) | `getPublicSiteSettings()` → `{ contact, social, external }` (empty string = hide that field) |
+
+- **Paging:** `…Page()` helpers take `{ page, pageSize }` (1-based, default 12; junk input falls back to page 1) and return `Page<T> = { items, page, pageSize, total, pageCount }`. Pass `searchParams.page` straight in.
+- **Images:** use `mediaVariantUrl(media, "thumb" | "medium")` for cards and grids; it falls back to the original.
+- **Long text** (article body, descriptions, biographies, About body): render with `<RichText text={…} />` from `apps/web/lib/rich-text-view.tsx`. Never use `dangerouslySetInnerHTML`. The text is plain, with blank-line paragraphs, `- ` bullets, `## ` headings, `**bold**`, and https links that become clickable.
+- **CSP:** images may only load from this site, the Vercel Blob store and YouTube/Vimeo thumbnails, and iframes only from YouTube, Vimeo and Google Maps (`apps/web/security-headers.js`). Add a host there before embedding anything new.
+
 ## Acceptance (frontend)
 
 All pages and navigation exist; pages work on agreed screen sizes; forms validate and give feedback; filters and calendar views work; accessibility and SEO checks pass.

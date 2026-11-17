@@ -38,7 +38,7 @@
 
 - [ ] About Us + key figures seeded/updated from improvements content.
 - [ ] Revised programme descriptions applied.
-- [ ] Youth Spaces/regions loaded from Appendix A; Q3 issues (counts, Kunya duplicate, spellings) flagged for NAC.
+- [x] Youth Spaces/regions loaded from Appendix A with Kunya as **one** space (Q3 answered: don't repeat); count and spellings still flagged for NAC. *(AD-B11-04: "Load starter spaces" button or `db:seed`; loads as drafts)*
 
 ---
 

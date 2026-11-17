@@ -13,13 +13,20 @@
 
 ### Acceptance criteria
 
-- [ ] Editable: physical/postal address, phones, toll-free, email.
-- [ ] Editable: social profile URLs, youthgobudgetapp.org and slogbaa.org links.
-- [ ] Public footer/contact pages read these values.
+- [x] Editable: physical/postal address, phones, toll-free, email. *(`/admin/settings` → Contact details; also WhatsApp for E14-04 buttons)*
+- [x] Editable: social profile URLs, youthgobudgetapp.org and slogbaa.org links. *(`social` + `external` SiteSetting rows; Facebook, X, Instagram, YouTube, LinkedIn, TikTok — blank = hidden)*
+- [x] Public footer/contact pages read these values. *(`getPublicSiteSettings()` in `@repo/database`; returns typed `{ contact, social, external }` with empty-string fallbacks)*
+
+### Implementation notes
+
+- Three `SiteSetting` keys hold JSON: `contact`, `social`, `external`. Seeded idempotently by `ensureSiteSettings()` / `db:seed`.
+- Each section of the admin page saves on its own (three server actions) so a bad social URL doesn't block saving the address.
+- Optional links must be empty or `http(s)://…`. Email is optional but validated when set.
+- Revalidates `/` layout and `/contact` on save so Dev A's footer picks up changes.
 
 ---
 
-## AD-B6-02 Homepage layout and taxonomies
+## AD-B6-02 Homepage layout and taxonomies (NOT NOW)
 
 | | |
 | --- | --- |
