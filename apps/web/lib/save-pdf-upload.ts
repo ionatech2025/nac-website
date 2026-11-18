@@ -3,7 +3,7 @@ import { prisma } from "@repo/database";
 import { MAX_UPLOAD_BYTES } from "./media-limits";
 import { putObject } from "./storage";
 
-export type PdfUploadError = "missing" | "type" | "size";
+export type PdfUploadError = "missing" | "type" | "size" | "storage";
 
 export type PdfUploadResult =
   | { ok: true; mediaId: string; url: string; byteSize: number }
@@ -41,7 +41,14 @@ export async function savePdfUpload(
 
   const id = randomUUID();
   const fileName = file.name || `document-${id}.pdf`;
-  const stored = await putObject(`${folder}/${id}.pdf`, bytes, "application/pdf");
+
+  let stored: Awaited<ReturnType<typeof putObject>>;
+  try {
+    stored = await putObject(`${folder}/${id}.pdf`, bytes, "application/pdf");
+  } catch (err) {
+    console.error("[save-pdf-upload]", err);
+    return { ok: false, error: "storage" };
+  }
 
   const media = await prisma.mediaAsset.create({
     data: {
@@ -69,6 +76,8 @@ export function pdfUploadErrorMessage(error: PdfUploadError): string {
       return `PDF must be ${MAX_UPLOAD_BYTES / (1024 * 1024)} MB or smaller.`;
     case "type":
       return "Only PDF files are allowed.";
+    case "storage":
+      return "File storage is not configured on this server. Connect Vercel Blob (BLOB_READ_WRITE_TOKEN), then try again.";
     default:
       return "Could not upload the PDF.";
   }
