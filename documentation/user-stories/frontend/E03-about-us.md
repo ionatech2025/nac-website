@@ -1,5 +1,22 @@
 # E3 — About Us
 
+## Server contract (Dev B)
+
+```ts
+import { getPublishedAboutPage, listKeyFigures } from "@repo/database";
+
+const about = await getPublishedAboutPage();
+// about?.title, mission, vision, whatWeDo, why, updatedAt
+// about?.images[] → { id, caption, media } (max 2, admin order)
+const figures = await listKeyFigures();
+```
+
+Render each section with `<RichText text={…} />`. Empty `why` may be hidden. Images: `mediaVariantUrl(media, "medium")`.
+
+Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy), not About Us.
+
+---
+
 ## FE-E3-01 About Us page
 
 | | |

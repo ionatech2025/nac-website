@@ -1,5 +1,9 @@
 import type { Programme, ProgrammeStrategy } from "@repo/database";
 import { RICH_TEXT_HINT } from "../../../lib/rich-text";
+import {
+  imageUploadErrorMessage,
+  type ImageUploadError,
+} from "../../../lib/save-image-upload";
 import { CmsStatusActions } from "../_components/cms-status-actions";
 import {
   Field,
@@ -17,28 +21,39 @@ import {
   unpublishProgramme,
   updateProgramme,
 } from "./actions";
+import { MAX_PROGRAMME_PHOTOS } from "./limits";
+import { ProgrammePhotosPanel, type ProgrammePhoto } from "./programme-photos";
 
-type ProgrammeWithStrategies = Programme & { strategies: ProgrammeStrategy[] };
+type ProgrammeWithExtras = Programme & {
+  strategies: ProgrammeStrategy[];
+  images: ProgrammePhoto[];
+};
 
 type Props = {
-  programme?: ProgrammeWithStrategies;
+  programme?: ProgrammeWithExtras;
   error?: string;
   saved?: boolean;
 };
 
+function errorCopy(error?: string): string | null {
+  if (!error) return null;
+  if (error === "validation") return "Check the required fields and try again.";
+  if (error === "images-missing") return "Choose at least one photo to upload.";
+  if (error === "photos-max") {
+    return `A programme can have at most ${MAX_PROGRAMME_PHOTOS} photos. Remove one first.`;
+  }
+  if (error.startsWith("image-")) {
+    return imageUploadErrorMessage(error.replace("image-", "") as ImageUploadError);
+  }
+  return "Something went wrong. Try again.";
+}
+
 export function ProgrammeForm({ programme, error, saved }: Props) {
   const isEdit = Boolean(programme);
-  const action = isEdit
-    ? updateProgramme.bind(null, programme!.id)
-    : createProgramme;
+  const action = isEdit ? updateProgramme.bind(null, programme!.id) : createProgramme;
   const strategies = [
     ...(programme?.strategies ?? []),
-    {
-      id: "blank",
-      title: "",
-      body: null as string | null,
-      sortOrder: 999,
-    },
+    { id: "blank", title: "", body: null as string | null, sortOrder: 999 },
   ];
 
   return (
@@ -48,7 +63,7 @@ export function ProgrammeForm({ programme, error, saved }: Props) {
       title={isEdit ? "Edit programme" : "New programme"}
       description="Programme areas and their strategies shown on the public site."
       status={programme?.status}
-      error={error ? "Check the required fields and try again." : null}
+      error={errorCopy(error)}
       saved={saved}
       aside={
         <>
@@ -68,6 +83,10 @@ export function ProgrammeForm({ programme, error, saved }: Props) {
               lines={[
                 { label: "Slug", value: programme.slug },
                 { label: "Strategies", value: String(programme.strategies.length) },
+                {
+                  label: "Photos",
+                  value: `${programme.images.length} / ${MAX_PROGRAMME_PHOTOS}`,
+                },
                 {
                   label: "Published",
                   value: programme.publishedAt
@@ -91,11 +110,7 @@ export function ProgrammeForm({ programme, error, saved }: Props) {
             />
           </Field>
           <Field label="Slug" optional hint="Generated from the title if left empty.">
-            <input
-              name="slug"
-              placeholder="hiv-prevention"
-              defaultValue={programme?.slug ?? ""}
-            />
+            <input name="slug" placeholder="hiv-prevention" defaultValue={programme?.slug ?? ""} />
           </Field>
           <Field label="Sort order" hint="Lower numbers appear first.">
             <input
@@ -155,6 +170,16 @@ export function ProgrammeForm({ programme, error, saved }: Props) {
           submitLabel={isEdit ? "Save changes" : "Create draft"}
         />
       </form>
+
+      {programme ? (
+        <FormSection
+          title="Photos"
+          description={`Up to ${MAX_PROGRAMME_PHOTOS} photos. The first one is used on programme cards.`}
+          single
+        >
+          <ProgrammePhotosPanel programmeId={programme.id} images={programme.images} />
+        </FormSection>
+      ) : null}
     </FormPage>
   );
 }

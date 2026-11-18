@@ -131,10 +131,30 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | Column | Type | Notes |
 | --- | --- | --- |
 | id | uuid PK | |
-| key | text UNIQUE | e.g. `about`, `privacy` |
+| key | text UNIQUE | e.g. `privacy` (About Us uses `AboutPage`) |
 | title | text | |
 | body | text | sanitised HTML/Markdown source |
 | updatedAt | timestamptz | |
+
+`AboutPage` — singleton (`id = "about"`)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | text PK | fixed `"about"` |
+| title | text | page heading |
+| mission, vision, whatWeDo | text | required in admin |
+| why | text | optional |
+| updatedAt | timestamptz | |
+
+`AboutPageImage` — max **2** photos (enforced in upload layer)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| aboutPageId | text FK → AboutPage | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
 
 `KeyFigure`
 
@@ -181,11 +201,20 @@ Reusable for covers, logos, gallery images, PDFs. Public pages use `mediaVariant
 | slug | text UNIQUE | |
 | summary | text? | |
 | body | text | sanitised |
-| imageId | uuid? FK → MediaAsset | |
 | sortOrder | int | |
 | status | ContentStatus | |
 | publishedAt | timestamptz? | |
 | createdAt, updatedAt | timestamptz | |
+
+`ProgrammeGalleryImage` — max **3** photos (enforced in upload layer); first by sortOrder is the card cover
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| programmeId | uuid FK | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
 
 `ProgrammeStrategy` — ordered strategies/activities
 

@@ -10,7 +10,8 @@ export const ORPHAN_GRACE_HOURS = 24;
  * blank a photo elsewhere instead of failing.
  */
 const UNUSED: Prisma.MediaAssetWhereInput = {
-  programmeImages: { none: {} },
+  programmeGalleryImages: { none: {} },
+  aboutPageImages: { none: {} },
   teamMemberPhotos: { none: {} },
   articleCovers: { none: {} },
   articleOgImages: { none: {} },
