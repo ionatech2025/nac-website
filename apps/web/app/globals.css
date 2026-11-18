@@ -1,13 +1,15 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --nac-green: #1f7a55;
+  --nac-green-deep: #0b4e36;
+  --nac-accent: #c97816;
+  --nac-ink: #14231c;
+  --nac-muted: #4d5f56;
+  --nac-line: #d5e3db;
+  --nac-surface: #f3f8f4;
+  --nac-paper: #f7faf7;
+  --nac-max: 72rem;
+  --background: var(--nac-paper);
+  --foreground: var(--nac-ink);
 }
 
 html,
@@ -16,9 +18,20 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  color-scheme: light;
+}
+
 body {
+  min-height: 100vh;
   color: var(--foreground);
-  background: var(--background);
+  background:
+    radial-gradient(circle at 85% -10%, rgb(232 168 56 / 0.18), transparent 42%),
+    radial-gradient(circle at 0% 20%, rgb(31 122 85 / 0.12), transparent 36%),
+    linear-gradient(180deg, #f7faf7 0%, #eef5f0 48%, #e8f1eb 100%);
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -29,22 +42,15 @@ body {
 
 a {
   color: inherit;
-  text-decoration: none;
 }
 
-.imgDark {
-  display: none;
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
+:focus-visible {
+  outline: 2px solid var(--nac-green);
+  outline-offset: 2px;
 }
