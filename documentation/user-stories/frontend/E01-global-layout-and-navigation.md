@@ -14,11 +14,11 @@
 
 ### Acceptance criteria
 
-- [ ] Header shows correct NAC logo/branding on all public pages.
-- [ ] Primary nav includes: Home, About Us, Our Staff, Programs, Youth Spaces, Opportunities, Events, Galleries, Blogs & News, Downloads, Contact Us.
-- [ ] Programs, Galleries and Contact are grouped menus as specified.
-- [ ] Active section is indicated visually.
-- [ ] Works with keyboard and screen readers (landmarks, focus order).
+- [x] Header shows correct NAC logo/branding on all public pages.
+- [x] Primary nav includes: Home, About Us, Our Staff, Programs, Youth Spaces, Opportunities, Events, Galleries, Blogs & News, Downloads, Contact Us.
+- [x] Programs, Galleries and Contact are grouped menus as specified.
+- [x] Active section is indicated visually.
+- [x] Works with keyboard and screen readers (landmarks, focus order).
 
 ---
 
@@ -35,10 +35,10 @@
 
 ### Acceptance criteria
 
-- [ ] Navigation is usable from small phones through desktop.
-- [ ] Menu open/close is keyboard accessible and announces state.
-- [ ] Focus is trapped or managed correctly while the menu is open.
-- [ ] No content is unreachable behind the menu overlay.
+- [x] Navigation is usable from small phones through desktop.
+- [x] Menu open/close is keyboard accessible and announces state.
+- [x] Focus is trapped or managed correctly while the menu is open.
+- [x] No content is unreachable behind the menu overlay.
 
 ---
 
@@ -56,10 +56,10 @@
 
 ### Acceptance criteria
 
-- [ ] Footer reads contact, social, external links and copyright from site settings (not hard-coded).
+- [x] Footer reads contact, social, external links and copyright from site settings (not hard-coded).
 - [ ] Latest downloads come from the public data-access layer.
-- [ ] Links to Youth Go Budget and SLOGBAA appear and open safely.
-- [ ] Footer is consistent across public pages.
+- [x] Links to Youth Go Budget and SLOGBAA appear and open safely.
+- [x] Footer is consistent across public pages.
 
 ---
 
@@ -76,9 +76,9 @@
 
 ### Acceptance criteria
 
-- [ ] Custom not-found (404) page with navigation back to home/key sections.
-- [ ] Custom error page for unexpected failures.
-- [ ] Both pages keep site branding and do not expose stack traces.
+- [x] Custom not-found (404) page with navigation back to home/key sections.
+- [x] Custom error page for unexpected failures.
+- [x] Both pages keep site branding and do not expose stack traces.
 
 ---
 
@@ -95,9 +95,9 @@
 
 ### Acceptance criteria
 
-- [ ] Every content-driven page has loading, empty and error UI.
-- [ ] Empty states explain that there is no content yet (not a broken page).
-- [ ] Errors offer a recovery path (retry or go home) where practical.
+- [x] Every content-driven page has loading, empty and error UI.
+- [x] Empty states explain that there is no content yet (not a broken page).
+- [x] Errors offer a recovery path (retry or go home) where practical.
 
 ---
 
@@ -114,6 +114,6 @@
 
 ### Acceptance criteria
 
-- [ ] External links are visually marked.
-- [ ] They use `rel="noopener"` (and appropriate `target` behaviour).
-- [ ] Registration and partner external URLs follow the same pattern.
+- [x] External links are visually marked.
+- [x] They use `rel="noopener"` (and appropriate `target` behaviour).
+- [x] Registration and partner external URLs follow the same pattern.
