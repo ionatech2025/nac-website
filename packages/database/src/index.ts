@@ -20,7 +20,9 @@ export {
 } from "./public-documents";
 export {
   ABOUT_PAGE_KEY,
+  ensureAboutPage,
   getPageContent,
+  getPublishedAboutPage,
   getPublishedProgrammeBySlug,
   listKeyFigures,
   listOpportunityTypesInUse,
@@ -75,6 +77,8 @@ export {
   listPublishedSlideshowImages,
 } from "./public-home-promo";
 export type {
+  AboutPage,
+  AboutPageImage,
   AdminUser,
   Article,
   Complaint,
@@ -93,6 +97,7 @@ export type {
   PhotoAlbum,
   PhotoImage,
   Programme,
+  ProgrammeGalleryImage,
   ProgrammeStrategy,
   Prisma,
   SlideshowImage,

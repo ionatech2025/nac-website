@@ -5,7 +5,7 @@
 | **Area** | Admin CMS — Programmes |
 | **Priority** | P1 |
 | **Related** | AD-B3-06, B07 uploads, FE-E05 |
-| **Status** | Open |
+| **Status** | Done |
 
 ## Problem
 
@@ -28,7 +28,7 @@ Each programme can only point at a single optional `imageId` (`Programme.image` 
 
 ## Acceptance criteria
 
-- [ ] Admin can attach 1–3 images on create/edit programme.
-- [ ] Fourth upload is rejected with a clear error.
-- [ ] Publish/unpublish unchanged; drafts never leak via public helpers.
-- [ ] E05 server contract updated for Dev A.
+- [x] Admin can attach 1–3 images on create/edit programme.
+- [x] Fourth upload is rejected with a clear error.
+- [x] Publish/unpublish unchanged; drafts never leak via public helpers.
+- [x] E05 server contract updated for Dev A.

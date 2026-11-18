@@ -45,9 +45,9 @@ Import everything from `@repo/database` in **server components only**. Every hel
 | Page | Helpers |
 | --- | --- |
 | Home (E02) | `listPublishedSlideshowImages`, `listPublishedFeaturedConcepts`, `listPublishedPartners`, `listPublishedArticles(3)`, `listPublishedVideos`, `listPublishedDocuments(4)`, `listKeyFigures` |
-| About (E03) | `getPageContent(ABOUT_PAGE_KEY)`, `listKeyFigures` |
+| About (E03) | `getPublishedAboutPage()` (title, mission, vision, whatWeDo, why, images ≤2), `listKeyFigures` |
 | Staff (E04) | `listPublishedTeamMembers` |
-| Programmes (E05) | `listPublishedProgrammes`, `getPublishedProgrammeBySlug` (includes ordered `strategies`) |
+| Programmes (E05) | `listPublishedProgrammes` (first gallery image as cover), `getPublishedProgrammeBySlug` (ordered `strategies` + up to 3 `images`) |
 | Youth spaces (E06) | `listPublishedYouthRegions`, `getPublishedYouthSpaceBySlug` |
 | News (E07) | `listPublishedArticlesPage({ page })`, `getPublishedArticleBySlug` |
 | Opportunities (E08) | `listPublishedOpportunities`, `getPublishedOpportunityBySlug`, `listOpportunityTypesInUse` (filter chips), `deriveOpportunityStatus` |

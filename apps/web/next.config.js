@@ -11,6 +11,12 @@ const COMPLAINT_HEADERS = [
 const nextConfig = {
   transpilePackages: ["@repo/database", "@repo/ui"],
   poweredByHeader: false,
+  // bodySizeLimit stays under experimental even though Server Actions are stable (Next 16).
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "3mb", // ≥ MAX_UPLOAD_BYTES (2.5 MB) + multipart overhead (ISSUE-003)
+    },
+  },
   async headers() {
     // Later rules win for the same header, so the stricter complaint
     // Referrer-Policy overrides the site-wide one.

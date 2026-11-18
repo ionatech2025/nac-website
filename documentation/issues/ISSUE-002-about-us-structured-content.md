@@ -5,7 +5,7 @@
 | **Area** | Admin CMS — About Us |
 | **Priority** | P1 |
 | **Related** | AD-B3-06 / B3-13, FE-E03, rich text (AD-B9-02) |
-| **Status** | Open |
+| **Status** | Done |
 
 ## Problem
 
@@ -46,7 +46,7 @@ Update `getPageContent(ABOUT_PAGE_KEY)` (or replace with `getPublishedAboutPage(
 
 ## Acceptance criteria
 
-- [ ] Admin About form has Mission, Vision, What we do, Why (required rules TBD with NAC; default: all required except maybe Why).
-- [ ] Up to 2 images with alt text; third upload rejected clearly.
-- [ ] Public helper returns structured fields + images (published/live — About has no draft today; keep “save = live” or introduce draft if required).
-- [ ] E03 story + Dev A contract updated.
+- [x] Admin About form has Mission, Vision, What we do, Why (required rules TBD with NAC; default: all required except maybe Why).
+- [x] Up to 2 images with alt text; third upload rejected clearly.
+- [x] Public helper returns structured fields + images (published/live — About has no draft today; keep “save = live” or introduce draft if required).
+- [x] E03 story + Dev A contract updated.

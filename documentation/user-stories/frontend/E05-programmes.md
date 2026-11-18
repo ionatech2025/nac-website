@@ -2,6 +2,22 @@
 
 > **Note:** Q1/Q2 answered — use the four improved programmes with **GAP** naming (NAC may change it later). Build admin-driven listing/detail so the list can change without code changes.
 
+## Server contract (Dev B)
+
+```ts
+import { listPublishedProgrammes, getPublishedProgrammeBySlug, mediaVariantUrl } from "@repo/database";
+
+const list = await listPublishedProgrammes();
+// each: title, slug, summary, images[0]? (cover — first of up to 3)
+
+const detail = await getPublishedProgrammeBySlug(slug);
+// detail?.body, strategies[], images[] (max 3, admin order)
+```
+
+Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "medium")`. Body/strategies: `<RichText>`.
+
+---
+
 ## FE-E5-01 Programmes menu and listing
 
 | | |

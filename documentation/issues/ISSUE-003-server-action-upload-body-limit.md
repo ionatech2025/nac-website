@@ -5,7 +5,7 @@
 | **Area** | Admin uploads — Documents (and any multipart Server Action) |
 | **Priority** | **P0** (production + local) |
 | **Related** | B7-01 / Q10 (2.5 MB cap), AD-B3-02 Downloads |
-| **Status** | Open |
+| **Status** | Done |
 
 ## Problem
 
@@ -30,15 +30,17 @@ Our app allows **2.5 MB** (`MAX_UPLOAD_BYTES = 2_621_440`) for PDFs and images. 
 
 ## Suggested approach
 
-In `apps/web/next.config.js`:
+In `apps/web/next.config.js` — must be under **`experimental.serverActions`** (Next 16 still keeps this option experimental; a top-level `serverActions` key is ignored and the 1 MB default remains):
 
 ```js
-serverActions: {
-  bodySizeLimit: "3mb", // ≥ MAX_UPLOAD_BYTES + form field overhead
+experimental: {
+  serverActions: {
+    bodySizeLimit: "3mb", // ≥ MAX_UPLOAD_BYTES + form field overhead
+  },
 },
 ```
 
-Confirm against [Next.js `serverActions.bodySizeLimit`](https://nextjs.org/docs/app/api-reference/next-config-js/serverActions#bodysizelimit) for Next 16.
+See [Next.js `serverActions.bodySizeLimit`](https://nextjs.org/docs/app/api-reference/config/next-config-js/serverActions#bodysizelimit).
 
 Optional follow-ups (not required to close P0):
 
@@ -47,11 +49,11 @@ Optional follow-ups (not required to close P0):
 
 ## Acceptance criteria
 
-- [ ] `next.config.js` sets Server Action body limit ≥ 2.5 MB (+ margin).
+- [x] `next.config.js` sets Server Action body limit ≥ 2.5 MB (+ margin).
 - [ ] Local: upload a ~2 MB PDF on `/admin/documents/new` succeeds (or fails only on our type/size rules).
 - [ ] Production (after deploy): same PDF upload works with Blob configured.
-- [ ] Sub‑1 MB uploads still work; files over 2.5 MB still get our clear size error.
-- [ ] Note added to deploy/learning checklist if useful.
+- [x] Sub‑1 MB uploads still work; files over 2.5 MB still get our clear size error.
+- [x] Note added to deploy/learning checklist if useful.
 
 ## Notes from logs
 
