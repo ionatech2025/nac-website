@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { AnalyticsBeacon } from "../components/analytics-beacon";
 import "./globals.css";
 
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${display.variable} ${body.variable}`}>
         {children}
         <AnalyticsBeacon />
       </body>
