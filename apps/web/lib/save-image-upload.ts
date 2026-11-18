@@ -8,7 +8,7 @@ import {
 } from "./media-limits";
 import { putObject } from "./storage";
 
-export type ImageUploadError = "missing" | "type" | "size" | "invalid";
+export type ImageUploadError = "missing" | "type" | "size" | "invalid" | "storage";
 
 export type ImageUploadResult =
   | { ok: true; mediaId: string; url: string }
@@ -91,11 +91,19 @@ export async function saveImageUpload(
   const ext = extensionFor(mime);
   const fileName = file.name || `upload.${ext}`;
 
-  const [original, thumb, medium] = await Promise.all([
-    putObject(`${folder}/${id}.${ext}`, bytes, mime),
-    putObject(`${folder}/${id}-thumb.webp`, processed.variants.thumb, "image/webp"),
-    putObject(`${folder}/${id}-medium.webp`, processed.variants.medium, "image/webp"),
-  ]);
+  let original: Awaited<ReturnType<typeof putObject>>;
+  let thumb: Awaited<ReturnType<typeof putObject>>;
+  let medium: Awaited<ReturnType<typeof putObject>>;
+  try {
+    [original, thumb, medium] = await Promise.all([
+      putObject(`${folder}/${id}.${ext}`, bytes, mime),
+      putObject(`${folder}/${id}-thumb.webp`, processed.variants.thumb, "image/webp"),
+      putObject(`${folder}/${id}-medium.webp`, processed.variants.medium, "image/webp"),
+    ]);
+  } catch (err) {
+    console.error("[save-image-upload]", err);
+    return { ok: false, error: "storage" };
+  }
 
   const media = await prisma.mediaAsset.create({
     data: {
@@ -127,6 +135,8 @@ export function imageUploadErrorMessage(error: ImageUploadError): string {
       return `Use JPEG, PNG, or WebP only (${ALLOWED_IMAGE_MIME.join(", ")}).`;
     case "invalid":
       return "That image file looks damaged and could not be read.";
+    case "storage":
+      return "File storage is not configured on this server. An admin needs to connect Vercel Blob (BLOB_READ_WRITE_TOKEN), then try again.";
     default:
       return "Could not upload the image.";
   }
