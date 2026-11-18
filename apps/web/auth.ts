@@ -11,8 +11,8 @@ import {
 } from "./lib/session-security";
 
 const credentialsSchema = z.object({
-  email: z.string().trim().email(),
-  password: z.string().min(1),
+  email: z.string().trim().max(254).email(),
+  password: z.string().min(1).max(200),
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({

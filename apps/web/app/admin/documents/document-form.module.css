@@ -1,0 +1,28 @@
+.fileLink {
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0b4f8a;
+  text-decoration: none;
+}
+
+.fileLink:hover { text-decoration: underline; }
+
+.stableLink {
+  display: block;
+  padding: 8px 10px;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: 12.5px;
+  color: #101828;
+  word-break: break-all;
+  user-select: all;
+}
+
+.linkNote {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #667085;
+}

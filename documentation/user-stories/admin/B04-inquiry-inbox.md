@@ -13,10 +13,10 @@
 
 ### Acceptance criteria
 
-- [ ] Public contact form handler validates and stores inquiries.
-- [ ] List shows date, name, subject, read/unread.
-- [ ] Detail view shows full message and contact fields.
-- [ ] Only authenticated admin can access.
+- [x] Public contact form handler validates and stores inquiries. *(`POST /api/inquiries` + `submitInquiryAction` → `lib/submit-inquiry.ts`; shared Zod schema `lib/inquiry-schema.ts`; honeypot field `website`; 5 submissions / 10 min per IP via `lib/form-rate-limit.ts`)*
+- [x] List shows date, name, subject, read/unread. *(`/admin/inquiries`; unread dot + bold; sidebar unread badge)*
+- [x] Detail view shows full message and contact fields. *(`/admin/inquiries/[id]`; reply via `mailto:`)*
+- [x] Only authenticated admin can access. *(proxy + `requireAdmin` on pages, `assertAdminSession` on every action)*
 
 ---
 
@@ -33,8 +33,8 @@
 
 ### Acceptance criteria
 
-- [ ] Mark read/unread works.
-- [ ] Archive and delete available with confirmation on delete.
+- [x] Mark read/unread works. *(opening marks read; "Mark as unread"; "Mark all as read")*
+- [x] Archive and delete available with confirmation on delete. *(archive / move to inbox; two-step `ConfirmDelete`)*
 
 ---
 
@@ -51,11 +51,11 @@
 
 ### Acceptance criteria
 
-- [ ] Filter/search by date range and read state (and optional text search if implemented).
+- [x] Filter/search by date range and read state (and optional text search if implemented). *(tabs Inbox / Unread / Read / Archived; Kampala date range; text search over name, email, subject, message; 25 per page; all state in the URL)*
 
 ---
 
-## AD-B4-04 Inquiry email notification
+## AD-B4-04 Inquiry email notification [LATER]
 
 | | |
 | --- | --- |

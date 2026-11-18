@@ -108,6 +108,11 @@ model MediaAsset {
   width      Int?
   height     Int?
   altText    String?
+  /// WebP variants generated at upload for images (AD-B7-03); null for PDFs.
+  thumbUrl   String?
+  thumbKey   String?
+  mediumUrl  String?
+  mediumKey  String?
   createdAt  DateTime @default(now())
 
   programmeImages        Programme[]             @relation("ProgrammeImage")
@@ -491,4 +496,14 @@ model AnalyticsDaily {
   @@unique([date, path, referrerHost, country, city, deviceClass, browser, os])
   @@index([date])
   @@index([path])
+}
+
+/// One row per rolled-up UTC day (AD-B8-02). Holds the day's true distinct
+/// visitors (summing AnalyticsDaily.uniqueVisitors would double-count) and marks
+/// the day as safe to drop from AnalyticsEvent.
+model AnalyticsDayTotal {
+  date           DateTime @id @db.Date
+  views          Int
+  uniqueVisitors Int
+  rolledUpAt     DateTime @default(now())
 }

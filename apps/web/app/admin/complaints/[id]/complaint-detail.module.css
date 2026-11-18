@@ -1,0 +1,116 @@
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+  margin: 0;
+  padding: 18px 24px;
+  border-top: 1px solid #f1f5f9;
+  background: #fcfdfe;
+  border-radius: 0 0 12px 12px;
+}
+
+.facts dt {
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.notProvided { color: #94a3b8; font-weight: 500; font-style: italic; }
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.segmented form { display: contents; }
+
+.segment {
+  height: 32px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.segment:hover { color: #0f172a; background: #fff; }
+
+.segmentActive,
+.segmentActive:hover {
+  background: #0b4f8a;
+  color: #fff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 15%);
+  cursor: default;
+}
+
+.notes {
+  width: 100%;
+  min-height: 140px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #0f172a;
+  resize: vertical;
+}
+
+.notes:focus {
+  outline: none;
+  border-color: #0b4f8a;
+  box-shadow: 0 0 0 3px rgb(11 79 138 / 15%);
+}
+
+.notesForm { display: grid; gap: 8px; }
+
+.saveNotes {
+  justify-self: end;
+  height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #e67e22;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.saveNotes:hover { background: #d4701a; }
+
+.small { margin: 0; font-size: 12px; color: #64748b; line-height: 1.5; }
+
+@media (max-width: 640px) {
+  .facts { grid-template-columns: 1fr; }
+}

@@ -143,7 +143,7 @@ Back office (hidden login, e.g. `/login`) should let NAC manage events, opportun
 - User stories: [`documentation/user-stories/`](documentation/user-stories/)
 - Database schema: [`documentation/database-schema.md`](documentation/database-schema.md)
 
-Open items still with NAC are listed in requirements §15.1 (for example programme list, youth-space count/Kunya, complaint retention, privacy details).
+Open items still with NAC are listed in requirements §15.1 (for example the final youth-space count and spellings, and privacy details). Decided: GAP programme naming (Q1/Q2), Kunya listed once (Q3), 30-day complaint retention (Q4).
 
 ---
 
