@@ -16,6 +16,7 @@
 
 - [x] Header shows correct NAC logo/branding on all public pages.
 - [x] Primary nav includes: Home, About Us, Our Staff, Programs, Youth Spaces, Opportunities, Events, Galleries, Blogs & News, Downloads, Contact Us.
+- [ ] Add **Member organisations** once E16 is built (suggested route `/member-organisations`; may sit under About or as its own top-level item — confirm with NAC IA).
 - [x] Programs, Galleries and Contact are grouped menus as specified.
 - [x] Active section is indicated visually.
 - [x] Works with keyboard and screen readers (landmarks, focus order).

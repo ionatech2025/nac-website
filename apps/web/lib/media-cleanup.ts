@@ -12,6 +12,7 @@ export const ORPHAN_GRACE_HOURS = 24;
 const UNUSED: Prisma.MediaAssetWhereInput = {
   programmeGalleryImages: { none: {} },
   aboutPageImages: { none: {} },
+  memberOrganisationImages: { none: {} },
   teamMemberPhotos: { none: {} },
   articleCovers: { none: {} },
   articleOgImages: { none: {} },

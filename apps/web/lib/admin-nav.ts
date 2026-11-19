@@ -9,6 +9,7 @@ export type AdminNavIcon =
   | "slideshow"
   | "featured"
   | "partners"
+  | "memberOrgs"
   | "team"
   | "programmes"
   | "youthSpaces"
@@ -59,6 +60,11 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     label: "Organisation",
     links: [
       { href: "/admin/team", label: "Team", icon: "team" },
+      {
+        href: "/admin/member-organisations",
+        label: "Member orgs",
+        icon: "memberOrgs",
+      },
       { href: "/admin/programmes", label: "Programmes", icon: "programmes" },
       { href: "/admin/youth-spaces", label: "Youth spaces", icon: "youthSpaces" },
       { href: "/admin/about", label: "About", icon: "about" },
