@@ -2,6 +2,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { redirect } from "next/navigation";
 import { auth } from "../../auth";
 import { loginAction } from "./login-action";
+import { PasswordField } from "./password-field";
 import styles from "./login.module.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -12,7 +13,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 
 type LoginPageProps = {
-  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; error?: string; notice?: string }>;
 };
 
 function errorMessage(error: string | undefined): string | null {
@@ -24,6 +25,13 @@ function errorMessage(error: string | undefined): string | null {
   }
   // CredentialsSignin and any other auth error — never reveal which field failed.
   return "Invalid email or password.";
+}
+
+function noticeMessage(notice: string | undefined): string | null {
+  if (notice === "EmailChanged") {
+    return "Email updated. Sign in with your new email.";
+  }
+  return null;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
@@ -39,6 +47,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       : "/admin";
 
   const message = errorMessage(params.error);
+  const notice = noticeMessage(params.notice);
   const boundLogin = loginAction.bind(null, callbackUrl);
 
   return (
@@ -51,9 +60,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           alt="Network for Active Citizens"
           className={styles.logo}
         />
-        <p className={styles.kicker}>Network for Active Citizens</p>
-        <h1 className={styles.title}>NAC Admin</h1>
+        <h1 className={styles.title}>NAC ADMIN</h1>
         <p className={styles.hint}>Sign in to manage site content.</p>
+
+        {notice ? (
+          <p className={styles.notice} role="status">
+            {notice}
+          </p>
+        ) : null}
 
         {message ? (
           <p className={styles.error} role="alert">
@@ -73,17 +87,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           />
         </label>
 
-        <label className={styles.label} htmlFor="password">
-          Password
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className={styles.input}
-          />
-        </label>
+        <PasswordField />
 
         <button type="submit" className={styles.button}>
           Sign in

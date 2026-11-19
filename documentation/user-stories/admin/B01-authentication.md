@@ -72,6 +72,26 @@ Detailed learner notes live in **`documentation/learning/auth-concepts.md`** (gi
 
 ---
 
+## AD-B1-06 Change email and password while signed in
+
+| | |
+| --- | --- |
+| **Priority** | P1 |
+| **Status** | Done |
+
+**As the** Site Admin,  
+**I want** to change my email and password from `/admin/account`,  
+**so that** I can rotate credentials without developer help.
+
+### Acceptance criteria
+
+- [x] Current password required for email and password changes.
+- [x] New password min 10 characters; confirmation must match.
+- [x] Email change signs the admin out so the next login uses the new address.
+- [x] Password hashed with bcrypt (cost 12).
+
+---
+
 ## AD-B1-04 Password recovery via email
 
 | | |

@@ -16,6 +16,7 @@ export type AdminNavIcon =
   | "about"
   | "figures"
   | "settings"
+  | "account"
   | "inquiries"
   | "complaints"
   | "help";
@@ -81,7 +82,10 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   },
   {
     label: "Support",
-    links: [{ href: "/admin/help", label: "Help & support", icon: "help" }],
+    links: [
+      { href: "/admin/account", label: "Account", icon: "account" },
+      { href: "/admin/help", label: "Help & support", icon: "help" },
+    ],
   },
 ];
 
