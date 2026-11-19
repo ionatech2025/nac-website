@@ -13,8 +13,14 @@
 
 ### Acceptance criteria
 
-- [ ] Links render from site settings in footer/home/programme contexts as designed.
+- [ ] Links render from site settings in footer/home/programme contexts as designed. *(ready — see server contract below)*
 - [ ] Marked external and open safely.
+
+> **Server contract (ready, AD-B6-01):**
+> - `const { external, social, contact } = await getPublicSiteSettings()` from `@repo/database`.
+> - External: `external.youthGoBudget`, `external.slogbaa` (seeded to the known `.org` URLs; empty = hide).
+> - Social: `social.facebook` / `x` / `instagram` / `youtube` / `linkedin` / `tiktok` — only render icons for non-empty URLs; open with `rel="noopener noreferrer" target="_blank"`.
+> - WhatsApp buttons (FE-E14-04): use `contact.whatsapp` (digits or `wa.me` URL).
 
 ---
 

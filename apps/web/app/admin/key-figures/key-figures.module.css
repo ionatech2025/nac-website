@@ -1,0 +1,36 @@
+.addActions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.row:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.rowForm {
+  display: grid;
+  flex: 1 1 420px;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 96px auto;
+  align-items: end;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .rowForm { grid-template-columns: minmax(0, 1fr); }
+}

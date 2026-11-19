@@ -1,0 +1,43 @@
+---
+description: Public pages must use Dev B's typed data contracts — never raw Prisma
+alwaysApply: true
+---
+
+# Public data contract (Dev A)
+
+When building **public** UI (anything outside `/admin`, `/login`, `/api`), follow the contract. Do not invent database queries.
+
+## Must
+
+1. Read `documentation/user-stories/frontend/00-overview.md` → **Data contract** before creating a public page.
+2. Import **named helpers only** from `@repo/database` (`listPublished…`, `getPublished…`, `getPublicSiteSettings`, `mediaVariantUrl`, `documentDownloadPath`, …).
+3. Call helpers in **Server Components** (or server-only modules). Do not put Prisma or DB access in client components.
+4. Render long text with `<RichText>` from `apps/web/lib/rich-text-view.tsx`. Never use `dangerouslySetInnerHTML`.
+5. Public forms: use the documented server action / API from the story's **Server contract** block (inquiry, complaint). Include the honeypot field.
+6. Empty site-setting strings mean **hide** that field — do not show blank labels.
+7. External links: `rel="noopener noreferrer"` and `target="_blank"`.
+
+## Must not
+
+```ts
+// ❌ BAD — leaks drafts / bypasses caps / breaks the contract
+import { prisma } from "@repo/database";
+const posts = await prisma.article.findMany();
+
+// ✅ GOOD
+import { listPublishedArticlesPage } from "@repo/database";
+const page = await listPublishedArticlesPage({ page: 1 });
+```
+
+- Do not filter `status: "PUBLISHED"` yourself — helpers already do.
+- Do not hard-code contact, social, or Youth Go Budget / SLOGBAA URLs — use `getPublicSiteSettings()`.
+- Do not edit `packages/database` public helpers unless Dev B asked; open a story gap instead.
+
+## Per-page map
+
+| Area | Start here |
+| --- | --- |
+| Helper table | `documentation/user-stories/frontend/00-overview.md` |
+| Story + server contract | matching `E0x-*.md` under `documentation/user-stories/frontend/` |
+| Images | `mediaVariantUrl(media, "thumb" \| "medium")` |
+| Downloads | use each document's `downloadPath`, not `media.url` |

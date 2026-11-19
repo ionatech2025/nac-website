@@ -175,7 +175,7 @@ Footer: contact details, social links, latest downloads, links to Youth Go Budge
 
 ### 5.2 Programme names, and a conflict to resolve
 
-The improvements PDF describes **four** programme areas: *Governance and Participation (GAP)*, *Youth Climate Resilience (YCR)*, *Community Journalism*, and *Youth Spaces: Youth Organizing and Strengthening*. The earlier spec listed **five**: GAAP, Youth CSO Village, Youth Climate Resilience, Communication for Development (C4D), and Youth Organizing and Strengthening. `[Open]` NAC to confirm which list is final and what happens to *Youth CSO Village* and *C4D* (see 15.1, Q1).
+The improvements PDF describes **four** programme areas: *Governance and Participation (GAP)*, *Youth Climate Resilience (YCR)*, *Community Journalism*, and *Youth Spaces: Youth Organizing and Strengthening*. The earlier spec listed **five**: GAAP, Youth CSO Village, Youth Climate Resilience, Communication for Development (C4D), and Youth Organizing and Strengthening. **Q1/Q2 answer:** use the four improved programmes with **GAP** naming for now; NAC may change this later, so programmes stay admin-managed (see 15.1, Q1).
 
 Programme pages must be admin-managed, so the final list can change without code changes.
 
@@ -222,7 +222,7 @@ Story seeds: *As a visitor, I see NAC's mission and latest stories on arrival so
 | E3-03 | Support formatted text, headings, links and images | A | P1 | [Proposed] |
 | E3-04 | Programme summaries on the About page link to each programme page | A | P2 | [New] |
 
-Note: the "15 youth spaces" figure does not match the number of spaces described in the source document (see 15.1, Q3).
+Note: the "15 youth spaces" figure does not match the number of spaces described in the source document (see 15.1, Q3). NAC confirmed Kunya is a single space (don't repeat it); the final count remains an admin-editable key figure.
 
 ### E4 — Staff directory
 
@@ -440,7 +440,7 @@ Every content type has its own **list page** (search, sort, filter, pagination w
 | B5-03 | Admin can change the status and add private notes | P2 | [Proposed] |
 | B5-04 | **Nothing that identifies the complainant is stored or shown** (no IP, device, location, referrer, session) | P1 | [Confirmed] |
 | B5-05 | Complaint data is never returned by any public route and never appears in analytics, exports or logs | P1 | [Confirmed] |
-| B5-06 | Retention and deletion rule: admin can delete a complaint. Automatic retention period to be set by NAC | P2 | [Open] |
+| B5-06 | Retention and deletion rule: admin can delete a complaint. Complaints are deleted automatically **30 days** after submission (Q4) | P2 | [Confirmed] |
 
 ### B6 — Site settings (configuration)
 
@@ -644,10 +644,10 @@ NAC confirmed that **all existing content** will be migrated.
 
 | #   | Question                                                                                                                                                                                                                                                                                | Needed for      |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| Q1  | Which programme list is final: four (GAP, YCR, Community Journalism, Youth Spaces) or the earlier five? What happens to Youth CSO Village and C4D?                                                                                                                                      | E5, nav, B3-07  |
-| Q2  | Does "Governance and Participation (GAP)" replace "GAAP"?                                                                                                                                                                                                                               | E5              |
-| Q3  | The document says 15 youth spaces but describes 13 (and Kunya appears twice, see Appendix A). Which spaces are final, and is Kunya one space or two? Also confirm the spelling of names such as Kitintale and Afrikovikoo                                                               | E6, key figures |
-| Q4  | Retention period and deletion rules for complaints                                                                                                                                                                                                                                      | B5-06           |
+| Q1  | Which programme list is final: four (GAP, YCR, Community Journalism, Youth Spaces) or the earlier five? What happens to Youth CSO Village and C4D? [Use GAP (the four improved programmes) for now — may change later, so names stay admin-editable]                                    | E5, nav, B3-07  |
+| Q2  | Does "Governance and Participation (GAP)" replace "GAAP"? [Yes, use GAP — may change later]                                                                                                                                                                                             | E5              |
+| Q3  | The document says 15 youth spaces but describes 13 (and Kunya appears twice, see Appendix A). Which spaces are final, and is Kunya one space or two? Also confirm the spelling of names such as Kitintale and Afrikovikoo [Don't repeat — Kunya is one space; final count and spellings still to confirm] | E6, key figures |
+| Q4  | Retention period and deletion rules for complaints [30 days — complaints are deleted automatically 30 days after submission; admin may delete earlier]                                                                                                                                   | B5-06           |
 | Q5  | Should NAC receive an email when an inquiry arrives, and at which address? [Yes, for now (testing) at [2060newty@gmail.com](mailto:2060newty@gmail.com) - we shall change it later]                                                                                                     | E12-06          |
 | Q6  | The existing admin shows Structure, Configuration, Reports, Help and Comments. What do these do today, and which are still needed? (12.5.21 confirmed there are other private features, especially in the admin portal) [The only one necessary was the Dashboard and Content sections] | B6-05, B9-09    |
 | Q7  | Password recovery approach for the single admin [via email]                                                                                                                                                                                                                             | B1-05           |
@@ -701,8 +701,7 @@ Source text should be loaded as supplied and reviewed by NAC (see Q3).
 | Kampala | Kyebando Youth Space | Eco Smart Innovations Initiative | Free internet, shelter from heat, children's play, learning, CSO and NGO events, skilling |
 | Kampala | Kanyanya Youth Space | Sustainable Community Initiative for Empowerment | Public green space near Kanyanya Church of Uganda Primary School; children's right to play, learning, social hub |
 | Kampala | Kirombe Youth Space | Footmarks Initiative Uganda | Public green space; urban agriculture demonstration garden; CSO and NGO events; skills development |
-| Kampala | Kunya Youth Space (entry 1) | Afrikovikoo Hub with the school | Public green space at Uganda Youth Primary School; urban farming demonstration garden; vocational training |
-| Kampala | Kunya Youth Space (entry 2) | She for Change (women-led) | Self-employable skills, peer learning on digital skills, women's savings group meetings. `[Open]` Same space as entry 1? |
+| Kampala | Kunya Youth Space | Afrikovikoo Hub with the school; She for Change (women-led) | Public green space at Uganda Youth Primary School; urban farming demonstration garden; vocational training; self-employable skills, peer learning on digital skills, women's savings group meetings. *(Q3: one space — the source listed it twice; do not repeat)* |
 | West Nile | Arua Youth Space | Host Hub Innovation Centre (established 2021) | Co-working and peer learning; regional media (NBS West Nile Region, Capital FM West Nile); digital storytelling ("Next Creata Fellowship") |
 | West Nile | Yumbe Youth Space | HADE | 10 local organisations share the space; reliable electricity, internet and workspace; base for collaboration |
 | Western Uganda | Ntugamo Youth Space | n/a in source | Only youth space in western Uganda; meeting point for political youth leaders on local budgets and government programmes |

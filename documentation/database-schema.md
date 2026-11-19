@@ -131,10 +131,30 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | Column | Type | Notes |
 | --- | --- | --- |
 | id | uuid PK | |
-| key | text UNIQUE | e.g. `about`, `privacy` |
+| key | text UNIQUE | e.g. `privacy` (About Us uses `AboutPage`) |
 | title | text | |
 | body | text | sanitised HTML/Markdown source |
 | updatedAt | timestamptz | |
+
+`AboutPage` — singleton (`id = "about"`)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | text PK | fixed `"about"` |
+| title | text | page heading |
+| mission, vision, whatWeDo | text | required in admin |
+| why | text | optional |
+| updatedAt | timestamptz | |
+
+`AboutPageImage` — max **2** photos (enforced in upload layer)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| aboutPageId | text FK → AboutPage | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
 
 `KeyFigure`
 
@@ -160,11 +180,13 @@ v1: single row. Keep `role` for future multi-user without redesign.
 | fileName | text | |
 | mimeType | text | validate by content on upload |
 | byteSize | int | enforce ≤ 2_621_440 (2.5 MB) for PDFs and images in the upload layer |
-| width, height | int? | images |
+| width, height | int? | images (filled at upload) |
 | altText | text? | |
+| thumbUrl, thumbKey | text? | 480px WebP variant for cards/grids (images only) |
+| mediumUrl, mediumKey | text? | 1280px WebP variant for lightbox/hero (images only) |
 | createdAt | timestamptz | |
 
-Reusable for covers, logos, gallery images, PDFs.
+Reusable for covers, logos, gallery images, PDFs. Public pages use `mediaVariantUrl(media, "thumb" | "medium")` (falls back to `url`). Documents are linked publicly as `/downloads/<documentId>`, which redirects to the current file, so replacing a PDF never breaks links (AD-B7-03). Unreferenced assets are deleted by a daily cron.
 
 ---
 
@@ -179,11 +201,20 @@ Reusable for covers, logos, gallery images, PDFs.
 | slug | text UNIQUE | |
 | summary | text? | |
 | body | text | sanitised |
-| imageId | uuid? FK → MediaAsset | |
 | sortOrder | int | |
 | status | ContentStatus | |
 | publishedAt | timestamptz? | |
 | createdAt, updatedAt | timestamptz | |
+
+`ProgrammeGalleryImage` — max **3** photos (enforced in upload layer); first by sortOrder is the card cover
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| programmeId | uuid FK | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
 
 `ProgrammeStrategy` — ordered strategies/activities
 
@@ -266,6 +297,30 @@ Reusable for covers, logos, gallery images, PDFs.
 | createdAt, updatedAt | timestamptz | |
 
 `Partner`, `FeaturedConcept`, `SlideshowImage` — as in conceptual model; each with `sortOrder`, `status`, optional `MediaAsset` / URL fields.
+
+`MemberOrganisation` — NAC network members (public listing/detail; not homepage Partner logos)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| name | text | |
+| slug | text UNIQUE | |
+| bio | text | short; rich-text conventions |
+| websiteUrl | text? | optional external site |
+| sortOrder | int | |
+| status | ContentStatus | |
+| publishedAt | timestamptz? | |
+| createdAt, updatedAt | timestamptz | |
+
+`MemberOrganisationImage` — max **3** photos (enforced in upload layer); first by sortOrder is the card cover
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| organisationId | uuid FK | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
 
 ---
 
@@ -373,13 +428,13 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 | submittedOn | date | prefer **date only**, not time |
 | createdAt | timestamptz | server bookkeeping; do not expose publicly; avoid logging `description` |
 
-**Forbidden columns on `Complaint`:** ip, userAgent, referrer, sessionId, fingerprint, geo, email, name, phone, attachment.
+**Forbidden columns on** `Complaint`**:** ip, userAgent, referrer, sessionId, fingerprint, geo, email, name, phone, attachment.
 
 ---
 
 ### 5.9 Analytics
 
-`AnalyticsEvent` (optional raw; short retention)
+`AnalyticsEvent` (raw; kept 7 days)
 
 | Column | Type | Notes |
 | --- | --- | --- |
@@ -407,6 +462,17 @@ Past vs upcoming = query on `endAt` / `startAt`, not a separate table.
 | uniqueVisitors | int | |
 | UNIQUE (date, path, referrerHost, country, city, deviceClass, browser, os) | | adjust dimensions as implemented |
 
+`AnalyticsDayTotal` (one row per rolled-up day)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| date | date PK | UTC day (visitor hash rotates at UTC midnight) |
+| views | int | |
+| uniqueVisitors | int | true distinct visitors for the day — `AnalyticsDaily.uniqueVisitors` can't be summed |
+| rolledUpAt | timestamptz | |
+
+Daily cron (`/api/cron/analytics-rollup`, 00:15 UTC) rolls every completed day into `AnalyticsDaily` + `AnalyticsDayTotal`, then deletes raw `AnalyticsEvent` rows older than **7 days** whose day is rolled up (AD-B8-02).
+
 Never write analytics for `/admin/*` or complaint routes.
 
 ---
@@ -418,7 +484,7 @@ Never write analytics for `/admin/*` or complaint routes.
 - `Opportunity.closingDate`, `openingDate`, `manualStatus`  
 - `Event.startAt`, `Event.endAt`, `Event.status`  
 - `Inquiry.isRead`, `Inquiry.createdAt`  
-- `Complaint.status`, `Complaint.submittedOn`  
+- `Complaint.status`, `Complaint.submittedOn` (also drives the 30-day retention purge)  
 - `AnalyticsDaily.date`, `AnalyticsDaily.path`  
 - `AnalyticsEvent.occurredAt` (for cleanup jobs)
 
@@ -427,11 +493,11 @@ Never write analytics for `/admin/*` or complaint routes.
 ## 7. Seed expectations (Sprint 0)
 
 1. One `AdminUser` (credentials via env / secure handoff).
-2. `SiteSetting` keys for contact, social, Youth Go Budget, SLOGBAA.
+2. `SiteSetting` keys for contact, social, Youth Go Budget, SLOGBAA. *(AD-B6-01: three JSON rows — `contact`, `social`, `external` — via `ensureSiteSettings()` / `getPublicSiteSettings()`)*
 3. `PageContent` keys `about`, `privacy`.
-4. Key figures: organisations / youth spaces (defaults 89 / 15 pending Q3).
-5. Youth regions + Appendix A spaces (flag Kunya duplicate).
-6. Sample programmes (four improved names until Q1 resolved).
+4. Key figures: organisations / youth spaces (defaults 89 / 15; youth-space count still to confirm under Q3).
+5. Youth regions + Appendix A spaces — **Kunya seeded once** (Q3: don't repeat). Implemented as `loadStarterYouthSpaces()` in `@repo/database` (run by `db:seed` and the admin "Load starter spaces" button); idempotent, spaces load as **drafts**.
+6. Sample programmes: the four improved programmes with **GAP** naming (Q1/Q2; may change later).
 7. A few articles, events, opportunities, documents for Dev A UI work.
 8. Seed `OpportunityType` with at least **Volunteer** (Q11); add document categories when NAC supplies the full list.
 9. Empty inquiry/complaint tables; analytics empty.
@@ -452,17 +518,17 @@ Never write analytics for `/admin/*` or complaint routes.
 
 ## 9. Open vs decided items that affect data
 
-| Item | Status | Impact |
-| --- | --- | --- |
-| Q1 / Q2 Programme list / GAP naming | Still open | Seed data only; programmes stay admin-managed |
-| Q3 Youth space count / Kunya | Still open | Seed + `KeyFigure` values |
-| Q4 Complaint retention | Still open | Maybe `deleteAfter` policy later; admin delete already supported |
-| Q5 Inquiry email notification | **Decided** | Configurable notification address in `SiteSetting` (testing address for now) |
-| Q6 Structure / Reports / Comments | **Decided — out of v1** | No nav-editing or extra report tables |
-| Q7 Password recovery | **Decided — email** | No schema change; Auth.js (or equivalent) email reset |
-| Q8 Social | **Decided — WhatsApp buttons** | No feed tables; share/contact is UI + settings URLs |
-| Q10 File size cap | **Decided — 2.5 MB** | Enforced in upload layer via `MediaAsset.byteSize` |
-| Q11 Opportunity types | **Partial — Volunteer** | Seed `OpportunityType`; document categories still TBD |
+| Item                                | Status                                        | Impact                                                                       |
+| ----------------------------------- | --------------------------------------------- | ---------------------------------------------------------------------------- |
+| Q1 / Q2 Programme list / GAP naming | **Decided — use GAP** (may change later)      | Seed the four improved programmes with GAP naming; programmes stay admin-managed |
+| Q3 Youth space count / Kunya        | **Partial — Kunya is one space**              | Seed one Kunya `YouthSpace` (merge both partners); count stays an editable `KeyFigure` |
+| Q4 Complaint retention              | **Decided — 30 days**                         | No schema change: daily cron + lazy purge delete rows where `submittedOn + 30 days <= today` (Kampala); admin delete still available |
+| Q5 Inquiry email notification       | **Decided**                                   | Configurable notification address in `SiteSetting` (testing address for now) |
+| Q6 Structure / Reports / Comments   | **Decided — out of v1**                       | No nav-editing or extra report tables                                        |
+| Q7 Password recovery                | **Decided — email**                           | No schema change; Auth.js (or equivalent) email reset                        |
+| Q8 Social                           | **Decided — WhatsApp buttons**                | No feed tables; share/contact is UI + settings URLs                          |
+| Q10 File size cap                   | **Decided — 2.5 MB**                          | Enforced in upload layer via `MediaAsset.byteSize`                           |
+| Q11 Opportunity types               | **Partial — Volunteer**                       | Seed `OpportunityType`; document categories still TBD                        |
 
 ---
 

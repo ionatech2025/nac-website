@@ -84,6 +84,30 @@ model PageContent {
   updatedAt DateTime @updatedAt
 }
 
+/// Singleton About Us page (ISSUE-002). One row with id = "about".
+model AboutPage {
+  id       String           @id @default("about")
+  title    String           @default("About us")
+  mission  String           @default("")
+  vision   String           @default("")
+  whatWeDo String           @default("")
+  why      String           @default("")
+  updatedAt DateTime        @updatedAt
+  images   AboutPageImage[]
+}
+
+model AboutPageImage {
+  id          String     @id @default(uuid()) @db.Uuid
+  aboutPageId String     @default("about")
+  aboutPage   AboutPage  @relation(fields: [aboutPageId], references: [id], onDelete: Cascade)
+  mediaId     String     @db.Uuid
+  media       MediaAsset @relation(fields: [mediaId], references: [id])
+  caption     String?
+  sortOrder   Int        @default(0)
+
+  @@index([aboutPageId, sortOrder])
+}
+
 model KeyFigure {
   id        String   @id @default(uuid()) @db.Uuid
   label     String
@@ -108,42 +132,61 @@ model MediaAsset {
   width      Int?
   height     Int?
   altText    String?
+  /// WebP variants generated at upload for images (AD-B7-03); null for PDFs.
+  thumbUrl   String?
+  thumbKey   String?
+  mediumUrl  String?
+  mediumKey  String?
   createdAt  DateTime @default(now())
 
-  programmeImages        Programme[]             @relation("ProgrammeImage")
-  teamMemberPhotos       TeamMember[]            @relation("TeamMemberPhoto")
-  articleCovers          Article[]               @relation("ArticleCover")
-  articleOgImages        Article[]               @relation("ArticleOgImage")
-  opportunityAttachments OpportunityAttachment[]
-  eventImages            Event[]                 @relation("EventImage")
-  albumCovers            PhotoAlbum[]            @relation("AlbumCover")
-  photoImages            PhotoImage[]
-  videoThumbnails        VideoLink[]             @relation("VideoThumbnail")
-  documents              Document[]
-  partnerLogos           Partner[]               @relation("PartnerLogo")
-  featuredConceptImages  FeaturedConcept[]       @relation("FeaturedConceptImage")
-  slideshowImages        SlideshowImage[]
-  youthSpaceImages       YouthSpaceImage[]
+  programmeGalleryImages       ProgrammeGalleryImage[]
+  aboutPageImages              AboutPageImage[]
+  memberOrganisationImages     MemberOrganisationImage[]
+  teamMemberPhotos             TeamMember[]            @relation("TeamMemberPhoto")
+  articleCovers                Article[]               @relation("ArticleCover")
+  articleOgImages              Article[]               @relation("ArticleOgImage")
+  opportunityAttachments       OpportunityAttachment[]
+  eventImages                  Event[]                 @relation("EventImage")
+  albumCovers                  PhotoAlbum[]            @relation("AlbumCover")
+  photoImages                  PhotoImage[]
+  videoThumbnails              VideoLink[]             @relation("VideoThumbnail")
+  documents                    Document[]
+  partnerLogos                 Partner[]               @relation("PartnerLogo")
+  featuredConceptImages        FeaturedConcept[]       @relation("FeaturedConceptImage")
+  slideshowImages              SlideshowImage[]
+  youthSpaceImages             YouthSpaceImage[]
 }
 
 // ─── Programmes & youth spaces ───────────────────────────────────────────────
 
 model Programme {
-  id          String              @id @default(uuid()) @db.Uuid
+  id          String                   @id @default(uuid()) @db.Uuid
   title       String
-  slug        String              @unique
+  slug        String                   @unique
   summary     String?
   body        String
-  imageId     String?             @db.Uuid
-  image       MediaAsset?         @relation("ProgrammeImage", fields: [imageId], references: [id])
-  sortOrder   Int                 @default(0)
-  status      ContentStatus       @default(DRAFT)
+  sortOrder   Int                      @default(0)
+  status      ContentStatus            @default(DRAFT)
   publishedAt DateTime?
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
   strategies  ProgrammeStrategy[]
+  images      ProgrammeGalleryImage[]
 
   @@index([status, sortOrder])
+}
+
+/// Up to 3 photos per programme (ISSUE-001). First by sortOrder is the card cover.
+model ProgrammeGalleryImage {
+  id          String     @id @default(uuid()) @db.Uuid
+  programmeId String     @db.Uuid
+  programme   Programme  @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  mediaId     String     @db.Uuid
+  media       MediaAsset @relation(fields: [mediaId], references: [id])
+  caption     String?
+  sortOrder   Int        @default(0)
+
+  @@index([programmeId, sortOrder])
 }
 
 model ProgrammeStrategy {
@@ -249,6 +292,36 @@ model Partner {
   updatedAt  DateTime      @updatedAt
 
   @@index([status, sortOrder])
+}
+
+/// NAC network member organisation (distinct from homepage Partner logos).
+model MemberOrganisation {
+  id          String                     @id @default(uuid()) @db.Uuid
+  name        String
+  slug        String                     @unique
+  bio         String
+  websiteUrl  String?
+  sortOrder   Int                        @default(0)
+  status      ContentStatus              @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime                   @default(now())
+  updatedAt   DateTime                   @updatedAt
+  images      MemberOrganisationImage[]
+
+  @@index([status, sortOrder])
+}
+
+/// Up to 3 photos per member organisation (enforced in admin upload layer).
+model MemberOrganisationImage {
+  id               String             @id @default(uuid()) @db.Uuid
+  organisationId   String             @db.Uuid
+  organisation     MemberOrganisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+  mediaId          String             @db.Uuid
+  media            MediaAsset         @relation(fields: [mediaId], references: [id])
+  caption          String?
+  sortOrder        Int                @default(0)
+
+  @@index([organisationId, sortOrder])
 }
 
 model FeaturedConcept {
@@ -491,4 +564,14 @@ model AnalyticsDaily {
   @@unique([date, path, referrerHost, country, city, deviceClass, browser, os])
   @@index([date])
   @@index([path])
+}
+
+/// One row per rolled-up UTC day (AD-B8-02). Holds the day's true distinct
+/// visitors (summing AnalyticsDaily.uniqueVisitors would double-count) and marks
+/// the day as safe to drop from AnalyticsEvent.
+model AnalyticsDayTotal {
+  date           DateTime @id @db.Date
+  views          Int
+  uniqueVisitors Int
+  rolledUpAt     DateTime @default(now())
 }

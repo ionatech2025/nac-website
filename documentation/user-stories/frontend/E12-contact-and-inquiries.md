@@ -15,8 +15,13 @@
 
 ### Acceptance criteria
 
-- [ ] Contact fields come from site settings.
+- [ ] Contact fields come from site settings. *(ready — see server contract below)*
 - [ ] Phone and email are clickable (`tel:` / `mailto:`) where appropriate.
+
+> **Server contract (ready, AD-B6-01):**
+> - `const { contact } = await getPublicSiteSettings()` from `@repo/database`.
+> - Fields: `physicalAddress`, `postalAddress`, `phone`, `phoneAlt`, `tollFree`, `email`, `whatsapp` — all strings; empty means “not set / hide”.
+> - Use `tel:${phone}` / `mailto:${email}` only when the string is non-empty. `whatsapp` may be digits (`2567…`) or a full `https://wa.me/…` URL.
 
 ---
 
@@ -38,6 +43,12 @@
 - [ ] Success and error states are clear.
 - [ ] Includes honeypot (and CAPTCHA UI if agreed) without blocking legitimate users.
 - [ ] Submits to Dev B’s handler; does not store inquiries in the browser alone.
+
+> **Server contract (ready, AD-B4-01):**
+> - Server action: `submitInquiryAction` from `apps/web/lib/inquiry-action.ts` — use with `useActionState(submitInquiryAction, null)`.
+> - Or HTTP: `POST /api/inquiries` (JSON or form data) → `201 {ok:true}` · `400 {error:"invalid"}` (unreadable body) · `422 {error:"validation", fieldErrors}` · `429 {error:"rate-limited", retryAfterSeconds}` + `Retry-After` header · `500 {error:"server"}`. Every error body is `{ok:false, error, message, …}` (`apps/web/lib/api-response.ts`, AD-B9-02); `message` is safe to show as-is.
+> - Fields: `name`, `email`, `subject`, `message`; honeypot input name `website` (visually hidden, `tabIndex={-1}`, `autoComplete="off"`).
+> - Shared schema/limits for client feedback: `inquirySchema`, `INQUIRY_LIMITS`, `INQUIRY_HONEYPOT_FIELD` in `apps/web/lib/inquiry-schema.ts`.
 
 ---
 

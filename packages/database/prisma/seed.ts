@@ -1,5 +1,7 @@
 import { hash } from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
+import { ensureSiteSettings } from "../src/public-site-settings";
+import { loadStarterYouthSpaces } from "../src/youth-space-starter";
 
 const prisma = new PrismaClient();
 
@@ -26,6 +28,14 @@ async function main() {
   });
 
   console.log(`Seeded AdminUser ${admin.email} (role=${admin.role})`);
+
+  const youth = await loadStarterYouthSpaces(prisma);
+  console.log(
+    `Youth spaces: ${youth.regions} new regions, ${youth.spaces} new draft spaces`,
+  );
+
+  const settings = await ensureSiteSettings(prisma);
+  console.log(`Site settings: ${settings} new rows (contact / social / external)`);
 }
 
 main()

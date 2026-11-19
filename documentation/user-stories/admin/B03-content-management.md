@@ -24,9 +24,11 @@
 
 ### Acceptance criteria
 
-- [ ] Each content type has its own list and create/edit pages.
-- [ ] Publish/unpublish works without an approval workflow.
-- [ ] Timestamps recorded; no version history UI.
+- [x] Each content type has its own list and create/edit pages. *(Sprint 1: Team, Programme, About, Key figures — pattern established)*
+- [x] Publish/unpublish works without an approval workflow. *(Team + Programme; archive preferred over hard delete)*
+- [x] Timestamps recorded; no version history UI. *(Prisma `createdAt` / `updatedAt` / `publishedAt`)*
+
+**Status:** Shared pattern in place for Sprint 1 types; extend the same pattern to remaining B03 types later.
 
 ---
 
@@ -43,9 +45,11 @@
 
 ### Acceptance criteria
 
-- [ ] Full CRUD-style lifecycle with preview.
-- [ ] Image, author, SEO title/description/slug/sharing image supported.
-- [ ] Only published articles appear publicly.
+- [x] Full CRUD-style lifecycle with preview. *(`/admin/articles` list/new/edit; publish/unpublish/archive)*
+- [x] Image, author, SEO title/description/slug/sharing image supported. *(cover required; OG optional; ≤ 2.5 MB)*
+- [x] Only published articles appear publicly. *(`listPublishedArticles` / `getPublishedArticleBySlug` in `@repo/database`)*
+
+**Status:** Done for admin + public data-access helpers. Public UI pages remain Dev A.
 
 ---
 
@@ -62,8 +66,10 @@
 
 ### Acceptance criteria
 
-- [ ] PDF-only documents; reject over 2.5 MB with a clear message.
-- [ ] Metadata and category editable; publish/archive available.
+- [x] PDF-only documents; reject over 2.5 MB with a clear message. *(`save-pdf-upload.ts`)*
+- [x] Metadata and category editable; publish/archive available. *(`/admin/documents`)*
+
+**Status:** Done — public helpers `listPublishedDocuments` / `getPublishedDocumentById`.
 
 ---
 
@@ -75,15 +81,17 @@
 | **Requirements** | B3-04, E8-05, §8 |
 
 **As the** Site Admin,  
-**I want** to manage opportunities (type, dates, contact, PDF attachments) and close/archive early,  
+**I want** to manage opportunities (type, dates, contact, optional PDF attachments) and close/archive early,  
 **so that** listings stay correct without a scheduler.
 
 ### Acceptance criteria
 
-- [ ] Admin can set type, opening/closing dates, contact email/phone, instructions, attachments.
-- [ ] UI shows **derived** status (Open/Closed) and allows early close/archive.
-- [ ] Status rules match requirements §8 (Africa/Kampala end-of-day).
-- [ ] Public data-access exposes derived status to Dev A.
+- [x] Admin can set type, opening/closing dates, contact email/phone, instructions, attachments.
+- [x] UI shows **derived** status (Open/Closed) and allows early close/archive.
+- [x] Status rules match requirements §8 (Africa/Kampala end-of-day). *(`deriveOpportunityStatus`)*
+- [x] Public data-access exposes derived status to Dev A. *(`listPublishedOpportunities`)*
+
+**Status:** Done for admin + public helpers. Public opportunities UI remains Dev A.
 
 ---
 
@@ -100,9 +108,11 @@
 
 ### Acceptance criteria
 
-- [ ] Fields: title, description, date/time, location, image, registration link, contact.
-- [ ] Publish, cancel and archive actions available.
-- [ ] Times stored with Africa/Kampala default timezone handling.
+- [x] Fields: title, description, date/time, location, image, registration link, contact. *(`/admin/events`)*
+- [x] Publish, cancel and archive actions available. *(`EventStatus`: DRAFT / PUBLISHED / CANCELLED / ARCHIVED)*
+- [x] Times stored with Africa/Kampala default timezone handling. *(`kampala-datetime.ts`; wall times UTC+3)*
+
+**Status:** Done for admin + public helpers (`listPublishedUpcomingEvents` / `listPublishedPastEvents` / `getPublishedEventBySlug`). Public calendar UI remains Dev A.
 
 ---
 
@@ -119,8 +129,10 @@
 
 ### Acceptance criteria
 
-- [ ] Albums: add/remove/reorder images; captions and alt text.
-- [ ] Videos: store provider URL/reference (not arbitrary embed HTML); title, description, thumbnail, order, publish.
+- [x] Albums: add/remove/reorder images; captions and alt text. *(`/admin/albums`; cover select; move up/down)*
+- [x] Videos: store provider URL/reference (not arbitrary embed HTML); title, description, thumbnail, order, publish. *(`/admin/videos`; YouTube/Vimeo allowlist via `parseVideoUrl`)*
+
+**Status:** Done for admin + public helpers (`listPublishedAlbums` / `getPublishedAlbumBySlug`, `listPublishedVideos` / `getPublishedVideoById`). Public gallery UI remains Dev A.
 
 ---
 
@@ -137,11 +149,13 @@
 
 ### Acceptance criteria
 
-- [ ] Programme: description, image, ordered strategies, order, publish.
-- [ ] Youth Space & Region: name, region, location, partner, description, services, photos, order, publish.
-- [ ] Team Member: name, role, photo, order, publish.
-- [ ] About Us page body and key figure values editable.
-- [ ] Appendix A seed loadable for youth spaces (pending Q3 cleanup).
+- [x] Programme: description, ordered strategies, order, publish. *(image upload deferred to B07)*
+- [x] Youth Space & Region: name, region, location, partner, description, services, photos (max 5), order, publish. *(detailed in [B11-youth-spaces.md](B11-youth-spaces.md))*
+- [x] Team Member: name, role, photo, order, publish. *(JPEG/PNG/WebP ≤ 2.5 MB; Blob or local `public/uploads`)*
+- [x] About Us page body and key figure values editable.
+- [x] Appendix A seed loadable for youth spaces (Q3: seed Kunya **once**; final count/spellings still to confirm). *(AD-B11-04 — loads as drafts)*
+
+**Status:** Done — Team, Programme, About, Key figures, and Youth Spaces (B11).
 
 ---
 
@@ -158,6 +172,8 @@
 
 ### Acceptance criteria
 
-- [ ] Partner: name, logo, link, order, publish.
-- [ ] Slideshow: image, caption, alt, link, order, publish.
-- [ ] Featured Concept: title, summary, image, destination, order, publish.
+- [x] Partner: name, logo, link, order, publish. *(`/admin/partners`)*
+- [x] Slideshow: image, caption, alt, link, order, publish. *(`/admin/slideshow`)*
+- [x] Featured Concept: title, summary, image, destination, order, publish. *(`/admin/featured`)*
+
+**Status:** Done for admin + public helpers (`listPublishedPartners` / `listPublishedSlideshowImages` / `listPublishedFeaturedConcepts`). Homepage UI remains Dev A.
