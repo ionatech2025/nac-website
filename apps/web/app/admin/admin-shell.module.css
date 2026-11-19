@@ -34,6 +34,8 @@
   width: 100%;
   height: auto;
   border-radius: 8px;
+  padding: 10px;
+  background: #fff; /* logo tagline is black — needs light plate on navy sidebar */
   box-shadow: 0 0 0 1px rgb(255 255 255 / 10%);
 }
 
