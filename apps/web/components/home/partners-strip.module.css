@@ -1,0 +1,28 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  list-style: none;
+  align-items: center;
+}
+
+.item {
+  min-height: 3.5rem;
+  display: grid;
+  align-items: center;
+}
+
+.logo {
+  width: auto;
+  height: 2.5rem;
+  object-fit: contain;
+}
+
+.name {
+  font-weight: 650;
+  color: var(--nac-ink);
+}
+
+.link {
+  text-decoration: none !important;
+}

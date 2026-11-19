@@ -1,0 +1,86 @@
+.section {
+  padding: clamp(2.5rem, 6vw, 4rem) 1.25rem 3.5rem;
+  border-top: 1px solid var(--nac-line);
+  background: rgb(255 255 255 / 0.4);
+}
+
+.inner {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nac-green-deep);
+}
+
+.title {
+  margin-top: 0.45rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: var(--nac-ink);
+}
+
+.grid {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nac-muted);
+}
+
+.copy,
+.list {
+  color: var(--nac-ink);
+  line-height: 1.55;
+}
+
+.list {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.list a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.list a:hover,
+.list a:focus-visible {
+  color: var(--nac-green-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.cta {
+  display: inline-flex;
+  margin-top: 1rem;
+  min-height: 2.5rem;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: var(--nac-green);
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+@media (min-width: 800px) {
+  .grid {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2.5rem;
+  }
+}
