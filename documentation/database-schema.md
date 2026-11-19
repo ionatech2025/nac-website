@@ -298,6 +298,30 @@ Reusable for covers, logos, gallery images, PDFs. Public pages use `mediaVariant
 
 `Partner`, `FeaturedConcept`, `SlideshowImage` — as in conceptual model; each with `sortOrder`, `status`, optional `MediaAsset` / URL fields.
 
+`MemberOrganisation` — NAC network members (public listing/detail; not homepage Partner logos)
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| name | text | |
+| slug | text UNIQUE | |
+| bio | text | short; rich-text conventions |
+| websiteUrl | text? | optional external site |
+| sortOrder | int | |
+| status | ContentStatus | |
+| publishedAt | timestamptz? | |
+| createdAt, updatedAt | timestamptz | |
+
+`MemberOrganisationImage` — max **3** photos (enforced in upload layer); first by sortOrder is the card cover
+
+| Column | Type | Notes |
+| --- | --- | --- |
+| id | uuid PK | |
+| organisationId | uuid FK | cascade delete |
+| mediaId | uuid FK → MediaAsset | |
+| caption | text? | |
+| sortOrder | int | |
+
 ---
 
 ### 5.6 Opportunities & events

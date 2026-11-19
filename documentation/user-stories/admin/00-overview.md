@@ -33,6 +33,7 @@
 | [B09-data-access-and-security.md](B09-data-access-and-security.md) | Public reads, security, backups |
 | [B10-content-migration.md](B10-content-migration.md) | Full content migration scripts |
 | [B11-youth-spaces.md](B11-youth-spaces.md) | Youth spaces & regions (admin side of E6) |
+| [B12-member-organisations.md](B12-member-organisations.md) | Network member organisations (admin side of E16) |
 
 ## Acceptance (back office)
 

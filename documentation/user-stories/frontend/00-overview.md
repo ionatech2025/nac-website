@@ -35,6 +35,7 @@
 | [E13-complaints.md](E13-complaints.md) | Complaints | Anonymous complaint form UI |
 | [E14-external-links-and-social.md](E14-external-links-and-social.md) | External & social | Footer links, share buttons |
 | [E15-seo-performance-accessibility.md](E15-seo-performance-accessibility.md) | Cross-cutting | SEO, CWV, WCAG 2.2 AA |
+| [E16-member-organisations.md](E16-member-organisations.md) | Member organisations | Network members listing + detail |
 
 ## Data contract (ready, AD-B9-01 / AD-B9-02)
 
@@ -47,6 +48,7 @@ Import everything from `@repo/database` in **server components only**. Every hel
 | Home (E02) | `listPublishedSlideshowImages`, `listPublishedFeaturedConcepts`, `listPublishedPartners`, `listPublishedArticles(3)`, `listPublishedVideos`, `listPublishedDocuments(4)`, `listKeyFigures` |
 | About (E03) | `getPublishedAboutPage()` (title, mission, vision, whatWeDo, why, images ≤2), `listKeyFigures` |
 | Staff (E04) | `listPublishedTeamMembers` |
+| Member organisations (E16) | `listPublishedMemberOrganisations`, `getPublishedMemberOrganisationBySlug` (bio, optional `websiteUrl`, up to 3 `images`; list includes first image as cover) |
 | Programmes (E05) | `listPublishedProgrammes` (first gallery image as cover), `getPublishedProgrammeBySlug` (ordered `strategies` + up to 3 `images`) |
 | Youth spaces (E06) | `listPublishedYouthRegions`, `getPublishedYouthSpaceBySlug` |
 | News (E07) | `listPublishedArticlesPage({ page })`, `getPublishedArticleBySlug` |

@@ -52,6 +52,10 @@ export {
   listPublishedAlbumsPage,
 } from "./public-albums";
 export {
+  getPublishedMemberOrganisationBySlug,
+  listPublishedMemberOrganisations,
+} from "./public-member-organisations";
+export {
   getPublishedVideoById,
   listPublishedVideos,
 } from "./public-videos";
@@ -90,6 +94,8 @@ export type {
   FeaturedConcept,
   Inquiry,
   KeyFigure,
+  MemberOrganisation,
+  MemberOrganisationImage,
   Opportunity,
   OpportunityType,
   PageContent,

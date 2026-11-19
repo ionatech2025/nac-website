@@ -1,5 +1,6 @@
 import {
   Briefcase,
+  Building2,
   CalendarDays,
   FileDown,
   GalleryHorizontalEnd,
@@ -33,6 +34,7 @@ const NAV_ICONS: Record<AdminNavIcon, LucideIcon> = {
   slideshow: GalleryHorizontalEnd,
   featured: Sparkles,
   partners: Handshake,
+  memberOrgs: Building2,
   team: Users,
   programmes: Layers,
   youthSpaces: MapPin,
