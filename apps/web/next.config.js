@@ -11,6 +11,15 @@ const COMPLAINT_HEADERS = [
 const nextConfig = {
   transpilePackages: ["@repo/database", "@repo/ui"],
   poweredByHeader: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "nacuganda.org",
+        pathname: "/sites/default/files/**",
+      },
+    ],
+  },
   // bodySizeLimit stays under experimental even though Server Actions are stable (Next 16).
   experimental: {
     serverActions: {

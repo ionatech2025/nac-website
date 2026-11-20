@@ -13,8 +13,8 @@
 
 ### Acceptance criteria
 
-- [ ] Homepage shows name, tagline, mission and vision.
-- [ ] Copy comes from editable content/settings where agreed with Dev B (not permanently hard-coded beyond seed).
+- [x] Homepage shows name, tagline, mission and vision.
+- [x] Copy comes from editable content/settings where agreed with Dev B (not permanently hard-coded beyond seed).
 
 ---
 
@@ -32,10 +32,10 @@
 
 ### Acceptance criteria
 
-- [ ] Hero/slideshow renders published slideshow images in admin order.
-- [ ] Images support caption/alt and optional destination link.
-- [ ] Accessible controls (pause/play or equivalent) if autoplay is used.
-- [ ] Images are optimised and do not block LCP badly.
+- [x] Hero/slideshow renders published slideshow images in admin order.
+- [x] Images support caption/alt and optional destination link.
+- [x] Accessible controls (pause/play or equivalent) if autoplay is used.
+- [x] Images are optimised and do not block LCP badly.
 
 ---
 
@@ -52,9 +52,9 @@
 
 ### Acceptance criteria
 
-- [ ] Shows recent published articles only.
-- [ ] Each card has image (if present), title, excerpt and link to the article.
-- [ ] Empty state when no stories exist.
+- [x] Shows recent published articles only.
+- [x] Each card has image (if present), title, excerpt and link to the article.
+- [x] Empty state when no stories exist.
 
 ---
 
@@ -71,9 +71,9 @@
 
 ### Acceptance criteria
 
-- [ ] Published video links render as embeds from allowlisted providers.
-- [ ] Title/description shown as agreed with design.
-- [ ] No arbitrary embed HTML executed on the client.
+- [x] Published video links render as embeds from allowlisted providers.
+- [x] Title/description shown as agreed with design.
+- [x] No arbitrary embed HTML executed on the client.
 
 ---
 
@@ -90,8 +90,8 @@
 
 ### Acceptance criteria
 
-- [ ] Promotion is visible on the homepage.
-- [ ] Link goes to the configured external URL and opens safely.
+- [x] Promotion is visible on the homepage.
+- [x] Link goes to the configured external URL and opens safely.
 
 ---
 
@@ -108,8 +108,8 @@
 
 ### Acceptance criteria
 
-- [ ] Renders published featured concepts in order.
-- [ ] Each item links to its destination URL when set.
+- [x] Renders published featured concepts in order.
+- [x] Each item links to its destination URL when set.
 
 ---
 
@@ -126,8 +126,8 @@
 
 ### Acceptance criteria
 
-- [ ] Published partners shown in admin order.
-- [ ] Logos have alt text; links open safely when present.
+- [x] Published partners shown in admin order.
+- [x] Logos have alt text; links open safely when present.
 
 ---
 
@@ -144,8 +144,8 @@
 
 ### Acceptance criteria
 
-- [ ] Reuses the shared latest-downloads component/block.
-- [ ] Only published documents appear.
+- [x] Reuses the shared latest-downloads component/block.
+- [x] Only published documents appear.
 
 ---
 
@@ -162,8 +162,8 @@
 
 ### Acceptance criteria
 
-- [ ] Values are read from editable key figures (not hard-coded).
-- [ ] Seed defaults may start at 89 organisations / 15 youth spaces pending Q3.
+- [x] Values are read from editable key figures (not hard-coded).
+- [x] Seed defaults may start at 89 organisations / 15 youth spaces pending Q3.
 
 ---
 
@@ -180,5 +180,5 @@
 
 ### Acceptance criteria
 
-- [ ] Shows address/phone/email summary from site settings.
-- [ ] Links through to Contact Us where appropriate.
+- [x] Shows address/phone/email summary from site settings.
+- [x] Links through to Contact Us where appropriate.

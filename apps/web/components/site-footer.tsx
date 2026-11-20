@@ -1,4 +1,5 @@
 import { ExternalLink } from "./external-link";
+import { LatestDownloads } from "./latest-downloads";
 import type { SiteSettings } from "@/lib/site-settings";
 import styles from "./site-footer.module.css";
 
@@ -7,6 +8,13 @@ type Props = {
 };
 
 export function SiteFooter({ settings }: Props) {
+  const downloads = settings.latestDownloads.map((file, index) => ({
+    id: `footer-download-${index}`,
+    title: file.title,
+    href: file.href,
+    byteSize: file.byteSize,
+  }));
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -58,20 +66,7 @@ export function SiteFooter({ settings }: Props) {
         </div>
 
         <div>
-          <h2 className={styles.heading}>Latest downloads</h2>
-          {settings.latestDownloads.length === 0 ? (
-            <p className={styles.body}>
-              Downloads will appear here once published.
-            </p>
-          ) : (
-            <ul className={styles.list}>
-              {settings.latestDownloads.map((file) => (
-                <li key={file.href}>
-                  <a href={file.href}>{file.title}</a>
-                </li>
-              ))}
-            </ul>
-          )}
+          <LatestDownloads downloads={downloads} />
         </div>
       </div>
     </footer>

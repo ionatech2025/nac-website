@@ -51,7 +51,13 @@ export const defaultSiteSettings: SiteSettings = {
     { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
     { label: "SLOGBAA", href: "https://slogbaa.org" },
   ],
-  latestDownloads: [],
+  latestDownloads: [
+    {
+      title: "NAC Strategic Plan 2024–2028",
+      href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
+      byteSize: 2_400_000,
+    },
+  ],
 };
 
 /** Swap to Prisma SiteSetting reads when data-access is ready. */

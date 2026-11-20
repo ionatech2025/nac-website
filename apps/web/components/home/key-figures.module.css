@@ -1,0 +1,32 @@
+.list {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+}
+
+.item {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--nac-line);
+}
+
+.value {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: var(--nac-green-deep);
+  line-height: 1;
+}
+
+.label {
+  margin-top: 0.45rem;
+  color: var(--nac-muted);
+  font-size: 1rem;
+}
+
+@media (min-width: 700px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2.5rem;
+  }
+}
