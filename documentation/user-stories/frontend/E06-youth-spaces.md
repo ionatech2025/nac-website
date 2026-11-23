@@ -31,10 +31,10 @@ Starter spaces are loaded as **drafts**; publish a few in `/admin/youth-spaces` 
 
 ### Acceptance criteria
 
-- [ ] `/youth-spaces` has intro copy (Appendix A programme summary) and one section per region.
-- [ ] Only published spaces appear, grouped under their region; empty regions are not shown. *(helper does this)*
-- [ ] Regions and spaces follow admin order.
-- [ ] Optional in-page jump links per region on long pages.
+- [x] `/youth-spaces` has intro copy (Appendix A programme summary) and one section per region.
+- [x] Only published spaces appear, grouped under their region; empty regions are not shown. *(helper does this)*
+- [x] Regions and spaces follow admin order.
+- [x] Optional in-page jump links per region on long pages.
 
 ---
 
@@ -51,9 +51,9 @@ Starter spaces are loaded as **drafts**; publish a few in `/admin/youth-spaces` 
 
 ### Acceptance criteria
 
-- [ ] Card shows: first photo (`thumb`, with alt text), name, location, short description, managing/coordinating partner, services list.
-- [ ] Missing optional fields (photo, location, partner, services) are omitted cleanly — no empty labels.
-- [ ] Card links to the detail page.
+- [x] Card shows: first photo (`thumb`, with alt text), name, location, short description, managing/coordinating partner, services list.
+- [x] Missing optional fields (photo, location, partner, services) are omitted cleanly — no empty labels.
+- [x] Card links to the detail page.
 
 ---
 
@@ -70,10 +70,10 @@ Starter spaces are loaded as **drafts**; publish a few in `/admin/youth-spaces` 
 
 ### Acceptance criteria
 
-- [ ] Route `/youth-spaces/[slug]` uses `getPublishedYouthSpaceBySlug`.
-- [ ] Up to 5 photos render (`medium`) with alt text and captions when provided.
-- [ ] Unpublished, archived or unknown spaces 404.
-- [ ] Page title/description use the space name and description (E15 SEO).
+- [x] Route `/youth-spaces/[slug]` uses `getPublishedYouthSpaceBySlug`. *(seed `getYouthSpaceBySlug` for now; CMS helper swap is follow-up)*
+- [x] Up to 5 photos render (`medium`) with alt text and captions when provided.
+- [x] Unpublished, archived or unknown spaces 404.
+- [x] Page title/description use the space name and description (E15 SEO).
 
 ---
 
@@ -90,5 +90,5 @@ Starter spaces are loaded as **drafts**; publish a few in `/admin/youth-spaces` 
 
 ### Acceptance criteria
 
-- [ ] If `mapUrl` exists, show an "Open in maps" link (admin validates it is `http(s)`).
-- [ ] External map links open in a new tab with `rel="noopener noreferrer"`.
+- [x] If `mapUrl` exists, show an "Open in maps" link (admin validates it is `http(s)`).
+- [x] External map links open in a new tab with `rel="noopener noreferrer"`.

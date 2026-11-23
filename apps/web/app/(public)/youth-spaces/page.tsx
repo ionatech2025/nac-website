@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/page-placeholder";
+import { RegionList } from "@/components/youth-spaces/region-list";
+import {
+  listYouthRegions,
+  YOUTH_SPACES_INTRO,
+} from "@/lib/youth-spaces-data";
+import styles from "./youth-spaces.module.css";
 
-export const metadata: Metadata = { title: "Youth Spaces" };
+export const metadata: Metadata = {
+  title: "Youth Spaces",
+  description: YOUTH_SPACES_INTRO,
+};
 
-export default function YouthSpacesPage() {
+export default async function YouthSpacesPage() {
+  const regions = await listYouthRegions();
+
   return (
-    <PagePlaceholder
-      title="Youth Spaces"
-      description="Placeholder for Epic E1 navigation. Youth Spaces is Epic E6."
-    />
+    <section className={styles.page} aria-labelledby="youth-spaces-heading">
+      <p className={styles.eyebrow}>Network for Active Citizens</p>
+      <h1 id="youth-spaces-heading" className={styles.title}>
+        Youth Spaces
+      </h1>
+      <p className={styles.lead}>{YOUTH_SPACES_INTRO}</p>
+      <RegionList regions={regions} />
+    </section>
   );
 }
