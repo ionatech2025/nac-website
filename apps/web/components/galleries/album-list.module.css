@@ -1,0 +1,44 @@
+.wrap {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.list {
+  display: grid;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--nac-line);
+}
+
+.pager a {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.disabled {
+  color: var(--nac-line);
+  font-weight: 650;
+}
+
+@media (min-width: 700px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
