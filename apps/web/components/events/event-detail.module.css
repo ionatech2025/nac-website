@@ -1,0 +1,113 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.cancelled {
+  display: inline-flex;
+  margin-top: 0.85rem;
+  min-height: 1.6rem;
+  align-items: center;
+  padding: 0.1rem 0.55rem;
+  border-radius: 0.4rem;
+  background: rgb(20 35 28 / 0.08);
+  color: var(--nac-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--nac-ink);
+}
+
+.when,
+.location {
+  margin-top: 0.65rem;
+  color: var(--nac-muted);
+  line-height: 1.5;
+}
+
+.location {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+}
+
+.hero {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--nac-surface);
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.body {
+  margin-top: 1.75rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.block {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--nac-line);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.65rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.contact,
+.registerCopy {
+  margin-top: 0.75rem;
+  color: var(--nac-muted);
+  line-height: 1.55;
+}
+
+.register {
+  display: inline-flex;
+  margin-top: 1rem;
+  font-weight: 650;
+}
+
+.cancelledNote {
+  margin-top: 1.75rem;
+  max-width: 36rem;
+  color: var(--nac-muted);
+  line-height: 1.5;
+}
