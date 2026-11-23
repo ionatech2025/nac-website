@@ -1,10 +1,17 @@
 import { EmptyState } from "@/components/content-states";
 import { formatBytes } from "@/lib/format-bytes";
-import type { HomeDownload } from "@/lib/home-data";
 import styles from "./latest-downloads.module.css";
 
+export type LatestDownloadItem = {
+  id: string;
+  title: string;
+  href: string;
+  byteSize?: number;
+  fileType?: string;
+};
+
 type Props = {
-  downloads: HomeDownload[];
+  downloads: LatestDownloadItem[];
   heading?: string;
 };
 
@@ -27,12 +34,13 @@ export function LatestDownloads({
       <ul className={styles.list}>
         {downloads.map((file) => {
           const size = formatBytes(file.byteSize);
+          const meta = [file.fileType, size].filter(Boolean).join(" · ");
           return (
             <li key={file.id} className={styles.item}>
               <a href={file.href} className={styles.link}>
                 {file.title}
               </a>
-              {size ? <span className={styles.size}>{size}</span> : null}
+              {meta ? <span className={styles.size}>{meta}</span> : null}
             </li>
           );
         })}
