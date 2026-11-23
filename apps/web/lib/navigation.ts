@@ -1,3 +1,5 @@
+import { programmeNavLinks } from "./programmes-data";
+
 export type NavLink = {
   label: string;
   href: string;
@@ -7,7 +9,7 @@ export type NavItem =
   | { type: "link"; label: string; href: string }
   | { type: "group"; label: string; href: string; children: NavLink[] };
 
-/** Primary navigation from requirements §5.1 — structure only for Epic E1. */
+/** Primary navigation from requirements §5.1; Programs children from seed/CMS list. */
 export const primaryNav: NavItem[] = [
   { type: "link", label: "Home", href: "/" },
   { type: "link", label: "About Us", href: "/about" },
@@ -16,7 +18,7 @@ export const primaryNav: NavItem[] = [
     type: "group",
     label: "Programs",
     href: "/programs",
-    children: [{ label: "All programs", href: "/programs" }],
+    children: programmeNavLinks(),
   },
   { type: "link", label: "Youth Spaces", href: "/youth-spaces" },
   { type: "link", label: "Opportunities", href: "/opportunities" },
