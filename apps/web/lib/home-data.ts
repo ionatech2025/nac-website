@@ -71,7 +71,6 @@ export type HomePageData = {
   partners: PartnerItem[];
   keyFigures: KeyFigureItem[];
   downloads: HomeDownload[];
-  youthGoBudgetUrl: string;
 };
 
 const seed: HomePageData = {
@@ -152,7 +151,6 @@ const seed: HomePageData = {
       byteSize: 2_400_000,
     },
   ],
-  youthGoBudgetUrl: "https://youthgobudgetapp.org",
 };
 
 export async function getHomePageData(): Promise<HomePageData> {

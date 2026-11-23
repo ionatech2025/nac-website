@@ -26,7 +26,9 @@ export default async function HomePage() {
       <LatestStories stories={home.stories} />
       <LatestVideos videos={home.videos} />
       <FeaturedConcepts concepts={home.featuredConcepts} />
-      <YouthGoBudgetPromo href={home.youthGoBudgetUrl} />
+      {settings.externalServices.youthGoBudget.trim() ? (
+        <YouthGoBudgetPromo href={settings.externalServices.youthGoBudget} />
+      ) : null}
       <HomeDownloads downloads={home.downloads} />
       <PartnersStrip partners={home.partners} />
       <HomeContactSummary settings={settings} />

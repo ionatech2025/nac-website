@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink } from "@/components/external-link";
+import { ShareLinks } from "@/components/share-links";
 import { formatEventWhen, type PublicEvent } from "@/lib/events-data";
 import { RichText } from "@/lib/rich-text-view";
 import styles from "./event-detail.module.css";
@@ -70,6 +71,8 @@ export function EventDetailView({ event }: Props) {
           This event has been cancelled and is shown for information only.
         </p>
       ) : null}
+
+      <ShareLinks path={`/events/${event.slug}`} title={event.title} />
     </article>
   );
 }

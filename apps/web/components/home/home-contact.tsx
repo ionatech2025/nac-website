@@ -1,5 +1,6 @@
 import Link from "next/link";
-import type { SiteSettings } from "@/lib/site-settings";
+import { ExternalLink } from "@/components/external-link";
+import { whatsappHref, type SiteSettings } from "@/lib/site-settings";
 import styles from "./home-contact.module.css";
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export function HomeContactSummary({ settings }: Props) {
+  const whatsapp = whatsappHref(settings.whatsapp);
+
   return (
     <section className={styles.section} aria-labelledby="home-contact-heading">
       <div className={styles.inner}>
@@ -17,8 +20,12 @@ export function HomeContactSummary({ settings }: Props) {
         <div className={styles.grid}>
           <div>
             <h3 className={styles.label}>Our location</h3>
-            <p className={styles.copy}>{settings.address}</p>
-            <p className={styles.copy}>{settings.postal}</p>
+            {settings.address.trim() ? (
+              <p className={styles.copy}>{settings.address}</p>
+            ) : null}
+            {settings.postal.trim() ? (
+              <p className={styles.copy}>{settings.postal}</p>
+            ) : null}
           </div>
           <div>
             <h3 className={styles.label}>Call &amp; mail</h3>
@@ -28,15 +35,24 @@ export function HomeContactSummary({ settings }: Props) {
                   <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
                 </li>
               ))}
-              <li>
-                Toll free:{" "}
-                <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
-                  {settings.tollFree}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${settings.email}`}>{settings.email}</a>
-              </li>
+              {settings.tollFree.trim() ? (
+                <li>
+                  Toll free:{" "}
+                  <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
+                    {settings.tollFree}
+                  </a>
+                </li>
+              ) : null}
+              {settings.email.trim() ? (
+                <li>
+                  <a href={`mailto:${settings.email}`}>{settings.email}</a>
+                </li>
+              ) : null}
+              {whatsapp ? (
+                <li>
+                  <ExternalLink href={whatsapp}>Chat on WhatsApp</ExternalLink>
+                </li>
+              ) : null}
             </ul>
             <Link className={styles.cta} href="/contact">
               Contact Us

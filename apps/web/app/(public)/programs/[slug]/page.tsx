@@ -1,34 +1,35 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAboutProgrammeBySlug } from "@/lib/about-data";
-import { RichText } from "@/lib/rich-text-view";
-import styles from "./programme.module.css";
+import { ProgrammeDetailView } from "@/components/programmes/programme-detail";
+import { getProgrammeBySlug } from "@/lib/programmes-data";
+import { resolveProgrammeExternalLinks } from "@/lib/programmes-external";
+import { getSiteSettings } from "@/lib/site-settings";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const programme = await getAboutProgrammeBySlug(slug);
+  const programme = await getProgrammeBySlug(slug);
   return { title: programme?.title ?? "Programme" };
 }
 
-/** Minimal programme detail for About Us links (E3-04). Seed data only. */
 export default async function ProgrammeDetailPage({ params }: Props) {
   const { slug } = await params;
-  const programme = await getAboutProgrammeBySlug(slug);
+  const [programme, settings] = await Promise.all([
+    getProgrammeBySlug(slug),
+    getSiteSettings(),
+  ]);
   if (!programme) notFound();
 
+  const externalLinks = resolveProgrammeExternalLinks(
+    programme.externalLinkKeys,
+    settings.externalServices,
+  );
+
   return (
-    <article className={styles.page}>
-      <p className={styles.eyebrow}>
-        <Link href="/programs">Programs</Link>
-      </p>
-      <h1 className={styles.title}>{programme.title}</h1>
-      {programme.summary ? (
-        <p className={styles.summary}>{programme.summary}</p>
-      ) : null}
-      <RichText text={programme.body} className={styles.body} />
-    </article>
+    <ProgrammeDetailView
+      programme={programme}
+      externalLinks={externalLinks}
+    />
   );
 }
