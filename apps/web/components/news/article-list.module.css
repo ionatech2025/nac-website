@@ -1,0 +1,11 @@
+.wrap {
+  margin-top: 2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.list {
+  display: grid;
+  gap: 1.75rem;
+  list-style: none;
+}

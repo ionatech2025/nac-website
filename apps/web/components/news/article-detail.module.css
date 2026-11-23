@@ -1,0 +1,83 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--nac-ink);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin-top: 0.85rem;
+  color: var(--nac-muted);
+  font-size: 0.95rem;
+}
+
+.author {
+  font-weight: 650;
+  color: var(--nac-ink);
+}
+
+.hero {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--nac-surface);
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.body {
+  margin-top: 1.75rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.body :global(p + p),
+.body :global(ul),
+.body :global(h2),
+.body :global(h3) {
+  margin-top: 0.95rem;
+}
+
+.body :global(ul) {
+  padding-left: 1.15rem;
+}
+
+.body :global(a) {
+  color: var(--nac-green-deep);
+  font-weight: 650;
+}

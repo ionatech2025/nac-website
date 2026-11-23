@@ -13,9 +13,9 @@
 
 ### Acceptance criteria
 
-- [ ] Lists published articles only, newest first (or agreed sort).
-- [ ] Cards show image, title, excerpt and link.
-- [ ] Pagination or bounded list works.
+- [x] Lists published articles only, newest first (or agreed sort).
+- [x] Cards show image, title, excerpt and link.
+- [x] Pagination or bounded list works.
 
 ---
 
@@ -32,9 +32,9 @@
 
 ### Acceptance criteria
 
-- [ ] Detail shows title, sanitised body, cover image, optional author, published date.
-- [ ] Draft/archived articles are not reachable publicly.
-- [ ] Unknown slug returns 404.
+- [x] Detail shows title, sanitised body, cover image, optional author, published date. *(body via `<RichText>`; seed until CMS)*
+- [x] Draft/archived articles are not reachable publicly.
+- [x] Unknown slug returns 404.
 
 ---
 
@@ -51,8 +51,8 @@
 
 ### Acceptance criteria
 
-- [ ] Share actions for agreed platforms appear on the article page.
-- [ ] Share URLs encode the canonical article URL.
+- [x] Share actions for agreed platforms appear on the article page.
+- [x] Share URLs encode the canonical article URL.
 
 ---
 
@@ -69,5 +69,5 @@
 
 ### Acceptance criteria
 
-- [ ] Page metadata uses article SEO fields when set, with sensible fallbacks.
-- [ ] Open Graph / Twitter card image uses the sharing image when present.
+- [x] Page metadata uses article SEO fields when set, with sensible fallbacks.
+- [x] Open Graph / Twitter card image uses the sharing image when present.

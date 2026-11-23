@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--nac-line);
+}
+
+.status {
+  font-weight: 650;
+  color: var(--nac-muted);
+}
+
+.link {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.link:hover,
+.link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.disabled {
+  color: var(--nac-line);
+  font-weight: 650;
+}
