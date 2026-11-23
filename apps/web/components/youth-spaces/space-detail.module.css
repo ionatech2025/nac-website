@@ -1,0 +1,109 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+  color: var(--nac-muted);
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--nac-ink);
+}
+
+.location {
+  margin-top: 0.65rem;
+  font-weight: 650;
+  color: var(--nac-green-deep);
+}
+
+.body {
+  margin-top: 1.5rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.block {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--nac-line);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.65rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--nac-ink);
+}
+
+.partner {
+  margin-top: 0.75rem;
+  max-width: 40rem;
+  color: var(--nac-muted);
+  line-height: 1.55;
+}
+
+.services {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--nac-muted);
+  line-height: 1.5;
+}
+
+.gallery {
+  display: grid;
+  gap: 1.25rem;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.photo {
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: var(--nac-surface);
+}
+
+.photoImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.caption {
+  padding: 0.65rem 0.85rem 0.85rem;
+  color: var(--nac-muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 800px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

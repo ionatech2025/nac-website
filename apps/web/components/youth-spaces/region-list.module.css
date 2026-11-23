@@ -1,0 +1,61 @@
+.wrap {
+  margin-top: 2rem;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.jumps {
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--nac-line);
+  border-radius: 0.85rem;
+  background: rgb(255 255 255 / 0.55);
+}
+
+.jumpsLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nac-muted);
+}
+
+.jumpsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+  list-style: none;
+  margin-top: 0.55rem;
+}
+
+.jumpsList a {
+  color: var(--nac-green-deep);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.jumpsList a:hover,
+.jumpsList a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.region {
+  scroll-margin-top: 5.5rem;
+}
+
+.regionTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--nac-ink);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--nac-line);
+}
+
+.spaces {
+  display: grid;
+  gap: 1.75rem;
+  list-style: none;
+  margin-top: 1.35rem;
+}

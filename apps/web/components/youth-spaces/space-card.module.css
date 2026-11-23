@@ -1,0 +1,103 @@
+.item {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--nac-line);
+}
+
+.media {
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: var(--nac-surface);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.copy {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.title {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.title a {
+  color: var(--nac-ink);
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus-visible {
+  color: var(--nac-green-deep);
+}
+
+.meta {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--nac-green-deep);
+}
+
+.description {
+  color: var(--nac-muted);
+  line-height: 1.55;
+}
+
+.partner {
+  font-size: 0.95rem;
+  color: var(--nac-ink);
+  line-height: 1.45;
+}
+
+.partnerLabel {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nac-muted);
+}
+
+.services {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.15rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--nac-muted);
+  line-height: 1.45;
+}
+
+.more {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.more:hover,
+.more:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (min-width: 800px) {
+  .item {
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .item:has(.media) {
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  }
+}
