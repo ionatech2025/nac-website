@@ -1,0 +1,75 @@
+.form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--nac-line);
+  border-radius: 0.85rem;
+  background: rgb(255 255 255 / 0.55);
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nac-muted);
+}
+
+.field select,
+.field input {
+  min-height: 2.5rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--nac-line);
+  border-radius: 0.55rem;
+  background: #fff;
+  color: var(--nac-ink);
+  font: inherit;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+}
+
+.submit {
+  min-height: 2.5rem;
+  padding: 0.4rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--nac-green);
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.reset {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.reset:hover,
+.reset:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+@media (min-width: 800px) {
+  .form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+  }
+
+  .actions {
+    grid-column: 1 / -1;
+  }
+}

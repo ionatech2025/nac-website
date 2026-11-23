@@ -15,9 +15,9 @@
 
 ### Acceptance criteria
 
-- [ ] Lists non-archived published opportunities.
-- [ ] Shows title, type, opening/closing dates and short description.
-- [ ] Attached PDFs are discoverable on the detail/card as agreed.
+- [x] Lists non-archived published opportunities. *(seed until CMS)*
+- [x] Shows title, type, opening/closing dates and short description.
+- [x] Attached PDFs are discoverable on the detail/card as agreed.
 
 ---
 
@@ -34,9 +34,9 @@
 
 ### Acceptance criteria
 
-- [ ] Detail shows email, optional phone and application instructions.
-- [ ] Email is a `mailto:` link; subject includes the opportunity title.
-- [ ] No in-site application form exists.
+- [x] Detail shows email, optional phone and application instructions.
+- [x] Email is a `mailto:` link; subject includes the opportunity title.
+- [x] No in-site application form exists.
 
 ---
 
@@ -53,9 +53,9 @@
 
 ### Acceptance criteria
 
-- [ ] Filters for status, type and closing date (range or sort) work together.
-- [ ] Filter state is clear in the UI (and URL where practical).
-- [ ] Results update without broken empty states.
+- [x] Filters for status, type and closing date (range or sort) work together.
+- [x] Filter state is clear in the UI (and URL where practical).
+- [x] Results update without broken empty states.
 
 ---
 
@@ -72,6 +72,6 @@
 
 ### Acceptance criteria
 
-- [ ] Closed items are labelled Closed.
-- [ ] Apply/mailto CTA is hidden or disabled for closed items.
-- [ ] Open items remain clearly actionable.
+- [x] Closed items are labelled Closed.
+- [x] Apply/mailto CTA is hidden or disabled for closed items.
+- [x] Open items remain clearly actionable.
