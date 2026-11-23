@@ -10,7 +10,13 @@ export function parseView(value?: string): CalendarView {
 /** Parse YYYY-MM-DD into a local Date at noon (stable across DST edges). */
 export function parseFocusDate(value?: string, fallback = new Date()): Date {
   if (value && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
-    const [y, m, d] = value.split("-").map(Number);
+    const parts = value.split("-").map(Number);
+    const y = parts[0];
+    const m = parts[1];
+    const d = parts[2];
+    if (y === undefined || m === undefined || d === undefined) {
+      return parseFocusDate(undefined, fallback);
+    }
     return new Date(y, m - 1, d, 12, 0, 0, 0);
   }
   return new Date(
@@ -96,8 +102,8 @@ export function formatFocusLabel(view: CalendarView, focus: Date): string {
   }
   if (view === "week") {
     const days = weekDays(focus);
-    const start = days[0];
-    const end = days[6];
+    const start = days[0] ?? focus;
+    const end = days[6] ?? focus;
     return `${start.getDate()}–${end.getDate()} ${new Intl.DateTimeFormat("en-GB", {
       month: "short",
       year: "numeric",
