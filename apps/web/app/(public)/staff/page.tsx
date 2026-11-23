@@ -1,13 +1,28 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/page-placeholder";
+import { StaffList } from "@/components/staff/staff-list";
+import { listStaffMembers } from "@/lib/staff-data";
+import styles from "./staff.module.css";
 
-export const metadata: Metadata = { title: "Our Staff" };
+export const metadata: Metadata = {
+  title: "Our Staff",
+  description:
+    "Meet the people who coordinate NAC’s programmes, partnerships, and youth spaces.",
+};
 
-export default function StaffPage() {
+export default async function StaffPage() {
+  const members = await listStaffMembers();
+
   return (
-    <PagePlaceholder
-      title="Our Staff"
-      description="Placeholder for Epic E1 navigation. Staff directory is Epic E4."
-    />
+    <section className={styles.page} aria-labelledby="staff-heading">
+      <p className={styles.eyebrow}>Network for Active Citizens</p>
+      <h1 id="staff-heading" className={styles.title}>
+        Our Staff
+      </h1>
+      <p className={styles.lead}>
+        The people coordinating NAC’s programmes, partnerships, and youth
+        spaces across Uganda.
+      </p>
+      <StaffList members={members} />
+    </section>
   );
 }

@@ -1,5 +1,20 @@
 # E4 — Staff directory
 
+## Server contract (Dev B)
+
+When CMS reads are wired, swap seed helpers in `apps/web/lib/staff-data.ts` for:
+
+```ts
+import { listPublishedTeamMembers } from "@repo/database";
+
+const members = await listPublishedTeamMembers();
+// { id, name, roleTitle, biography, photo }
+```
+
+**Dev A (this epic):** public Staff UI uses seed/fallback data only — no Prisma / `DATABASE_URL`.
+
+---
+
 ## FE-E4-01 Staff listing
 
 | | |
@@ -14,10 +29,10 @@
 
 ### Acceptance criteria
 
-- [ ] Lists only published staff.
-- [ ] Shows name, role and photo when available.
-- [ ] Order matches admin sort order.
-- [ ] Empty/loading/error states exist.
+- [x] Lists only published staff.
+- [x] Shows name, role and photo when available.
+- [x] Order matches admin sort order.
+- [x] Empty/loading/error states exist.
 
 ---
 
@@ -34,5 +49,5 @@
 
 ### Acceptance criteria
 
-- [ ] Biography shows only when provided.
-- [ ] No invented biographies; missing bio is simply omitted.
+- [x] Biography shows only when provided.
+- [x] No invented biographies; missing bio is simply omitted.
