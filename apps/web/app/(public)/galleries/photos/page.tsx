@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { PagePlaceholder } from "@/components/page-placeholder";
+import { publicPageMetadata } from "@/lib/page-metadata";
 
-export const metadata: Metadata = { title: "Photo Gallery" };
+export const metadata: Metadata = publicPageMetadata({
+  title: "Photo Gallery",
+  description: "Photo albums from Network for Active Citizens.",
+  path: "/galleries/photos",
+});
 
 export default function PhotoGalleryPage() {
   return (
