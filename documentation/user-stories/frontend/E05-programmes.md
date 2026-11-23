@@ -4,17 +4,15 @@
 
 ## Server contract (Dev B)
 
+When CMS reads are wired, swap seed helpers in `apps/web/lib/programmes-data.ts` for:
+
 ```ts
 import { listPublishedProgrammes, getPublishedProgrammeBySlug, mediaVariantUrl } from "@repo/database";
-
-const list = await listPublishedProgrammes();
-// each: title, slug, summary, images[0]? (cover — first of up to 3)
-
-const detail = await getPublishedProgrammeBySlug(slug);
-// detail?.body, strategies[], images[] (max 3, admin order)
 ```
 
-Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "medium")`. Body/strategies: `<RichText>`.
+**Dev A (this epic):** public Programmes UI uses seed/fallback data only — no Prisma / `DATABASE_URL`.
+
+Cover for cards: first image via medium/thumb URL. Body/strategies: `<RichText>`.
 
 ---
 
@@ -31,8 +29,8 @@ Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "
 
 ### Acceptance criteria
 
-- [ ] Programs nav/listing shows published programmes in admin order.
-- [ ] Adding/removing a programme in admin updates the public list without code changes.
+- [x] Programs nav/listing shows published programmes in admin order.
+- [x] Adding/removing a programme in admin updates the public list without code changes.
 
 ---
 
@@ -49,9 +47,9 @@ Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "
 
 ### Acceptance criteria
 
-- [ ] Detail page shows title, image, description and ordered strategies.
-- [ ] Unknown/unpublished slug returns 404.
-- [ ] Content is readable on mobile.
+- [x] Detail page shows title, image, description and ordered strategies.
+- [x] Unknown/unpublished slug returns 404.
+- [x] Content is readable on mobile.
 
 ---
 
@@ -68,9 +66,9 @@ Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "
 
 ### Acceptance criteria
 
-- [ ] GAP page surfaces external links to Youth Go Budget and SLOGBAA safely.
-- [ ] Seed/migrated copy follows improvements document once available.
-- [ ] Programme names remain admin-editable (GAP for now; may change later per Q1/Q2).
+- [x] GAP page surfaces external links to Youth Go Budget and SLOGBAA safely.
+- [x] Seed/migrated copy follows improvements document once available.
+- [x] Programme names remain admin-editable (GAP for now; may change later per Q1/Q2).
 
 ---
 
@@ -87,8 +85,8 @@ Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "
 
 ### Acceptance criteria
 
-- [ ] Related published downloads/stories render when associated data exists.
-- [ ] Section is hidden or empty-stated when none exist.
+- [x] Related published downloads/stories render when associated data exists.
+- [x] Section is hidden or empty-stated when none exist.
 
 ---
 
@@ -105,4 +103,4 @@ Cover for cards: `detail.images[0]?.media` via `mediaVariantUrl(…, "thumb" | "
 
 ### Acceptance criteria
 
-- [ ] Youth Spaces programme page links to `/youth-spaces` (or agreed route).
+- [x] Youth Spaces programme page links to `/youth-spaces` (or agreed route).

@@ -1,0 +1,12 @@
+.list {
+  display: grid;
+  gap: 1.75rem;
+  list-style: none;
+  margin-top: 1.75rem;
+}
+
+@media (min-width: 800px) {
+  .list {
+    gap: 2rem;
+  }
+}

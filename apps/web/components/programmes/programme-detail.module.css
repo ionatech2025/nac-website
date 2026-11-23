@@ -1,0 +1,145 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--nac-ink);
+}
+
+.summary {
+  margin-top: 0.85rem;
+  max-width: 42rem;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--nac-muted);
+}
+
+.hero {
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: var(--nac-surface);
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.body {
+  margin-top: 1.75rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.body :global(p + p) {
+  margin-top: 0.85rem;
+}
+
+.block {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--nac-line);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--nac-ink);
+}
+
+.strategies {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.15rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.strategyTitle {
+  font-size: 1.1rem;
+  font-weight: 650;
+  color: var(--nac-ink);
+}
+
+.strategyBody {
+  margin-top: 0.35rem;
+  color: var(--nac-muted);
+  line-height: 1.55;
+}
+
+.links {
+  display: grid;
+  gap: 0.55rem;
+  list-style: none;
+  margin-top: 0.9rem;
+}
+
+.links a {
+  color: var(--nac-green-deep);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.links a:hover,
+.links a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.cta {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, rgb(11 78 54 / 0.08), rgb(232 168 56 / 0.12));
+  border: 1px solid var(--nac-line);
+}
+
+.ctaCopy {
+  margin-top: 0.5rem;
+  color: var(--nac-muted);
+  line-height: 1.5;
+}
+
+.ctaLink {
+  display: inline-flex;
+  margin-top: 1rem;
+  min-height: 2.5rem;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: var(--nac-green);
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+}
