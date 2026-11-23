@@ -40,11 +40,11 @@ Suggested routes: `/member-organisations` and `/member-organisations/[slug]`.
 
 ### Acceptance criteria
 
-- [ ] Page reachable from primary navigation (or About / agreed IA link labelled “Member organisations”).
-- [ ] Shows published organisations in admin sort order.
-- [ ] Each card shows name, short bio excerpt (or full bio if short), and first image when present.
-- [ ] Empty state when none are published.
-- [ ] Cards link to the organisation detail page.
+- [x] Page reachable from primary navigation (or About / agreed IA link labelled “Member organisations”).
+- [x] Shows published organisations in admin sort order.
+- [x] Each card shows name, short bio excerpt (or full bio if short), and first image when present.
+- [x] Empty state when none are published.
+- [x] Cards link to the organisation detail page.
 
 ---
 
@@ -61,7 +61,7 @@ Suggested routes: `/member-organisations` and `/member-organisations/[slug]`.
 
 ### Acceptance criteria
 
-- [ ] Shows name, short bio (`<RichText>`), up to 3 images in admin order.
-- [ ] Website link appears only when supplied; opens in a new tab safely.
-- [ ] Unknown or unpublished slug returns 404.
-- [ ] Readable on mobile; images have alt text from media.
+- [x] Shows name, short bio (`<RichText>`), up to 3 images in admin order.
+- [x] Website link appears only when supplied; opens in a new tab safely.
+- [x] Unknown or unpublished slug returns 404.
+- [x] Readable on mobile; images have alt text from media.
