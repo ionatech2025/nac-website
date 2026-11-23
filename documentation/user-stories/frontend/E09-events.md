@@ -13,10 +13,10 @@
 
 ### Acceptance criteria
 
-- [ ] Month, week, day and year views are available.
-- [ ] Previous/next navigation works in each view.
-- [ ] Usable on mobile (scroll/touch friendly).
-- [ ] Keyboard operable where interactive.
+- [x] Month, week, day and year views are available.
+- [x] Previous/next navigation works in each view.
+- [x] Usable on mobile (scroll/touch friendly).
+- [x] Keyboard operable where interactive.
 
 ---
 
@@ -33,9 +33,9 @@
 
 ### Acceptance criteria
 
-- [ ] Detail shows title, description, start/end, location, image, event contact.
-- [ ] Times shown in Africa/Kampala unless set otherwise.
-- [ ] Unpublished/cancelled handling matches FE-E9-05.
+- [x] Detail shows title, description, start/end, location, image, event contact. *(seed until CMS)*
+- [x] Times shown in Africa/Kampala unless set otherwise.
+- [x] Unpublished/cancelled handling matches FE-E9-05.
 
 ---
 
@@ -52,9 +52,9 @@
 
 ### Acceptance criteria
 
-- [ ] Registration URL displays when set.
-- [ ] Link is marked external and opens safely.
-- [ ] No built-in registration form.
+- [x] Registration URL displays when set.
+- [x] Link is marked external and opens safely.
+- [x] No built-in registration form.
 
 ---
 
@@ -71,9 +71,9 @@
 
 ### Acceptance criteria
 
-- [ ] Upcoming and past are clearly separated in UI.
-- [ ] Past archive is browsable (by month/list as designed).
-- [ ] Past events remain linked to their detail pages.
+- [x] Upcoming and past are clearly separated in UI.
+- [x] Past archive is browsable (by month/list as designed).
+- [x] Past events remain linked to their detail pages.
 
 ---
 
@@ -90,5 +90,5 @@
 
 ### Acceptance criteria
 
-- [ ] Upcoming events block usable on home/sidebar.
-- [ ] Cancelled events are labelled, not silently removed from relevant views.
+- [x] Upcoming events block usable on home/sidebar. *(`UpcomingEvents` on `/events`; reusable for home later)*
+- [x] Cancelled events are labelled, not silently removed from relevant views.
