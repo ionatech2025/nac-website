@@ -2,18 +2,15 @@
 
 ## Server contract (Dev B)
 
-```ts
-import { getPublishedAboutPage, listKeyFigures } from "@repo/database";
+When CMS reads are wired, swap seed helpers in `apps/web/lib/about-data.ts` for:
 
-const about = await getPublishedAboutPage();
-// about?.title, mission, vision, whatWeDo, why, updatedAt
-// about?.images[] → { id, caption, media } (max 2, admin order)
-const figures = await listKeyFigures();
+```ts
+import { getPublishedAboutPage, listKeyFigures, listPublishedProgrammes } from "@repo/database";
 ```
 
-Render each section with `<RichText text={…} />`. Empty `why` may be hidden. Images: `mediaVariantUrl(media, "medium")`.
+**Dev A (this epic):** public About UI uses seed/fallback data only — no Prisma / `DATABASE_URL` from the frontend workstream.
 
-Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy), not About Us.
+Render each section with `<RichText text={…} />`. Empty `why` may be hidden.
 
 ---
 
@@ -31,9 +28,9 @@ Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy),
 
 ### Acceptance criteria
 
-- [ ] Page presents founded-2017 narrative and network description from editable content.
-- [ ] Improvements-document copy is used once loaded/migrated.
-- [ ] Page is reachable from primary navigation.
+- [x] Page presents founded-2017 narrative and network description from editable content.
+- [x] Improvements-document copy is used once loaded/migrated.
+- [x] Page is reachable from primary navigation.
 
 ---
 
@@ -50,8 +47,8 @@ Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy),
 
 ### Acceptance criteria
 
-- [ ] Figures are editable values from data (not hard-coded in components).
-- [ ] Default seed may show 89 organisations and 15 youth spaces pending confirmation (Q3).
+- [x] Figures are editable values from data (not hard-coded in components).
+- [x] Default seed may show 89 organisations and 15 youth spaces pending confirmation (Q3).
 
 ---
 
@@ -68,8 +65,8 @@ Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy),
 
 ### Acceptance criteria
 
-- [ ] Renders sanitised rich text (sanitisation owned by Dev B).
-- [ ] Headings, links and images display correctly and accessibly.
+- [x] Renders sanitised rich text (sanitisation owned by Dev B).
+- [x] Headings, links and images display correctly and accessibly.
 
 ---
 
@@ -86,5 +83,5 @@ Legacy `getPageContent(ABOUT_PAGE_KEY)` is for other static keys (e.g. privacy),
 
 ### Acceptance criteria
 
-- [ ] Summaries link to corresponding programme detail routes.
-- [ ] Only published programmes appear.
+- [x] Summaries link to corresponding programme detail routes.
+- [x] Only published programmes appear.

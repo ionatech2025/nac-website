@@ -1,0 +1,51 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--nac-ink);
+}
+
+.summary {
+  margin-top: 0.85rem;
+  max-width: 40rem;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--nac-muted);
+}
+
+.body {
+  margin-top: 1.75rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  line-height: 1.65;
+  font-size: 1.05rem;
+}
+
+.body :global(p + p) {
+  margin-top: 0.85rem;
+}
