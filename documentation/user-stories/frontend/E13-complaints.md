@@ -15,9 +15,9 @@
 
 ### Acceptance criteria
 
-- [ ] Clear instructions and anonymity statement above the form, including that complaints are **deleted automatically after 30 days** (Q4).
-- [ ] On success, a confirmation message is shown (no email acknowledgement).
-- [ ] Page is linked from Contact grouping in navigation.
+- [x] Clear instructions and anonymity statement above the form, including that complaints are **deleted automatically after 30 days** (Q4).
+- [x] On success, a confirmation message is shown (no email acknowledgement).
+- [x] Page is linked from Contact grouping in navigation.
 
 ---
 
@@ -34,12 +34,12 @@
 
 ### Acceptance criteria
 
-- [ ] Fields: description (required); optional category/subject, incident date, programme/place.
-- [ ] **No** name, email, phone or other identity fields in the UI.
-- [ ] No file attachment control in v1.
-- [ ] Client validation for required description only.
-- [ ] Spam controls (honeypot / CAPTCHA UI) do not collect identity for storage.
-- [ ] Form posts to Dev B’s anonymous handler.
+- [x] Fields: description (required); optional category/subject, incident date, programme/place.
+- [x] **No** name, email, phone or other identity fields in the UI.
+- [x] No file attachment control in v1.
+- [x] Client validation for required description only. *(plus optional-field rules from shared schema)*
+- [x] Spam controls (honeypot / CAPTCHA UI) do not collect identity for storage.
+- [x] Form posts to Dev B’s anonymous handler. *(`submitComplaintAction`)*
 
 > **Server contract (ready, AD-B5-04):**
 > - Server action: `submitComplaintAction` from `apps/web/lib/complaint-action.ts` — use with `useActionState(submitComplaintAction, null)`.
@@ -63,6 +63,6 @@
 
 ### Acceptance criteria
 
-- [ ] Complaint routes do not load visitor analytics scripts.
-- [ ] No marketing/tracking cookies set on these pages from the public UI.
-- [ ] Coordinate with Dev B exclusions (analytics, robots, logging).
+- [x] Complaint routes do not load visitor analytics scripts. *(`AnalyticsBeacon` skips paths containing `complaint`)*
+- [x] No marketing/tracking cookies set on these pages from the public UI.
+- [x] Coordinate with Dev B exclusions (analytics, robots, logging). *(`robots: noindex` metadata + complaint headers in `next.config.js`)*

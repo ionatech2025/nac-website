@@ -27,6 +27,8 @@ export type ProgrammeRelatedDownload = {
   id: string;
   title: string;
   href: string;
+  byteSize?: number;
+  fileType?: string;
 };
 
 export type ProgrammeListItem = {
@@ -75,7 +77,22 @@ const seedProgrammes: ProgrammeDetail[] = [
       { label: "SLOGBAA", href: "https://slogbaa.org" },
     ],
     relatedStories: [],
-    relatedDownloads: [],
+    relatedDownloads: [
+      {
+        id: "doc-youth-budgeting",
+        title: "Youth budgeting quick start",
+        href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
+        byteSize: 720_000,
+        fileType: "PDF",
+      },
+      {
+        id: "doc-strategic-plan",
+        title: "NAC Strategic Plan 2024–2028",
+        href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
+        byteSize: 2_400_000,
+        fileType: "PDF",
+      },
+    ],
     linksToYouthSpaces: false,
   },
   {

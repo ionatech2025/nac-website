@@ -3,6 +3,11 @@
  * Seed/fallback until Dev B publishes typed data-access queries.
  */
 
+import {
+  listLatestDocuments,
+  toLatestDownloadItem,
+} from "./downloads-data";
+
 export type HomeIdentity = {
   orgName: string;
   tagline: string;
@@ -60,6 +65,7 @@ export type HomeDownload = {
   title: string;
   href: string;
   byteSize?: number;
+  fileType?: string;
 };
 
 export type HomePageData = {
@@ -144,17 +150,14 @@ const seed: HomePageData = {
     { id: "fig-1", label: "Organisations in the network", value: "89+" },
     { id: "fig-2", label: "Youth spaces", value: "15" },
   ],
-  downloads: [
-    {
-      id: "doc-1",
-      title: "NAC Strategic Plan 2024–2028",
-      href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
-      byteSize: 2_400_000,
-    },
-  ],
+  downloads: [],
   youthGoBudgetUrl: "https://youthgobudgetapp.org",
 };
 
 export async function getHomePageData(): Promise<HomePageData> {
-  return seed;
+  const latest = await listLatestDocuments(4);
+  return {
+    ...seed,
+    downloads: latest.map(toLatestDownloadItem),
+  };
 }

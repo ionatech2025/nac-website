@@ -3,10 +3,16 @@
  * Defaults match nacuganda.org until Dev B wires SiteSetting queries.
  */
 
+import {
+  listLatestDocuments,
+  toLatestDownloadItem,
+} from "./downloads-data";
+
 export type SiteDownload = {
   title: string;
   href: string;
   byteSize?: number;
+  fileType?: string;
 };
 
 export type SiteSettings = {
@@ -51,16 +57,22 @@ export const defaultSiteSettings: SiteSettings = {
     { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
     { label: "SLOGBAA", href: "https://slogbaa.org" },
   ],
-  latestDownloads: [
-    {
-      title: "NAC Strategic Plan 2024–2028",
-      href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
-      byteSize: 2_400_000,
-    },
-  ],
+  latestDownloads: [],
 };
 
 /** Swap to Prisma SiteSetting reads when data-access is ready. */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return defaultSiteSettings;
+  const latest = await listLatestDocuments(4);
+  return {
+    ...defaultSiteSettings,
+    latestDownloads: latest.map((doc) => {
+      const item = toLatestDownloadItem(doc);
+      return {
+        title: item.title,
+        href: item.href,
+        byteSize: item.byteSize,
+        fileType: item.fileType,
+      };
+    }),
+  };
 }

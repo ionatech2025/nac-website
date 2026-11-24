@@ -1,19 +1,32 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/page-placeholder";
-import { publicPageMetadata } from "@/lib/page-metadata";
+import { ContactDetails } from "@/components/contact/contact-details";
+import { InquiryForm } from "@/components/contact/inquiry-form";
+import { getContactSettings } from "@/lib/contact-data";
+import styles from "./contact.module.css";
 
-export const metadata: Metadata = publicPageMetadata({
+export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Visit, call, or write to Network for Active Citizens in Kampala, Uganda.",
-  path: "/contact",
-});
+    "Contact Network for Active Citizens by phone, email or inquiry form.",
+};
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contact = await getContactSettings();
+
   return (
-    <PagePlaceholder
-      title="Contact & inquiries"
-      description="Placeholder for Epic E1 navigation. Contact form is Epic E12."
-    />
+    <section className={styles.page} aria-labelledby="contact-heading">
+      <p className={styles.eyebrow}>Network for Active Citizens</p>
+      <h1 id="contact-heading" className={styles.title}>
+        Contact Us
+      </h1>
+      <p className={styles.lead}>
+        Reach NAC offline using the details below, or send an inquiry through
+        the form. Empty contact fields from site settings are hidden.
+      </p>
+      <div className={styles.layout}>
+        <ContactDetails contact={contact} />
+        <InquiryForm />
+      </div>
+    </section>
   );
 }

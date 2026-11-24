@@ -1,0 +1,99 @@
+.form,
+.success {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem 1.2rem;
+  border: 1px solid var(--nac-line);
+  border-radius: 0.85rem;
+  background: rgb(255 255 255 / 0.6);
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  color: var(--nac-muted);
+  line-height: 1.5;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 650;
+  color: var(--nac-ink);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--nac-line);
+  border-radius: 0.55rem;
+  background: #fff;
+  color: var(--nac-ink);
+  font: inherit;
+}
+
+.field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.fieldError {
+  color: #8a2a1a;
+  font-size: 0.9rem;
+}
+
+.errorBanner,
+.successBanner {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.55rem;
+  line-height: 1.45;
+}
+
+.errorBanner {
+  background: rgb(138 42 26 / 0.08);
+  color: #8a2a1a;
+}
+
+.successBanner,
+.success {
+  background: rgb(31 122 85 / 0.1);
+  color: var(--nac-green-deep);
+}
+
+.submit {
+  justify-self: start;
+  min-height: 2.6rem;
+  padding: 0.45rem 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--nac-green);
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

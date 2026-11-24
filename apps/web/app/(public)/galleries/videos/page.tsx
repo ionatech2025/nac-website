@@ -1,18 +1,32 @@
 import type { Metadata } from "next";
-import { PagePlaceholder } from "@/components/page-placeholder";
-import { publicPageMetadata } from "@/lib/page-metadata";
+import Link from "next/link";
+import { VideoGallery } from "@/components/galleries/video-gallery";
+import { listVideos } from "@/lib/galleries-data";
+import styles from "../galleries.module.css";
 
-export const metadata: Metadata = publicPageMetadata({
+export const metadata: Metadata = {
   title: "Video Gallery",
-  description: "Videos from Network for Active Citizens programmes and events.",
-  path: "/galleries/videos",
-});
+  description:
+    "Watch NAC videos embedded from allowlisted YouTube and Vimeo links.",
+};
 
-export default function VideoGalleryPage() {
+export default async function VideoGalleryPage() {
+  const videos = await listVideos();
+
   return (
-    <PagePlaceholder
-      title="Video Gallery"
-      description="Placeholder for Epic E1 navigation. Video gallery is Epic E10."
-    />
+    <section className={styles.page} aria-labelledby="videos-heading">
+      <p className={styles.eyebrow}>Galleries</p>
+      <h1 id="videos-heading" className={styles.title}>
+        Video Gallery
+      </h1>
+      <p className={styles.lead}>
+        Embedded playback from YouTube and Vimeo only. Unsupported providers are
+        shown with a clear message instead of unsafe embed HTML.
+      </p>
+      <p className={styles.back}>
+        <Link href="/galleries">← All galleries</Link>
+      </p>
+      <VideoGallery videos={videos} />
+    </section>
   );
 }
