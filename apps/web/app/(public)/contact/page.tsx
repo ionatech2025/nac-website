@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ContactDetails } from "@/components/contact/contact-details";
 import { InquiryForm } from "@/components/contact/inquiry-form";
 import { getContactSettings } from "@/lib/contact-data";
@@ -21,11 +22,18 @@ export default async function ContactPage() {
       </h1>
       <p className={styles.lead}>
         Reach NAC offline using the details below, or send an inquiry through
-        the form. Empty contact fields from site settings are hidden.
+        the form. For anonymous concerns, use the{" "}
+        <Link href="/complaints">complaints page</Link>.
       </p>
       <div className={styles.layout}>
         <ContactDetails contact={contact} />
-        <InquiryForm />
+        <div className={styles.formColumn}>
+          <InquiryForm />
+          <p className={styles.complaintsNote}>
+            Need to raise a concern without sharing your identity?{" "}
+            <Link href="/complaints">Submit an anonymous complaint</Link>.
+          </p>
+        </div>
       </div>
     </section>
   );
