@@ -1,6 +1,14 @@
+import Image from "next/image";
 import { ExternalLink } from "./external-link";
+import {
+  IconMail,
+  IconMapPin,
+  IconPhone,
+  IconWhatsApp,
+  socialFooterIcon,
+} from "./footer-icons";
 import { LatestDownloads } from "./latest-downloads";
-import type { SiteSettings } from "@/lib/site-settings";
+import { whatsappHref, type SiteSettings } from "@/lib/site-settings";
 import styles from "./site-footer.module.css";
 
 type Props = {
@@ -14,11 +22,19 @@ export function SiteFooter({ settings }: Props) {
     href: file.href,
     byteSize: file.byteSize,
   }));
+  const whatsapp = whatsappHref(settings.whatsapp);
 
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brandBlock}>
+          <Image
+            src="/brand/nac-logo.png"
+            alt="Network for Active Citizens"
+            width={160}
+            height={160}
+            className={styles.logo}
+          />
           <p className={styles.org}>{settings.orgName}</p>
           <p className={styles.tagline}>{settings.tagline}</p>
           <p className={styles.copy}>{settings.copyright}</p>
@@ -26,43 +42,74 @@ export function SiteFooter({ settings }: Props) {
 
         <div>
           <h2 className={styles.heading}>Visit &amp; contact</h2>
-          <p className={styles.body}>{settings.address}</p>
-          <p className={styles.body}>{settings.postal}</p>
-          <ul className={styles.list}>
+          <ul className={styles.iconList}>
+            <li>
+              <IconMapPin className={styles.icon} />
+              <span>
+                {settings.address}
+                {settings.postal ? (
+                  <>
+                    <br />
+                    {settings.postal}
+                  </>
+                ) : null}
+              </span>
+            </li>
             {settings.phones.map((phone) => (
               <li key={phone}>
+                <IconPhone className={styles.icon} />
                 <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
               </li>
             ))}
             <li>
-              Toll free:{" "}
-              <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
-                {settings.tollFree}
-              </a>
+              <IconPhone className={styles.icon} />
+              <span>
+                Toll free:{" "}
+                <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
+                  {settings.tollFree}
+                </a>
+              </span>
             </li>
             <li>
+              <IconMail className={styles.icon} />
               <a href={`mailto:${settings.email}`}>{settings.email}</a>
             </li>
+            {whatsapp ? (
+              <li>
+                <IconWhatsApp className={styles.icon} />
+                <ExternalLink href={whatsapp}>WhatsApp</ExternalLink>
+              </li>
+            ) : null}
           </ul>
         </div>
 
         <div>
           <h2 className={styles.heading}>Connect</h2>
-          <ul className={styles.list}>
-            {settings.social.map((item) => (
-              <li key={item.href}>
-                <ExternalLink href={item.href}>{item.label}</ExternalLink>
-              </li>
-            ))}
+          <ul className={styles.socialRow} aria-label="Social media profiles">
+            {settings.social.map((item) => {
+              const Icon = socialFooterIcon(item.label);
+              return (
+                <li key={item.href}>
+                  <ExternalLink href={item.href} className={styles.socialLink}>
+                    <Icon className={styles.socialIcon} />
+                    <span>{item.label}</span>
+                  </ExternalLink>
+                </li>
+              );
+            })}
           </ul>
-          <h2 className={styles.heading}>Partner tools</h2>
-          <ul className={styles.list}>
-            {settings.external.map((item) => (
-              <li key={item.href}>
-                <ExternalLink href={item.href}>{item.label}</ExternalLink>
-              </li>
-            ))}
-          </ul>
+          {settings.external.length > 0 ? (
+            <>
+              <h2 className={styles.heading}>Partner tools</h2>
+              <ul className={styles.list}>
+                {settings.external.map((item) => (
+                  <li key={item.href}>
+                    <ExternalLink href={item.href}>{item.label}</ExternalLink>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
         </div>
 
         <div>

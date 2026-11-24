@@ -120,9 +120,11 @@ export function MobileNav() {
                       <p className={styles.groupLabel}>{item.label}</p>
                       <ul className={styles.sublist}>
                         {item.children.map((child) => {
-                          const active = isNavActive(pathname, child.href);
+                          const active = isNavActive(pathname, child.href, {
+                            exact: child.href === item.href,
+                          });
                           return (
-                            <li key={child.href}>
+                            <li key={`${child.href}-${child.label}`}>
                               <Link
                                 href={child.href}
                                 className={

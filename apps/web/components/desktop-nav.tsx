@@ -45,9 +45,13 @@ export function DesktopNav() {
               </Link>
               <ul className={styles.dropdown}>
                 {item.children.map((child) => {
-                  const active = isNavActive(pathname, child.href);
+                  // Index links like "All programmes" share the group href —
+                  // match exactly so child routes don't keep them selected.
+                  const active = isNavActive(pathname, child.href, {
+                    exact: child.href === item.href,
+                  });
                   return (
-                    <li key={child.href}>
+                    <li key={`${child.href}-${child.label}`}>
                       <Link
                         href={child.href}
                         className={

@@ -18,7 +18,7 @@ export function MonthView({
   return (
     <div className={styles.month} role="grid" aria-label="Month view">
       <div className={styles.weekdays} role="row">
-        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div key={day} className={styles.weekday} role="columnheader">
             {day}
           </div>

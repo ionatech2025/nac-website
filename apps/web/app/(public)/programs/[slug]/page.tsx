@@ -22,7 +22,7 @@ export default async function ProgrammeDetailPage({ params }: Props) {
   return (
     <article className={styles.page}>
       <p className={styles.eyebrow}>
-        <Link href="/programs">Programs</Link>
+        <Link href="/programs">Programmes</Link>
       </p>
       <h1 className={styles.title}>{programme.title}</h1>
       {programme.summary ? (

@@ -17,6 +17,8 @@ export type SiteSettings = {
   phones: string[];
   tollFree: string;
   email: string;
+  /** Digits or wa.me URL — empty hides WhatsApp. */
+  whatsapp: string;
   copyright: string;
   social: { label: string; href: string }[];
   external: { label: string; href: string }[];
@@ -32,6 +34,7 @@ export const defaultSiteSettings: SiteSettings = {
   phones: ["+256 (0) 393 216240", "+256 774 843 081", "+256 701 840 078"],
   tollFree: "+256 (0) 800 111 423",
   email: "activecitizenuganda@gmail.com",
+  whatsapp: "256774843081",
   copyright: `© ${new Date().getFullYear()} Network for Active Citizens (NAC)`,
   social: [
     {
@@ -59,6 +62,14 @@ export const defaultSiteSettings: SiteSettings = {
     },
   ],
 };
+
+export function whatsappHref(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  const digits = trimmed.replace(/\D/g, "");
+  return digits ? `https://wa.me/${digits}` : null;
+}
 
 /** Swap to Prisma SiteSetting reads when data-access is ready. */
 export async function getSiteSettings(): Promise<SiteSettings> {
