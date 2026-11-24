@@ -9,13 +9,15 @@ import {
   getAboutPageContent,
   getAboutProgrammes,
 } from "@/lib/about-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./about.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "About Us",
   description:
     "Learn who Network for Active Citizens is — founded in 2017 to build youth resilience across Uganda.",
-};
+  path: "/about",
+});
 
 export default async function AboutPage() {
   const [about, figures, programmes] = await Promise.all([

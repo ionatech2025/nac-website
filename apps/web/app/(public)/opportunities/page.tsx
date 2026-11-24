@@ -6,13 +6,15 @@ import {
   listOpportunityTypes,
   type OpportunityFilters as FilterValues,
 } from "@/lib/opportunities-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./opportunities.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Opportunities",
   description:
     "Open calls, jobs, fellowships and membership opportunities from Network for Active Citizens.",
-};
+  path: "/opportunities",
+});
 
 type Props = {
   searchParams: Promise<{

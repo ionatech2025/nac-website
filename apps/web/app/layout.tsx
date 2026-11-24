@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { AnalyticsBeacon } from "../components/analytics-beacon";
+import {
+  DEFAULT_DESCRIPTION,
+  rootMetadataBase,
+  SITE_NAME,
+} from "../lib/page-metadata";
 import "./globals.css";
 
 const display = Fraunces({
@@ -16,12 +21,20 @@ const body = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  metadataBase: rootMetadataBase(),
   title: {
-    default: "Network for Active Citizens (NAC)",
-    template: "%s | Network for Active Citizens",
+    default: `${SITE_NAME} (NAC)`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "NAC is a network of youth organisations in Uganda building resilience through capability development and policy outreach.",
+  description: DEFAULT_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_UG",
+  },
+  twitter: {
+    card: "summary",
+  },
 };
 
 export default function RootLayout({

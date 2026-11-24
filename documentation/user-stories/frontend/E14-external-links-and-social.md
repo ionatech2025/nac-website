@@ -13,8 +13,8 @@
 
 ### Acceptance criteria
 
-- [ ] Links render from site settings in footer/home/programme contexts as designed. *(ready — see server contract below)*
-- [ ] Marked external and open safely.
+- [x] Links render from site settings in footer/home/programme contexts as designed. *(ready — see server contract below)*
+- [x] Marked external and open safely.
 
 > **Server contract (ready, AD-B6-01):**
 > - `const { external, social, contact } = await getPublicSiteSettings()` from `@repo/database`.
@@ -37,8 +37,8 @@
 
 ### Acceptance criteria
 
-- [ ] Profile URLs come from site settings.
-- [ ] Icons/labels are accessible.
+- [x] Profile URLs come from site settings.
+- [x] Icons/labels are accessible.
 
 ---
 
@@ -55,8 +55,8 @@
 
 ### Acceptance criteria
 
-- [ ] Share controls appear on article, event and opportunity detail pages.
-- [ ] Share uses the page’s canonical URL.
+- [x] Share controls appear on article, event and opportunity detail pages.
+- [x] Share uses the page’s canonical URL.
 
 ---
 
@@ -74,9 +74,9 @@
 
 ### Acceptance criteria
 
-- [ ] WhatsApp share and/or contact buttons appear where designed (e.g. content share, footer/contact).
-- [ ] Target number/link comes from site settings when applicable.
-- [ ] No embedded social feed widgets in v1.
+- [x] WhatsApp share and/or contact buttons appear where designed (e.g. content share, footer/contact).
+- [x] Target number/link comes from site settings when applicable.
+- [x] No embedded social feed widgets in v1.
 
 ---
 

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { ProgrammeList } from "@/components/programmes/programme-list";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import { listProgrammes } from "@/lib/programmes-data";
 import styles from "./programs.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Programmes",
   description:
     "Explore NAC’s programme areas — governance, climate resilience, community journalism, and youth organizing.",
-};
+  path: "/programs",
+});
 
 export default async function ProgramsPage() {
   const programmes = await listProgrammes();

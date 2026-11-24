@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ExternalLink } from "./external-link";
 import {
   IconMail,
@@ -20,6 +21,7 @@ export function SiteFooter({ settings }: Props) {
     title: file.title,
     href: file.href,
     byteSize: file.byteSize,
+    fileType: file.fileType,
   }));
   const whatsapp = whatsappHref(settings.whatsapp);
 
@@ -38,23 +40,26 @@ export function SiteFooter({ settings }: Props) {
           <p className={styles.org}>{settings.orgName}</p>
           <p className={styles.tagline}>{settings.tagline}</p>
           <p className={styles.copy}>{settings.copyright}</p>
+          <p className={styles.legal}>
+            <Link href="/privacy">Privacy notice</Link>
+          </p>
         </div>
 
         <div>
           <h2 className={styles.heading}>Visit &amp; contact</h2>
           <ul className={styles.iconList}>
-            <li>
-              <IconMapPin className={styles.icon} />
-              <span>
-                {settings.address}
-                {settings.postal ? (
-                  <>
+            {settings.address.trim() || settings.postal.trim() ? (
+              <li>
+                <IconMapPin className={styles.icon} />
+                <span>
+                  {settings.address.trim() ? settings.address : null}
+                  {settings.address.trim() && settings.postal.trim() ? (
                     <br />
-                    {settings.postal}
-                  </>
-                ) : null}
-              </span>
-            </li>
+                  ) : null}
+                  {settings.postal.trim() ? settings.postal : null}
+                </span>
+              </li>
+            ) : null}
             {settings.phones.length > 0 || settings.tollFree.trim() ? (
               <li>
                 <IconPhone className={styles.icon} />
@@ -75,10 +80,12 @@ export function SiteFooter({ settings }: Props) {
                 </span>
               </li>
             ) : null}
-            <li>
-              <IconMail className={styles.icon} />
-              <a href={`mailto:${settings.email}`}>{settings.email}</a>
-            </li>
+            {settings.email.trim() ? (
+              <li>
+                <IconMail className={styles.icon} />
+                <a href={`mailto:${settings.email}`}>{settings.email}</a>
+              </li>
+            ) : null}
             {whatsapp ? (
               <li>
                 <IconWhatsApp className={styles.icon} />
@@ -89,24 +96,31 @@ export function SiteFooter({ settings }: Props) {
         </div>
 
         <div>
-          <h2 className={styles.heading}>Connect</h2>
-          <ul className={styles.socialRow} aria-label="Social media profiles">
-            {settings.social.map((item) => {
-              const Icon = socialFooterIcon(item.label);
-              return (
-                <li key={item.href}>
-                  <ExternalLink href={item.href} className={styles.socialLink}>
-                    <Icon className={styles.socialIcon} />
-                    <span>{item.label}</span>
-                  </ExternalLink>
-                </li>
-              );
-            })}
-          </ul>
+          {settings.social.length > 0 ? (
+            <>
+              <h2 className={styles.heading}>Connect</h2>
+              <ul className={styles.socialRow} aria-label="Social media profiles">
+                {settings.social.map((item) => {
+                  const Icon = socialFooterIcon(item.label);
+                  return (
+                    <li key={item.href}>
+                      <ExternalLink
+                        href={item.href}
+                        className={styles.socialLink}
+                      >
+                        <Icon className={styles.socialIcon} />
+                        <span>{item.label}</span>
+                      </ExternalLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          ) : null}
           {settings.external.length > 0 ? (
             <>
               <h2 className={styles.heading}>Partner tools</h2>
-              <ul className={styles.list}>
+              <ul className={styles.list} aria-label="Partner tools">
                 {settings.external.map((item) => (
                   <li key={item.href}>
                     <ExternalLink href={item.href}>{item.label}</ExternalLink>

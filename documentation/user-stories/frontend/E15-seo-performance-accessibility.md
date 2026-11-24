@@ -13,8 +13,8 @@
 
 ### Acceptance criteria
 
-- [ ] Every public route sets title, description, canonical and OG/Twitter metadata.
-- [ ] Fallbacks exist when content-specific SEO fields are empty.
+- [x] Every public route sets title, description, canonical and OG/Twitter metadata.
+- [x] Fallbacks exist when content-specific SEO fields are empty.
 
 ---
 
@@ -31,8 +31,8 @@
 
 ### Acceptance criteria
 
-- [ ] Sitemap lists public content URLs.
-- [ ] Robots/sitemap exclude `/admin` and complaint submission endpoints/pages as agreed with Dev B.
+- [x] Sitemap lists public content URLs.
+- [x] Robots/sitemap exclude `/admin` and complaint submission endpoints/pages as agreed with Dev B.
 
 ---
 
@@ -49,8 +49,8 @@
 
 ### Acceptance criteria
 
-- [ ] Redirect map covers changed legacy paths (coordinate with migration).
-- [ ] Redirects are permanent where content moved permanently.
+- [x] Redirect map covers changed legacy paths (coordinate with migration).
+- [x] Redirects are permanent where content moved permanently.
 
 ---
 
@@ -67,9 +67,9 @@
 
 ### Acceptance criteria
 
-- [ ] Next.js image optimisation (or equivalent) used for content images.
-- [ ] Below-the-fold images lazy-load.
-- [ ] Prefer Server Components; avoid heavy client bundles for static content.
+- [x] Next.js image optimisation (or equivalent) used for content images.
+- [x] Below-the-fold images lazy-load.
+- [x] Prefer Server Components; avoid heavy client bundles for static content.
 
 ---
 
@@ -86,9 +86,9 @@
 
 ### Acceptance criteria
 
-- [ ] Semantic landmarks, keyboard operation, visible focus.
-- [ ] Labelled forms, meaningful alt text, sufficient colour contrast.
-- [ ] Respect `prefers-reduced-motion` for non-essential animation.
+- [x] Semantic landmarks, keyboard operation, visible focus.
+- [x] Labelled forms, meaningful alt text, sufficient colour contrast.
+- [x] Respect `prefers-reduced-motion` for non-essential animation.
 
 ---
 
@@ -105,8 +105,8 @@
 
 ### Acceptance criteria
 
-- [ ] Smoke-tested on agreed desktop and mobile browsers.
-- [ ] No critical layout/function breakers on mobile-first layouts.
+- [x] Smoke-tested on agreed desktop and mobile browsers.
+- [x] No critical layout/function breakers on mobile-first layouts.
 
 ---
 
@@ -123,6 +123,6 @@
 
 ### Acceptance criteria
 
-- [ ] Privacy page is linked from the footer.
-- [ ] Copy covers first-party analytics (no cookies / no raw IP) and anonymous complaints.
-- [ ] Content editable or migratable with Dev B as agreed.
+- [x] Privacy page is linked from the footer.
+- [x] Copy covers first-party analytics (no cookies / no raw IP) and anonymous complaints.
+- [x] Content editable or migratable with Dev B as agreed.

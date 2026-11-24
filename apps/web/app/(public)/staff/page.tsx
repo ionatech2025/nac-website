@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { StaffList } from "@/components/staff/staff-list";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import { listStaffMembers } from "@/lib/staff-data";
 import styles from "./staff.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Our Staff",
   description:
     "Meet the people who coordinate NAC’s programmes, partnerships, and youth spaces.",
-};
+  path: "/staff",
+});
 
 export default async function StaffPage() {
   const members = await listStaffMembers();

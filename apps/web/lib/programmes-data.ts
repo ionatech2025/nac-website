@@ -27,6 +27,8 @@ export type ProgrammeRelatedDownload = {
   id: string;
   title: string;
   href: string;
+  byteSize?: number;
+  fileType?: string;
 };
 
 export type ProgrammeListItem = {
@@ -37,11 +39,15 @@ export type ProgrammeListItem = {
   cover: ProgrammeImage | null;
 };
 
+/** Partner tool keys resolved from site settings (E14-01). */
+export type ProgrammeExternalKey = "youthGoBudget" | "slogbaa";
+
 export type ProgrammeDetail = ProgrammeListItem & {
   body: string | null;
   strategies: ProgrammeStrategy[];
   images: ProgrammeImage[];
-  externalLinks: { label: string; href: string }[];
+  /** Keys only — URLs come from `getSiteSettings().externalServices`. */
+  externalLinkKeys: ProgrammeExternalKey[];
   relatedStories: ProgrammeRelatedStory[];
   relatedDownloads: ProgrammeRelatedDownload[];
   linksToYouthSpaces: boolean;
@@ -70,12 +76,24 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [
-      { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
-      { label: "SLOGBAA", href: "https://slogbaa.org" },
-    ],
+    externalLinkKeys: ["youthGoBudget", "slogbaa"],
     relatedStories: [],
-    relatedDownloads: [],
+    relatedDownloads: [
+      {
+        id: "doc-youth-budgeting",
+        title: "Youth budgeting quick start",
+        href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
+        byteSize: 720_000,
+        fileType: "PDF",
+      },
+      {
+        id: "doc-strategic-plan",
+        title: "NAC Strategic Plan 2024–2028",
+        href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
+        byteSize: 2_400_000,
+        fileType: "PDF",
+      },
+    ],
     linksToYouthSpaces: false,
   },
   {
@@ -100,7 +118,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: false,
@@ -127,7 +145,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: false,
@@ -154,7 +172,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: true,

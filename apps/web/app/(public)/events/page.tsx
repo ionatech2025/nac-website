@@ -5,13 +5,15 @@ import {
   listAllPublicEvents,
   listUpcomingEvents,
 } from "@/lib/events-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./events.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Events",
   description:
     "Browse NAC events in month, week, day and year views, and see what is coming next.",
-};
+  path: "/events",
+});
 
 type Props = {
   searchParams: Promise<{ view?: string; date?: string }>;
