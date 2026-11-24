@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ExternalLink } from "./external-link";
 import {
   IconMail,
@@ -28,7 +27,8 @@ export function SiteFooter({ settings }: Props) {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brandBlock}>
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element -- same static brand asset as admin/login */}
+          <img
             src="/brand/nac-logo.png"
             alt="Network for Active Citizens"
             width={160}
@@ -55,21 +55,26 @@ export function SiteFooter({ settings }: Props) {
                 ) : null}
               </span>
             </li>
-            {settings.phones.map((phone) => (
-              <li key={phone}>
+            {settings.phones.length > 0 || settings.tollFree.trim() ? (
+              <li>
                 <IconPhone className={styles.icon} />
-                <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
+                <span className={styles.stacked}>
+                  {settings.phones.map((phone) => (
+                    <a
+                      key={phone}
+                      href={`tel:${phone.replace(/\s+/g, "")}`}
+                    >
+                      {phone}
+                    </a>
+                  ))}
+                  {settings.tollFree.trim() ? (
+                    <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
+                      Toll free: {settings.tollFree}
+                    </a>
+                  ) : null}
+                </span>
               </li>
-            ))}
-            <li>
-              <IconPhone className={styles.icon} />
-              <span>
-                Toll free:{" "}
-                <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
-                  {settings.tollFree}
-                </a>
-              </span>
-            </li>
+            ) : null}
             <li>
               <IconMail className={styles.icon} />
               <a href={`mailto:${settings.email}`}>{settings.email}</a>

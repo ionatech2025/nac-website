@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { DesktopNav } from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
@@ -9,13 +8,13 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <Link href="/" className={styles.brand} aria-label="NAC home">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element -- same static brand asset as admin/login */}
+          <img
             src="/brand/nac-logo.png"
-            alt=""
+            alt="Network for Active Citizens"
+            className={styles.logo}
             width={112}
             height={112}
-            className={styles.logo}
-            priority
           />
           <span className={styles.brandText}>
             <span className={styles.org}>Network for Active Citizens</span>

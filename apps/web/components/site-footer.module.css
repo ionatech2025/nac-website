@@ -76,6 +76,16 @@
   align-items: start;
 }
 
+.stacked {
+  display: grid;
+  gap: 0.3rem;
+  line-height: 1.45;
+}
+
+.stacked a {
+  display: block;
+}
+
 .icon,
 .socialIcon {
   width: 1.1rem;
