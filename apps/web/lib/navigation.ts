@@ -9,19 +9,25 @@ export type NavItem =
   | { type: "link"; label: string; href: string }
   | { type: "group"; label: string; href: string; children: NavLink[] };
 
-/** Primary navigation from requirements §5.1; Programs children from seed/CMS list. */
+/**
+ * Primary navigation. Member organisations sit under About to keep the
+ * desktop bar from overcrowding Contact Us.
+ */
 export const primaryNav: NavItem[] = [
   { type: "link", label: "Home", href: "/" },
-  { type: "link", label: "About Us", href: "/about" },
-  { type: "link", label: "Our Staff", href: "/staff" },
   {
-    type: "link",
-    label: "Member organisations",
-    href: "/member-organisations",
+    type: "group",
+    label: "About Us",
+    href: "/about",
+    children: [
+      { label: "About Us", href: "/about" },
+      { label: "Our Staff", href: "/staff" },
+      { label: "Member organisations", href: "/member-organisations" },
+    ],
   },
   {
     type: "group",
-    label: "Programs",
+    label: "Programmes",
     href: "/programs",
     children: programmeNavLinks(),
   },
@@ -50,7 +56,16 @@ export const primaryNav: NavItem[] = [
   },
 ];
 
-export function isNavActive(pathname: string, href: string): boolean {
+/**
+ * Active-state helper. Use `exact` for index links that share a prefix with
+ * child routes (e.g. /programs vs /programs/gap).
+ */
+export function isNavActive(
+  pathname: string,
+  href: string,
+  options?: { exact?: boolean },
+): boolean {
   if (href === "/") return pathname === "/";
+  if (options?.exact) return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 }

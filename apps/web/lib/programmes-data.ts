@@ -200,7 +200,7 @@ export async function getProgrammeBySlug(
 /** Nav children driven by the same seed list (CMS-ready shape). */
 export function programmeNavLinks(): { label: string; href: string }[] {
   return [
-    { label: "All programs", href: "/programs" },
+    { label: "All programmes", href: "/programs" },
     ...seedProgrammes.map((programme) => ({
       label: programme.title,
       href: `/programs/${programme.slug}`,

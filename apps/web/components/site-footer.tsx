@@ -1,5 +1,12 @@
 import Link from "next/link";
 import { ExternalLink } from "./external-link";
+import {
+  IconMail,
+  IconMapPin,
+  IconPhone,
+  IconWhatsApp,
+  socialFooterIcon,
+} from "./footer-icons";
 import { LatestDownloads } from "./latest-downloads";
 import { whatsappHref, type SiteSettings } from "@/lib/site-settings";
 import styles from "./site-footer.module.css";
@@ -22,6 +29,14 @@ export function SiteFooter({ settings }: Props) {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brandBlock}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- same static brand asset as admin/login */}
+          <img
+            src="/brand/nac-logo.png"
+            alt="Network for Active Citizens"
+            width={160}
+            height={160}
+            className={styles.logo}
+          />
           <p className={styles.org}>{settings.orgName}</p>
           <p className={styles.tagline}>{settings.tagline}</p>
           <p className={styles.copy}>{settings.copyright}</p>
@@ -32,34 +47,49 @@ export function SiteFooter({ settings }: Props) {
 
         <div>
           <h2 className={styles.heading}>Visit &amp; contact</h2>
-          {settings.address.trim() ? (
-            <p className={styles.body}>{settings.address}</p>
-          ) : null}
-          {settings.postal.trim() ? (
-            <p className={styles.body}>{settings.postal}</p>
-          ) : null}
-          <ul className={styles.list}>
-            {settings.phones.map((phone) => (
-              <li key={phone}>
-                <a href={`tel:${phone.replace(/\s+/g, "")}`}>{phone}</a>
-              </li>
-            ))}
-            {settings.tollFree.trim() ? (
+          <ul className={styles.iconList}>
+            {settings.address.trim() || settings.postal.trim() ? (
               <li>
-                Toll free:{" "}
-                <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
-                  {settings.tollFree}
-                </a>
+                <IconMapPin className={styles.icon} />
+                <span>
+                  {settings.address.trim() ? settings.address : null}
+                  {settings.address.trim() && settings.postal.trim() ? (
+                    <br />
+                  ) : null}
+                  {settings.postal.trim() ? settings.postal : null}
+                </span>
+              </li>
+            ) : null}
+            {settings.phones.length > 0 || settings.tollFree.trim() ? (
+              <li>
+                <IconPhone className={styles.icon} />
+                <span className={styles.stacked}>
+                  {settings.phones.map((phone) => (
+                    <a
+                      key={phone}
+                      href={`tel:${phone.replace(/\s+/g, "")}`}
+                    >
+                      {phone}
+                    </a>
+                  ))}
+                  {settings.tollFree.trim() ? (
+                    <a href={`tel:${settings.tollFree.replace(/\s+/g, "")}`}>
+                      Toll free: {settings.tollFree}
+                    </a>
+                  ) : null}
+                </span>
               </li>
             ) : null}
             {settings.email.trim() ? (
               <li>
+                <IconMail className={styles.icon} />
                 <a href={`mailto:${settings.email}`}>{settings.email}</a>
               </li>
             ) : null}
             {whatsapp ? (
               <li>
-                <ExternalLink href={whatsapp}>Chat on WhatsApp</ExternalLink>
+                <IconWhatsApp className={styles.icon} />
+                <ExternalLink href={whatsapp}>WhatsApp</ExternalLink>
               </li>
             ) : null}
           </ul>
@@ -69,12 +99,21 @@ export function SiteFooter({ settings }: Props) {
           {settings.social.length > 0 ? (
             <>
               <h2 className={styles.heading}>Connect</h2>
-              <ul className={styles.list} aria-label="Social media profiles">
-                {settings.social.map((item) => (
-                  <li key={item.href}>
-                    <ExternalLink href={item.href}>{item.label}</ExternalLink>
-                  </li>
-                ))}
+              <ul className={styles.socialRow} aria-label="Social media profiles">
+                {settings.social.map((item) => {
+                  const Icon = socialFooterIcon(item.label);
+                  return (
+                    <li key={item.href}>
+                      <ExternalLink
+                        href={item.href}
+                        className={styles.socialLink}
+                      >
+                        <Icon className={styles.socialIcon} />
+                        <span>{item.label}</span>
+                      </ExternalLink>
+                    </li>
+                  );
+                })}
               </ul>
             </>
           ) : null}

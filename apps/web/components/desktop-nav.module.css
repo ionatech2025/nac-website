@@ -4,10 +4,17 @@
 
 .list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
-  gap: 0.15rem;
+  align-items: center;
+  gap: 0.05rem;
   list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
 }
 
 .link,
@@ -16,15 +23,15 @@
 .activeTrigger {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  min-height: 2.25rem;
-  padding: 0.35rem 0.55rem;
+  gap: 0.2rem;
+  min-height: 2.1rem;
+  padding: 0.3rem 0.45rem;
   border: 0;
   border-radius: 0.55rem;
   background: transparent;
   color: var(--nac-ink);
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   font-weight: 550;
   cursor: pointer;
   text-decoration: none;
@@ -53,10 +60,17 @@
   position: relative;
 }
 
+.group:last-child .dropdown,
+.group:nth-last-child(2) .dropdown {
+  left: auto;
+  right: 0;
+}
+
 .dropdown {
   position: absolute;
   top: calc(100% + 0.35rem);
   left: 0;
+  z-index: 50;
   min-width: 15rem;
   padding: 0.4rem;
   list-style: none;

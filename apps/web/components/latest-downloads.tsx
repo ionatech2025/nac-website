@@ -37,8 +37,14 @@ export function LatestDownloads({
           const meta = [file.fileType, size].filter(Boolean).join(" · ");
           return (
             <li key={file.id} className={styles.item}>
-              <a href={file.href} className={styles.link}>
+              <a
+                href={file.href}
+                className={styles.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {file.title}
+                <span className={styles.srOnly}> (opens in a new tab)</span>
               </a>
               {meta ? <span className={styles.size}>{meta}</span> : null}
             </li>
