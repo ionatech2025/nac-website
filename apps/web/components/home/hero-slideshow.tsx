@@ -16,6 +16,10 @@ export function HeroSlideshow({ slides }: Props) {
 
   useEffect(() => {
     if (paused || slides.length < 2) return;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduceMotion) return;
     const id = window.setInterval(() => {
       setIndex((current) => (current + 1) % slides.length);
     }, 6000);

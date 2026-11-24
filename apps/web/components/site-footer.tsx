@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ExternalLink } from "./external-link";
 import { LatestDownloads } from "./latest-downloads";
 import type { SiteSettings } from "@/lib/site-settings";
@@ -23,6 +24,9 @@ export function SiteFooter({ settings }: Props) {
           <p className={styles.org}>{settings.orgName}</p>
           <p className={styles.tagline}>{settings.tagline}</p>
           <p className={styles.copy}>{settings.copyright}</p>
+          <p className={styles.legal}>
+            <Link href="/privacy">Privacy notice</Link>
+          </p>
         </div>
 
         <div>
