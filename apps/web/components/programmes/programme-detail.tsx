@@ -9,9 +9,13 @@ import styles from "./programme-detail.module.css";
 
 type Props = {
   programme: ProgrammeDetailType;
+  externalLinks?: { label: string; href: string }[];
 };
 
-export function ProgrammeDetailView({ programme }: Props) {
+export function ProgrammeDetailView({
+  programme,
+  externalLinks = [],
+}: Props) {
   const hero = programme.images[0] ?? programme.cover;
 
   return (
@@ -57,13 +61,13 @@ export function ProgrammeDetailView({ programme }: Props) {
         </section>
       ) : null}
 
-      {programme.externalLinks.length > 0 ? (
+      {externalLinks.length > 0 ? (
         <section className={styles.block} aria-labelledby="tools-heading">
           <h2 id="tools-heading" className={styles.heading}>
             Related tools
           </h2>
           <ul className={styles.links}>
-            {programme.externalLinks.map((link) => (
+            {externalLinks.map((link) => (
               <li key={link.href}>
                 <ExternalLink href={link.href}>{link.label}</ExternalLink>
               </li>

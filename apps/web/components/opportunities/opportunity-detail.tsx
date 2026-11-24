@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ShareLinks } from "@/components/share-links";
 import {
   applyMailto,
   formatOpportunityDate,
@@ -107,6 +108,11 @@ export function OpportunityDetailView({ opportunity }: Props) {
           </p>
         )}
       </section>
+
+      <ShareLinks
+        path={`/opportunities/${opportunity.slug}`}
+        title={opportunity.title}
+      />
     </article>
   );
 }

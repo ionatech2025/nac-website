@@ -39,11 +39,15 @@ export type ProgrammeListItem = {
   cover: ProgrammeImage | null;
 };
 
+/** Partner tool keys resolved from site settings (E14-01). */
+export type ProgrammeExternalKey = "youthGoBudget" | "slogbaa";
+
 export type ProgrammeDetail = ProgrammeListItem & {
   body: string | null;
   strategies: ProgrammeStrategy[];
   images: ProgrammeImage[];
-  externalLinks: { label: string; href: string }[];
+  /** Keys only — URLs come from `getSiteSettings().externalServices`. */
+  externalLinkKeys: ProgrammeExternalKey[];
   relatedStories: ProgrammeRelatedStory[];
   relatedDownloads: ProgrammeRelatedDownload[];
   linksToYouthSpaces: boolean;
@@ -72,10 +76,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [
-      { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
-      { label: "SLOGBAA", href: "https://slogbaa.org" },
-    ],
+    externalLinkKeys: ["youthGoBudget", "slogbaa"],
     relatedStories: [],
     relatedDownloads: [
       {
@@ -117,7 +118,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: false,
@@ -144,7 +145,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: false,
@@ -171,7 +172,7 @@ const seedProgrammes: ProgrammeDetail[] = [
       },
     ],
     images: [],
-    externalLinks: [],
+    externalLinkKeys: [],
     relatedStories: [],
     relatedDownloads: [],
     linksToYouthSpaces: true,
