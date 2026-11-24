@@ -15,6 +15,11 @@ export const primaryNav: NavItem[] = [
   { type: "link", label: "About Us", href: "/about" },
   { type: "link", label: "Our Staff", href: "/staff" },
   {
+    type: "link",
+    label: "Member organisations",
+    href: "/member-organisations",
+  },
+  {
     type: "group",
     label: "Programs",
     href: "/programs",

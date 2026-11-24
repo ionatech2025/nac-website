@@ -1,0 +1,68 @@
+.item {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--nac-line);
+}
+
+.media {
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: var(--nac-surface);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.copy {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.title {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.title a {
+  color: var(--nac-ink);
+  text-decoration: none;
+}
+
+.title a:hover,
+.title a:focus-visible {
+  color: var(--nac-green-deep);
+}
+
+.excerpt {
+  color: var(--nac-muted);
+  line-height: 1.55;
+}
+
+.more {
+  font-weight: 650;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.more:hover,
+.more:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+@media (min-width: 800px) {
+  .item {
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+}
