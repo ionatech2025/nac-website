@@ -3,10 +3,16 @@
  * Seed mirrors `getPublicSiteSettings()` shape; empty string = hide that field.
  */
 
+import {
+  listLatestDocuments,
+  toLatestDownloadItem,
+} from "./downloads-data";
+
 export type SiteDownload = {
   title: string;
   href: string;
   byteSize?: number;
+  fileType?: string;
 };
 
 export type SocialProfiles = {
@@ -109,20 +115,40 @@ export const defaultSiteSettings: SiteSettings = {
   email: "activecitizenuganda@gmail.com",
   whatsapp: "256774843081",
   copyright: `© ${new Date().getFullYear()} Network for Active Citizens (NAC)`,
-  socialProfiles: seedSocial,
-  externalServices: seedExternal,
-  social: linksFromSocial(seedSocial),
-  external: linksFromExternal(seedExternal),
-  latestDownloads: [
+  social: [
     {
-      title: "NAC Strategic Plan 2024–2028",
-      href: "https://nacuganda.org/sites/default/files/Downloads/NAC_Strategic%20Plan.pdf",
-      byteSize: 2_400_000,
+      label: "Facebook",
+      href: "https://facebook.com/networkforactivecitizens",
+    },
+    {
+      label: "X (Twitter)",
+      href: "https://twitter.com/activecitizensu",
+    },
+    {
+      label: "LinkedIn",
+      href: "https://linkedin.com/company/network-for-active-citizens",
     },
   ],
+  external: [
+    { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
+    { label: "SLOGBAA", href: "https://slogbaa.org" },
+  ],
+  latestDownloads: [],
 };
 
 /** Seed/fallback until public pages call `getPublicSiteSettings()` live. */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return defaultSiteSettings;
+  const latest = await listLatestDocuments(4);
+  return {
+    ...defaultSiteSettings,
+    latestDownloads: latest.map((doc) => {
+      const item = toLatestDownloadItem(doc);
+      return {
+        title: item.title,
+        href: item.href,
+        byteSize: item.byteSize,
+        fileType: item.fileType,
+      };
+    }),
+  };
 }

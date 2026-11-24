@@ -13,6 +13,7 @@ export function SiteFooter({ settings }: Props) {
     title: file.title,
     href: file.href,
     byteSize: file.byteSize,
+    fileType: file.fileType,
   }));
   const whatsapp = whatsappHref(settings.whatsapp);
 

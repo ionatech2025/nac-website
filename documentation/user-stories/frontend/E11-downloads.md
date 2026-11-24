@@ -13,9 +13,9 @@
 
 ### Acceptance criteria
 
-- [ ] Lists published documents with metadata and download link.
-- [ ] Pagination or bounded list works.
-- [ ] Download starts/opens the stored file URL.
+- [x] Lists published documents with metadata and download link. *(seed until CMS)*
+- [x] Pagination or bounded list works.
+- [x] Download starts/opens the stored file URL.
 
 ---
 
@@ -32,8 +32,8 @@
 
 ### Acceptance criteria
 
-- [ ] Category filter/group works with the listing.
-- [ ] Empty category results show an empty state.
+- [x] Category filter/group works with the listing.
+- [x] Empty category results show an empty state.
 
 ---
 
@@ -50,8 +50,8 @@
 
 ### Acceptance criteria
 
-- [ ] Shared component used in home, footer and programme contexts.
-- [ ] Only published documents appear.
+- [x] Shared component used in home, footer and programme contexts.
+- [x] Only published documents appear.
 
 ---
 
@@ -68,5 +68,5 @@
 
 ### Acceptance criteria
 
-- [ ] Size and type shown next to each item.
-- [ ] PDF / 2.5 MB rule messaging is consistent with upload UX elsewhere (public side only displays; enforcement is Dev B).
+- [x] Size and type shown next to each item.
+- [x] PDF / 2.5 MB rule messaging is consistent with upload UX elsewhere (public side only displays; enforcement is Dev B).

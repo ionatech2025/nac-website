@@ -13,9 +13,9 @@
 
 ### Acceptance criteria
 
-- [ ] Albums list and album detail (grid of images) exist.
-- [ ] Lightbox opens an image with next/prev where applicable.
-- [ ] Layout works on mobile and desktop.
+- [x] Albums list and album detail (grid of images) exist. *(seed until CMS)*
+- [x] Lightbox opens an image with next/prev where applicable.
+- [x] Layout works on mobile and desktop.
 
 ---
 
@@ -32,8 +32,8 @@
 
 ### Acceptance criteria
 
-- [ ] Captions display when provided.
-- [ ] Alt text is present on images (fallback if missing is sensible and not decorative spam).
+- [x] Captions display when provided.
+- [x] Alt text is present on images (fallback if missing is sensible and not decorative spam).
 
 ---
 
@@ -50,6 +50,6 @@
 
 ### Acceptance criteria
 
-- [ ] Videos render from stored provider URL/reference (not arbitrary embed code).
-- [ ] Title and description shown.
-- [ ] Unsupported providers fail gracefully.
+- [x] Videos render from stored provider URL/reference (not arbitrary embed code).
+- [x] Title and description shown.
+- [x] Unsupported providers fail gracefully.
