@@ -29,8 +29,14 @@ export function LatestDownloads({
           const size = formatBytes(file.byteSize);
           return (
             <li key={file.id} className={styles.item}>
-              <a href={file.href} className={styles.link}>
+              <a
+                href={file.href}
+                className={styles.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {file.title}
+                <span className={styles.srOnly}> (opens in a new tab)</span>
               </a>
               {size ? <span className={styles.size}>{size}</span> : null}
             </li>

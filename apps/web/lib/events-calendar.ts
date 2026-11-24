@@ -39,7 +39,8 @@ export function toDateKey(date: Date): string {
 
 export function startOfWeek(date: Date): Date {
   const result = new Date(date);
-  const day = (result.getDay() + 6) % 7; // Monday = 0
+  // Sunday = 0 (local calendar week for Events).
+  const day = result.getDay();
   result.setDate(result.getDate() - day);
   result.setHours(12, 0, 0, 0);
   return result;
