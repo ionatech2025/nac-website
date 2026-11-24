@@ -115,24 +115,10 @@ export const defaultSiteSettings: SiteSettings = {
   email: "activecitizenuganda@gmail.com",
   whatsapp: "256774843081",
   copyright: `© ${new Date().getFullYear()} Network for Active Citizens (NAC)`,
-  social: [
-    {
-      label: "Facebook",
-      href: "https://facebook.com/networkforactivecitizens",
-    },
-    {
-      label: "X (Twitter)",
-      href: "https://twitter.com/activecitizensu",
-    },
-    {
-      label: "LinkedIn",
-      href: "https://linkedin.com/company/network-for-active-citizens",
-    },
-  ],
-  external: [
-    { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
-    { label: "SLOGBAA", href: "https://slogbaa.org" },
-  ],
+  socialProfiles: seedSocial,
+  externalServices: seedExternal,
+  social: linksFromSocial(seedSocial),
+  external: linksFromExternal(seedExternal),
   latestDownloads: [],
 };
 

@@ -150,7 +150,6 @@ const seed: HomePageData = {
     { id: "fig-2", label: "Youth spaces", value: "15" },
   ],
   downloads: [],
-  youthGoBudgetUrl: "https://youthgobudgetapp.org",
 };
 
 export async function getHomePageData(): Promise<HomePageData> {
