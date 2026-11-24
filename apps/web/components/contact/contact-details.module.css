@@ -1,0 +1,48 @@
+.section {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.heading {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.block {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nac-muted);
+}
+
+.copy {
+  color: var(--nac-ink);
+  line-height: 1.55;
+  max-width: 36rem;
+}
+
+.list {
+  display: grid;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.list a {
+  color: var(--nac-green-deep);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.list a:hover,
+.list a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

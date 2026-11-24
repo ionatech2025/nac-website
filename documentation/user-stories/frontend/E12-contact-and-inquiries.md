@@ -15,8 +15,8 @@
 
 ### Acceptance criteria
 
-- [ ] Contact fields come from site settings. *(ready — see server contract below)*
-- [ ] Phone and email are clickable (`tel:` / `mailto:`) where appropriate.
+- [x] Contact fields come from site settings. *(seed `getContactSettings` until CMS `getPublicSiteSettings`)*
+- [x] Phone and email are clickable (`tel:` / `mailto:`) where appropriate.
 
 > **Server contract (ready, AD-B6-01):**
 > - `const { contact } = await getPublicSiteSettings()` from `@repo/database`.
@@ -38,11 +38,11 @@
 
 ### Acceptance criteria
 
-- [ ] Fields: name, email, subject, message.
-- [ ] Client-side validation mirrors shared Zod schema for feedback only.
-- [ ] Success and error states are clear.
-- [ ] Includes honeypot (and CAPTCHA UI if agreed) without blocking legitimate users.
-- [ ] Submits to Dev B’s handler; does not store inquiries in the browser alone.
+- [x] Fields: name, email, subject, message.
+- [x] Client-side validation mirrors shared Zod schema for feedback only.
+- [x] Success and error states are clear.
+- [x] Includes honeypot (and CAPTCHA UI if agreed) without blocking legitimate users.
+- [x] Submits to Dev B’s handler; does not store inquiries in the browser alone.
 
 > **Server contract (ready, AD-B4-01):**
 > - Server action: `submitInquiryAction` from `apps/web/lib/inquiry-action.ts` — use with `useActionState(submitInquiryAction, null)`.
