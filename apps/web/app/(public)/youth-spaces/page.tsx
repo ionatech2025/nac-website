@@ -4,12 +4,14 @@ import {
   listYouthRegions,
   YOUTH_SPACES_INTRO,
 } from "@/lib/youth-spaces-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./youth-spaces.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Youth Spaces",
   description: YOUTH_SPACES_INTRO,
-};
+  path: "/youth-spaces",
+});
 
 export default async function YouthSpacesPage() {
   const regions = await listYouthRegions();

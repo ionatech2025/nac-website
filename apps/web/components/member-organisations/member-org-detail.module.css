@@ -1,0 +1,83 @@
+.page {
+  max-width: var(--nac-max);
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.eyebrow a {
+  color: var(--nac-green-deep);
+  text-decoration: none;
+}
+
+.eyebrow a:hover,
+.eyebrow a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--nac-ink);
+}
+
+.body {
+  margin-top: 1.35rem;
+  max-width: 42rem;
+  color: var(--nac-ink);
+  line-height: 1.65;
+}
+
+.website {
+  margin-top: 1.25rem;
+  font-weight: 650;
+}
+
+.gallery {
+  margin-top: 2rem;
+}
+
+.images {
+  display: grid;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.imageItem {
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: var(--nac-surface);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.caption {
+  padding: 0.65rem 0.85rem 0.85rem;
+  color: var(--nac-muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 800px) {
+  .images {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .imageItem:first-child:nth-last-child(odd) {
+    grid-column: 1 / -1;
+  }
+}

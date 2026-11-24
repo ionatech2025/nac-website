@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { ArticleList } from "@/components/news/article-list";
 import { listArticlesPage } from "@/lib/news-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./news.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Blogs & News",
   description:
     "News and stories from the Network for Active Citizens across Uganda.",
-};
+  path: "/news",
+});
 
 type Props = {
   searchParams: Promise<{ page?: string }>;

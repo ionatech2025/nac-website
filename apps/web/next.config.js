@@ -1,3 +1,4 @@
+import { LEGACY_REDIRECTS } from "./lib/legacy-redirects.js";
 import { SECURITY_HEADERS } from "./security-headers.js";
 
 /** Privacy headers for anonymous complaint pages and API (E13-04). */
@@ -26,6 +27,9 @@ const nextConfig = {
       bodySizeLimit: "3mb", // ≥ MAX_UPLOAD_BYTES (2.5 MB) + multipart overhead (ISSUE-003)
     },
   },
+  async redirects() {
+    return LEGACY_REDIRECTS;
+  },
   async headers() {
     // Later rules win for the same header, so the stricter complaint
     // Referrer-Policy overrides the site-wide one.
@@ -33,6 +37,7 @@ const nextConfig = {
       { source: "/:path*", headers: SECURITY_HEADERS },
       { source: "/:path(.*complaint.*)", headers: COMPLAINT_HEADERS },
       { source: "/admin/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
+      { source: "/login", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
     ];
   },
 };

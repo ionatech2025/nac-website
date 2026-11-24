@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleDetailView } from "@/components/news/article-detail";
 import { getArticleBySlug } from "@/lib/news-data";
-import { absoluteUrl } from "@/lib/share-links";
+import { publicPageMetadata } from "@/lib/page-metadata";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -16,25 +16,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     article.seoDescription?.trim() || article.excerpt || undefined;
   const shareImage = article.ogImage ?? article.coverImage;
 
-  return {
+  return publicPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      url: absoluteUrl(`/news/${article.slug}`),
-      images: shareImage
-        ? [{ url: shareImage.url, alt: shareImage.altText }]
-        : undefined,
-    },
-    twitter: {
-      card: shareImage ? "summary_large_image" : "summary",
-      title,
-      description,
-      images: shareImage ? [shareImage.url] : undefined,
-    },
-  };
+    path: `/news/${article.slug}`,
+    type: "article",
+    image: shareImage
+      ? { url: shareImage.url, alt: shareImage.altText }
+      : null,
+  });
 }
 
 export default async function ArticleDetailPage({ params }: Props) {

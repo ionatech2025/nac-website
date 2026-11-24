@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PastEventsList } from "@/components/events/past-events-list";
 import { listPastEventsPage } from "@/lib/events-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "../events.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Past events",
   description: "Archive of past Network for Active Citizens events.",
-};
+  path: "/events/archive",
+});
 
 type Props = {
   searchParams: Promise<{ page?: string }>;
