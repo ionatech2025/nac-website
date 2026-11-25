@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ComplaintForm } from "@/components/complaints/complaint-form";
 import { ComplaintIntro } from "@/components/complaints/complaint-intro";
 import { complaintTodayYmd } from "@/lib/complaint-today";
@@ -22,11 +23,18 @@ export default function ComplaintsPage() {
       </h1>
       <p className={styles.lead}>
         Use this page to raise a concern without sharing your identity. Read the
-        process notes before you submit.
+        process notes before you submit. For a named reply, use the{" "}
+        <Link href="/contact">inquiry form</Link>.
       </p>
       <div className={styles.layout}>
         <ComplaintIntro />
-        <ComplaintForm todayYmd={todayYmd} />
+        <div className={styles.formColumn}>
+          <ComplaintForm todayYmd={todayYmd} />
+          <p className={styles.inquiryNote}>
+            Prefer a reply by email?{" "}
+            <Link href="/contact">Send an inquiry instead</Link>.
+          </p>
+        </div>
       </div>
     </section>
   );

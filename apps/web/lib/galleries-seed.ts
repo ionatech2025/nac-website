@@ -28,8 +28,8 @@ export type SeedVideo = {
   sortOrder: number;
 };
 
-const BANNER =
-  "https://nacuganda.org/sites/default/files/styles/banner_image/public/Banner%20Images/IMG_8729_optimized_1.jpeg";
+/** Local copy of a nacuganda.org banner used across gallery seed rows. */
+const BANNER = "/seed/members/banner.jpg";
 
 export const SEED_ALBUMS: SeedAlbum[] = [
   {

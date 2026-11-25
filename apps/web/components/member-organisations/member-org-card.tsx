@@ -13,28 +13,27 @@ export function MemberOrgCard({ organisation }: Props) {
 
   return (
     <li className={styles.item}>
-      {cover ? (
+      <Link href={href} className={styles.card}>
         <div className={styles.media}>
-          <Image
-            src={cover.url}
-            alt={cover.altText}
-            width={640}
-            height={400}
-            className={styles.image}
-            sizes="(max-width: 800px) 100vw, 280px"
-            unoptimized
-          />
+          {cover ? (
+            <Image
+              src={cover.url}
+              alt={cover.altText}
+              width={640}
+              height={400}
+              className={styles.image}
+              sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+            />
+          ) : (
+            <div className={styles.placeholder} aria-hidden="true" />
+          )}
         </div>
-      ) : null}
-      <div className={styles.copy}>
-        <h2 className={styles.title}>
-          <Link href={href}>{organisation.name}</Link>
-        </h2>
-        <p className={styles.excerpt}>{organisation.excerpt}</p>
-        <Link className={styles.more} href={href}>
-          View organisation
-        </Link>
-      </div>
+        <div className={styles.copy}>
+          <h2 className={styles.title}>{organisation.name}</h2>
+          <p className={styles.excerpt}>{organisation.excerpt}</p>
+          <span className={styles.more}>View organisation</span>
+        </div>
+      </Link>
     </li>
   );
 }
