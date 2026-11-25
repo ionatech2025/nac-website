@@ -16,7 +16,7 @@ export type SeedArticle = {
 };
 
 const BANNER =
-  "https://nacuganda.org/sites/default/files/styles/banner_image/public/Banner%20Images/IMG_8729_optimized_1.jpeg";
+  "/seed/members/banner.jpg";
 
 type Draft = Omit<
   SeedArticle,

@@ -91,14 +91,14 @@ const seed: HomePageData = {
     {
       id: "slide-1",
       imageUrl:
-        "https://nacuganda.org/sites/default/files/styles/banner_image/public/Banner%20Images/IMG_8729_optimized_1.jpeg",
+        "/seed/members/banner.jpg",
       altText: "Young people gathered with NAC at a community event",
       caption: "Youth organizing across Uganda",
     },
     {
       id: "slide-2",
       imageUrl:
-        "https://nacuganda.org/sites/default/files/styles/banner_image/public/Banner%20Images/IMG_8729_optimized_1.jpeg",
+        "/seed/members/banner.jpg",
       altText: "NAC youth space and community engagement",
       caption: "Spaces where young people lead",
       destinationUrl: "/youth-spaces",

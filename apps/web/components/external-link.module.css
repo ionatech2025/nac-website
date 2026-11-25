@@ -12,6 +12,13 @@
   color: var(--nac-accent);
 }
 
+.plain {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
 .mark {
   font-size: 0.85em;
   line-height: 1;

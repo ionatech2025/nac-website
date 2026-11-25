@@ -107,9 +107,10 @@ export function SiteFooter({ settings }: Props) {
                       <ExternalLink
                         href={item.href}
                         className={styles.socialLink}
+                        showMark={false}
+                        aria-label={item.label}
                       >
                         <Icon className={styles.socialIcon} />
-                        <span>{item.label}</span>
                       </ExternalLink>
                     </li>
                   );

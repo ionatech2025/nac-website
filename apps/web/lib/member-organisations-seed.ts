@@ -1,6 +1,7 @@
 /**
  * Member organisations seed rows for Epic E16 (Dev A).
  * Mirrors published CMS shape; no database access here.
+ * Images are local copies from nacuganda.org album covers / banners.
  */
 
 export type SeedMemberImage = {
@@ -22,9 +23,6 @@ export type SeedMemberOrganisation = {
   images: SeedMemberImage[];
 };
 
-const SAMPLE_IMAGE =
-  "https://nacuganda.org/sites/default/files/styles/banner_image/public/Banner%20Images/IMG_8729_optimized_1.jpeg";
-
 export const SEED_MEMBER_ORGANISATIONS: SeedMemberOrganisation[] = [
   {
     id: "mo-oboivu",
@@ -39,13 +37,13 @@ OBOIVU partners with NAC at Kinawataka Youth Space, supporting reading, learning
       {
         id: "mo-oboivu-1",
         caption: "Community learning at Kinawataka",
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/oboivu.jpg",
         altText: "Young people gathered for a community activity",
       },
       {
         id: "mo-oboivu-2",
         caption: null,
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/banner.jpg",
         altText: "Youth space workshop session",
       },
     ],
@@ -63,7 +61,7 @@ HADE co-manages Kamwanyi Youth Space with NAC, including a container shop for wa
       {
         id: "mo-hade-1",
         caption: "Enterprise support at Kamwanyi",
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/hade.jpg",
         altText: "Youth social enterprise activity by the lake",
       },
     ],
@@ -75,7 +73,14 @@ HADE co-manages Kamwanyi Youth Space with NAC, including a container shop for wa
     sortOrder: 3,
     websiteUrl: null,
     bio: `Civact is a civic organising partner in the NAC network. At Kitintale Youth Space it helps young people meet local leaders through village meetings and youth parliament sessions.`,
-    images: [],
+    images: [
+      {
+        id: "mo-civact-1",
+        caption: "Civic organising at Kitintale",
+        url: "/seed/members/civact.jpg",
+        altText: "Young people in a civic organising session",
+      },
+    ],
   },
   {
     id: "mo-uyonet",
@@ -88,19 +93,19 @@ HADE co-manages Kamwanyi Youth Space with NAC, including a container shop for wa
       {
         id: "mo-uyonet-1",
         caption: "Budgeting tools for young people",
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/uyonet.jpg",
         altText: "Young people learning about local budgeting",
       },
       {
         id: "mo-uyonet-2",
         caption: null,
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/activity.jpg",
         altText: "UYONET and NAC partnership activity",
       },
       {
         id: "mo-uyonet-3",
         caption: "Community dialogue",
-        url: SAMPLE_IMAGE,
+        url: "/seed/members/banner.jpg",
         altText: "Community dialogue session",
       },
     ],

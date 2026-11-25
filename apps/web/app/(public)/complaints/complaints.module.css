@@ -36,6 +36,28 @@
   margin-top: 2rem;
 }
 
+.lead a,
+.inquiryNote a {
+  color: var(--nac-green-deep);
+  font-weight: 600;
+}
+
+.formColumn {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.inquiryNote {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--nac-line);
+  background: rgb(11 78 54 / 0.05);
+  color: var(--nac-muted);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
 @media (min-width: 900px) {
   .layout {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);

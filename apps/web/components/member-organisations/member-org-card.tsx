@@ -13,7 +13,7 @@ export function MemberOrgCard({ organisation }: Props) {
 
   return (
     <li className={styles.item}>
-      {cover ? (
+      <Link href={href} className={styles.card}>
         <div className={styles.media}>
           <Image
             src={cover.url}
@@ -25,16 +25,12 @@ export function MemberOrgCard({ organisation }: Props) {
             unoptimized
           />
         </div>
-      ) : null}
-      <div className={styles.copy}>
-        <h2 className={styles.title}>
-          <Link href={href}>{organisation.name}</Link>
-        </h2>
-        <p className={styles.excerpt}>{organisation.excerpt}</p>
-        <Link className={styles.more} href={href}>
-          View organisation
-        </Link>
-      </div>
+        <div className={styles.copy}>
+          <h2 className={styles.title}>{organisation.name}</h2>
+          <p className={styles.excerpt}>{organisation.excerpt}</p>
+          <span className={styles.more}>View organisation</span>
+        </div>
+      </Link>
     </li>
   );
 }

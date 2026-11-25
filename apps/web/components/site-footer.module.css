@@ -79,10 +79,16 @@
 }
 
 .list,
-.iconList,
-.socialRow {
+.iconList {
   display: grid;
   gap: 0.55rem;
+  list-style: none;
+}
+
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
   list-style: none;
 }
 
@@ -103,8 +109,7 @@
   display: block;
 }
 
-.icon,
-.socialIcon {
+.icon {
   width: 1.1rem;
   height: 1.1rem;
   margin-top: 0.2rem;
@@ -113,8 +118,7 @@
 }
 
 .list a,
-.iconList a,
-.socialLink {
+.iconList a {
   color: var(--nac-ink);
   text-decoration: none;
 }
@@ -122,9 +126,7 @@
 .list a:hover,
 .list a:focus-visible,
 .iconList a:hover,
-.iconList a:focus-visible,
-.socialLink:hover,
-.socialLink:focus-visible {
+.iconList a:focus-visible {
   color: var(--nac-green-deep);
   text-decoration: underline;
   text-underline-offset: 0.15em;
@@ -133,8 +135,36 @@
 .socialLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-weight: 550;
+  justify-content: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  border-radius: 999px;
+  border: 1px solid rgb(11 78 54 / 0.16);
+  background: #fff;
+  color: var(--nac-green-deep);
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgb(20 35 28 / 0.06);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.socialIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.socialLink:hover,
+.socialLink:focus-visible {
+  background: var(--nac-green-deep);
+  border-color: var(--nac-green-deep);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
 }
 
 @media (min-width: 800px) {

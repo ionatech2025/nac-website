@@ -10,8 +10,8 @@ export type NavItem =
   | { type: "group"; label: string; href: string; children: NavLink[] };
 
 /**
- * Primary navigation. Member organisations sit under About to keep the
- * desktop bar from overcrowding Contact Us.
+ * Primary navigation. Member organisations appear as a top-level item and
+ * under About so the directory is easy to find on desktop and mobile.
  */
 export const primaryNav: NavItem[] = [
   { type: "link", label: "Home", href: "/" },
@@ -30,6 +30,11 @@ export const primaryNav: NavItem[] = [
     label: "Programmes",
     href: "/programs",
     children: programmeNavLinks(),
+  },
+  {
+    type: "link",
+    label: "Member organisations",
+    href: "/member-organisations",
   },
   { type: "link", label: "Youth Spaces", href: "/youth-spaces" },
   { type: "link", label: "Opportunities", href: "/opportunities" },
