@@ -21,7 +21,7 @@ export function MemberOrgCard({ organisation }: Props) {
             width={640}
             height={400}
             className={styles.image}
-            sizes="(max-width: 800px) 100vw, 280px"
+            sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
             unoptimized
           />
         </div>
