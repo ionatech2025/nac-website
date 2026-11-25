@@ -15,18 +15,15 @@ export function MemberOrgCard({ organisation }: Props) {
     <li className={styles.item}>
       <Link href={href} className={styles.card}>
         <div className={styles.media}>
-          {cover ? (
-            <Image
-              src={cover.url}
-              alt={cover.altText}
-              width={640}
-              height={400}
-              className={styles.image}
-              sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
-            />
-          ) : (
-            <div className={styles.placeholder} aria-hidden="true" />
-          )}
+          <Image
+            src={cover.url}
+            alt={cover.altText}
+            width={640}
+            height={400}
+            className={styles.image}
+            sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+            unoptimized
+          />
         </div>
         <div className={styles.copy}>
           <h2 className={styles.title}>{organisation.name}</h2>
