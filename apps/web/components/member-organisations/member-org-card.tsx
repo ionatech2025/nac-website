@@ -9,21 +9,25 @@ type Props = {
 
 export function MemberOrgCard({ organisation }: Props) {
   const href = `/member-organisations/${organisation.slug}`;
-  const cover = organisation.cover;
+  const coverUrl = organisation.cover?.url;
+  const coverAlt = organisation.cover?.altText ?? organisation.name;
 
   return (
     <li className={styles.item}>
       <Link href={href} className={styles.card}>
         <div className={styles.media}>
-          <Image
-            src={cover.url}
-            alt={cover.altText}
-            width={640}
-            height={400}
-            className={styles.image}
-            sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
-            unoptimized
-          />
+          {coverUrl ? (
+            <Image
+              src={coverUrl}
+              alt={coverAlt}
+              width={640}
+              height={400}
+              className={styles.image}
+              sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+            />
+          ) : (
+            <div className={styles.placeholder} aria-hidden="true" />
+          )}
         </div>
         <div className={styles.copy}>
           <h2 className={styles.title}>{organisation.name}</h2>
