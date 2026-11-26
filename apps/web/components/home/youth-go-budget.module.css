@@ -1,5 +1,5 @@
 .section {
-  padding: clamp(2.5rem, 6vw, 4rem) 1.25rem;
+  padding: var(--nac-section-y) var(--nac-gutter);
   background:
     radial-gradient(circle at 12% 20%, rgb(232 168 56 / 0.22), transparent 40%),
     linear-gradient(135deg, #0b4e36, #1f7a55);
@@ -47,4 +47,10 @@
   color: var(--nac-green-deep) !important;
   font-weight: 700;
   text-decoration: none !important;
+  transition: transform 160ms ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  transform: translateY(-1px);
 }

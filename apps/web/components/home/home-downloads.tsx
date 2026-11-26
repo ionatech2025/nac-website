@@ -12,7 +12,8 @@ export function HomeDownloads({ downloads }: Props) {
       id="downloads"
       eyebrow="Resources"
       title="Latest downloads"
-      lead="Key documents visitors can open quickly from the homepage."
+      lead="Documents partners and visitors open most often."
+      tone="tint"
     >
       <LatestDownloads downloads={downloads} heading="Available now" />
     </SectionShell>

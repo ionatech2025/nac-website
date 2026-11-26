@@ -92,6 +92,51 @@ export function regionSectionId(name: string): string {
   return regionAnchor(name);
 }
 
+/** Short region labels for the primary-nav dropdown. */
+function navRegionLabel(name: string): string {
+  if (name === "Western Uganda") return "Western";
+  if (name === "Eastern Uganda") return "Eastern";
+  return name;
+}
+
+/** Compact space name for nav (drops the shared “Youth Space” suffix). */
+function navSpaceLabel(name: string): string {
+  return name
+    .replace(/\s+Youth\s+(CSO\s+)?(Space|Centre|Center)$/i, "")
+    .trim();
+}
+
+export type YouthSpacesNavColumn = {
+  heading: string;
+  href: string;
+  children: { label: string; href: string }[];
+};
+
+/** Horizontal mega-menu columns: region → space detail links. */
+export function youthSpacesNavColumns(): YouthSpacesNavColumn[] {
+  return seedRegions.map((region) => ({
+    heading: navRegionLabel(region.name),
+    href: `/youth-spaces#${regionSectionId(region.name)}`,
+    children: region.spaces.map((space) => ({
+      label: navSpaceLabel(space.name),
+      href: `/youth-spaces/${space.slug}`,
+    })),
+  }));
+}
+
+/** Flat links for mobile: overview + every space detail page. */
+export function youthSpacesNavLinks(): { label: string; href: string }[] {
+  return [
+    { label: "All spaces", href: "/youth-spaces" },
+    ...seedRegions.flatMap((region) =>
+      region.spaces.map((space) => ({
+        label: navSpaceLabel(space.name),
+        href: `/youth-spaces/${space.slug}`,
+      })),
+    ),
+  ];
+}
+
 /** Landing (FE-E6-01/02): regions in order; empty regions omitted. */
 export async function listYouthRegions(): Promise<YouthRegionGroup[]> {
   return seedRegions;

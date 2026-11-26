@@ -118,26 +118,73 @@ export function MobileNav() {
                   return (
                     <li key={item.label} className={styles.group}>
                       <p className={styles.groupLabel}>{item.label}</p>
-                      <ul className={styles.sublist}>
-                        {item.children.map((child) => {
-                          const active = isNavActive(pathname, child.href, {
-                            exact: child.href === item.href,
-                          });
-                          return (
-                            <li key={`${child.href}-${child.label}`}>
-                              <Link
-                                href={child.href}
-                                className={
-                                  active ? styles.activeLink : styles.link
-                                }
-                                aria-current={active ? "page" : undefined}
-                              >
-                                {child.label}
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                      {item.columns && item.columns.length > 0 ? (
+                        <div className={styles.mega}>
+                          <Link
+                            href={item.href}
+                            className={
+                              isNavActive(pathname, item.href, { exact: true })
+                                ? styles.activeLink
+                                : styles.link
+                            }
+                          >
+                            All spaces
+                          </Link>
+                          {item.columns.map((column) => (
+                            <div key={column.heading}>
+                              <p className={styles.regionLabel}>
+                                {column.heading}
+                              </p>
+                              <ul className={styles.spaceGrid}>
+                                {column.children.map((child) => {
+                                  const active = isNavActive(
+                                    pathname,
+                                    child.href,
+                                  );
+                                  return (
+                                    <li key={child.href}>
+                                      <Link
+                                        href={child.href}
+                                        className={
+                                          active
+                                            ? styles.activeLink
+                                            : styles.link
+                                        }
+                                        aria-current={
+                                          active ? "page" : undefined
+                                        }
+                                      >
+                                        {child.label}
+                                      </Link>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <ul className={styles.sublist}>
+                          {item.children.map((child) => {
+                            const active = isNavActive(pathname, child.href, {
+                              exact: child.href === item.href,
+                            });
+                            return (
+                              <li key={`${child.href}-${child.label}`}>
+                                <Link
+                                  href={child.href}
+                                  className={
+                                    active ? styles.activeLink : styles.link
+                                  }
+                                  aria-current={active ? "page" : undefined}
+                                >
+                                  {child.label}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
                     </li>
                   );
                 })}

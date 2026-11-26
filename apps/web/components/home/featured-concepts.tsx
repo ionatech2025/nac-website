@@ -31,28 +31,35 @@ export function FeaturedConcepts({ concepts }: Props) {
   return (
     <SectionShell
       id="featured-concepts"
-      eyebrow="Focus"
-      title="Featured concepts"
-      lead="Key themes and programmes highlighted for visitors."
+      eyebrow="Pathways"
+      title="Where to start"
+      lead="Programmes and themes visitors ask about most."
+      tone="band"
+      action={<Link href="/programs">All programmes</Link>}
     >
       {concepts.length === 0 ? (
         <EmptyState title="No featured concepts yet" />
       ) : (
         <ul className={styles.list}>
-          {concepts.map((concept) => (
+          {concepts.map((concept, index) => (
             <li key={concept.id} className={styles.item}>
-              <h3 className={styles.title}>
-                {concept.destinationUrl ? (
-                  <ConceptLink href={concept.destinationUrl}>
-                    {concept.title}
-                  </ConceptLink>
-                ) : (
-                  concept.title
-                )}
-              </h3>
-              {concept.summary ? (
-                <p className={styles.summary}>{concept.summary}</p>
-              ) : null}
+              <span className={styles.index} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 className={styles.title}>
+                  {concept.destinationUrl ? (
+                    <ConceptLink href={concept.destinationUrl}>
+                      {concept.title}
+                    </ConceptLink>
+                  ) : (
+                    concept.title
+                  )}
+                </h3>
+                {concept.summary ? (
+                  <p className={styles.summary}>{concept.summary}</p>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>

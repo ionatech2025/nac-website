@@ -8,6 +8,15 @@
   --nac-surface: #f3f8f4;
   --nac-paper: #f7faf7;
   --nac-max: 72rem;
+  --nac-gutter: clamp(1rem, 3.5vw, 1.75rem);
+  --nac-section-y: clamp(2.75rem, 7vw, 5rem);
+  /* Header / nav bridge tokens (used by site-header + desktop-nav CSS) */
+  --color-primary: var(--nac-green);
+  --color-primary-dark: var(--nac-green-deep);
+  --color-accent: var(--nac-accent);
+  --color-text: var(--nac-ink);
+  --color-muted: var(--nac-muted);
+  --color-tint: #eaf5ee;
   --background: var(--nac-paper);
   --foreground: var(--nac-ink);
 }
@@ -20,18 +29,20 @@ body {
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
   min-height: 100vh;
   color: var(--foreground);
   background:
-    radial-gradient(circle at 85% -10%, rgb(232 168 56 / 0.18), transparent 42%),
-    radial-gradient(circle at 0% 20%, rgb(31 122 85 / 0.12), transparent 36%),
-    linear-gradient(180deg, #f7faf7 0%, #eef5f0 48%, #e8f1eb 100%);
+    radial-gradient(ellipse 70% 45% at 92% -8%, rgb(201 120 22 / 0.14), transparent 55%),
+    radial-gradient(ellipse 55% 40% at -5% 18%, rgb(31 122 85 / 0.14), transparent 50%),
+    linear-gradient(180deg, #f6faf7 0%, #eef5f0 52%, #e7f0ea 100%);
   font-family: var(--font-body), "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {
@@ -56,6 +67,10 @@ svg {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
