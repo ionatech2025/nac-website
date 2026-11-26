@@ -1,12 +1,18 @@
 /**
- * Homepage content for Epic E2.
- * Seed/fallback until Dev B publishes typed data-access queries.
+ * Homepage content for Epic E2 — public helpers from `@repo/database`.
  */
 
 import {
-  listLatestDocuments,
-  toLatestDownloadItem,
-} from "./downloads-data";
+  getPublishedAboutPage,
+  listKeyFigures,
+  listPublishedArticles,
+  listPublishedDocuments,
+  listPublishedFeaturedConcepts,
+  listPublishedPartners,
+  listPublishedSlideshowImages,
+  listPublishedVideos,
+  mediaVariantUrl,
+} from "@repo/database";
 
 export type HomeIdentity = {
   orgName: string;
@@ -79,83 +85,96 @@ export type HomePageData = {
   downloads: HomeDownload[];
 };
 
-const seed: HomePageData = {
-  identity: {
-    orgName: "Network for Active Citizens",
-    tagline: "Locally Engaged, Globally Connected",
-    mission:
-      "To build youth resilience in Uganda through capability development and policy outreach.",
-    vision: "A resilient and prosperous Uganda",
-  },
-  slides: [
-    {
-      id: "slide-1",
-      imageUrl:
-        "/seed/members/banner.jpg",
-      altText: "Young people gathered with NAC at a community event",
-      caption: "Youth organizing across Uganda",
-    },
-    {
-      id: "slide-2",
-      imageUrl:
-        "/seed/members/banner.jpg",
-      altText: "NAC youth space and community engagement",
-      caption: "Spaces where young people lead",
-      destinationUrl: "/youth-spaces",
-    },
-  ],
-  stories: [
-    {
-      id: "story-1",
-      title: "Youth Connect – Inclusive Economic Empowerment Pathway",
-      slug: "youth-connect-iee",
-      excerpt:
-        "Call for expressions of interest for youth-led and youth-focused organisations in Kampala’s informal settlements.",
-    },
-    {
-      id: "story-2",
-      title: "JOIN THE MOVEMENT – Membership call",
-      slug: "membership-call",
-      excerpt:
-        "NAC is calling on registered youth-led CBOs and NGOs ready to shape community change.",
-    },
-  ],
-  videos: [],
-  featuredConcepts: [
-    {
-      id: "concept-1",
-      title: "Governance and Participation",
-      summary: "Equipping leaders to influence change in their communities.",
-      destinationUrl: "/programs",
-    },
-    {
-      id: "concept-2",
-      title: "Youth Climate Resilience",
-      summary: "Urban sustainability with young people in vulnerable settlements.",
-      destinationUrl: "/programs",
-    },
-    {
-      id: "concept-3",
-      title: "Community Journalism",
-      summary: "Bringing community issues to duty bearers and stakeholders.",
-      destinationUrl: "/programs",
-    },
-  ],
-  partners: [
-    { id: "partner-1", name: "Partner organisation", websiteUrl: "https://slogbaa.org" },
-    { id: "partner-2", name: "Youth network ally" },
-  ],
-  keyFigures: [
-    { id: "fig-1", label: "Organisations in the network", value: "89+" },
-    { id: "fig-2", label: "Youth spaces", value: "15" },
-  ],
-  downloads: [],
+const FALLBACK_IDENTITY: HomeIdentity = {
+  orgName: "Network for Active Citizens",
+  tagline: "Locally Engaged, Globally Connected",
+  mission:
+    "To build youth resilience in Uganda through capability development and policy outreach.",
+  vision: "A resilient and prosperous Uganda",
 };
 
 export async function getHomePageData(): Promise<HomePageData> {
-  const latest = await listLatestDocuments(4);
+  const [
+    about,
+    slides,
+    articles,
+    videos,
+    concepts,
+    partners,
+    keyFigures,
+    documents,
+  ] = await Promise.all([
+    getPublishedAboutPage(),
+    listPublishedSlideshowImages(20),
+    listPublishedArticles(3),
+    listPublishedVideos(6),
+    listPublishedFeaturedConcepts(20),
+    listPublishedPartners(50),
+    listKeyFigures(),
+    listPublishedDocuments(4),
+  ]);
+
   return {
-    ...seed,
-    downloads: latest.map(toLatestDownloadItem),
+    identity: {
+      orgName: FALLBACK_IDENTITY.orgName,
+      tagline: FALLBACK_IDENTITY.tagline,
+      mission: about?.mission?.trim() || FALLBACK_IDENTITY.mission,
+      vision: about?.vision?.trim() || FALLBACK_IDENTITY.vision,
+    },
+    slides: slides.map((slide) => ({
+      id: slide.id,
+      imageUrl: mediaVariantUrl(slide.media, "medium"),
+      altText: slide.altText?.trim() || slide.media.altText || "Slideshow image",
+      caption: slide.caption?.trim() || undefined,
+      destinationUrl: slide.destinationUrl?.trim() || undefined,
+    })),
+    stories: articles.map((article) => ({
+      id: article.id,
+      title: article.title,
+      slug: article.slug,
+      excerpt: article.excerpt?.trim() || "",
+      imageUrl: article.coverImage
+        ? mediaVariantUrl(article.coverImage, "medium")
+        : undefined,
+      imageAlt: article.coverImage?.altText || undefined,
+    })),
+    videos: videos
+      .filter(
+        (video): video is typeof video & { provider: "YOUTUBE" | "VIMEO" } =>
+          video.provider === "YOUTUBE" || video.provider === "VIMEO",
+      )
+      .map((video) => ({
+        id: video.id,
+        title: video.title,
+        description: video.description?.trim() || undefined,
+        provider: video.provider,
+        url: video.url,
+      })),
+    featuredConcepts: concepts.map((concept) => ({
+      id: concept.id,
+      title: concept.title,
+      summary: concept.summary?.trim() || undefined,
+      destinationUrl: concept.destinationUrl?.trim() || undefined,
+    })),
+    partners: partners.map((partner) => ({
+      id: partner.id,
+      name: partner.name,
+      logoUrl: partner.logo
+        ? mediaVariantUrl(partner.logo, "thumb")
+        : undefined,
+      websiteUrl: partner.websiteUrl?.trim() || undefined,
+    })),
+    keyFigures: keyFigures.map((figure) => ({
+      id: figure.id,
+      label: figure.label,
+      value: figure.value,
+    })),
+    downloads: documents.map((doc) => ({
+      id: doc.id,
+      title: doc.title,
+      href: doc.downloadPath,
+      byteSize: doc.byteSize,
+      fileType: doc.fileType,
+    })),
   };
 }
