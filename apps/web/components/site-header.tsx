@@ -26,11 +26,6 @@ export function SiteHeader() {
         </Link>
 
         <DesktopNav />
-        <div className={styles.actions}>
-          <Link href="/contact" className={styles.contact}>
-            Contact
-          </Link>
-        </div>
         <MobileNav />
       </div>
     </header>
