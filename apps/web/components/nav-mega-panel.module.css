@@ -1,0 +1,269 @@
+/* Mega panel (Youth Spaces) */
+.mega {
+  --nac-primary: var(--color-primary, #0f6b3a);
+  --nac-primary-dark: var(--color-primary-dark, #0a4a28);
+  --nac-accent: var(--color-accent, #f2a900);
+  --nac-ink: var(--color-text, #14231b);
+  --nac-tint: var(--color-tint, #eaf5ee);
+
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 1.25rem;
+  right: 1.25rem;
+  z-index: 70;
+  overflow: hidden;
+  padding: 1.5rem 1.75rem 1.75rem;
+  background:
+    radial-gradient(
+      600px 220px at 100% 0%,
+      rgb(242 169 0 / 0.14),
+      transparent 70%
+    ),
+    radial-gradient(
+      520px 240px at 0% 100%,
+      rgb(15 107 58 / 0.1),
+      transparent 70%
+    ),
+    #fff;
+  border: 1px solid rgb(15 107 58 / 0.12);
+  border-radius: 22px;
+  box-shadow:
+    0 40px 80px -30px rgb(10 74 40 / 0.5),
+    0 8px 20px -8px rgb(10 74 40 / 0.15);
+  transform-origin: top center;
+}
+
+.mega::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--nac-primary), var(--nac-accent));
+}
+
+.megaOpen {
+  animation: mega-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.megaAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(
+    135deg,
+    var(--nac-primary),
+    var(--nac-primary-dark)
+  );
+  box-shadow: 0 8px 18px -8px rgb(15 107 58 / 0.7);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.megaAll::after {
+  content: "→";
+  transition: transform 0.25s ease;
+}
+
+.megaAll:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px -8px rgb(15 107 58 / 0.75);
+}
+
+.megaAll:hover::after {
+  transform: translateX(4px);
+}
+
+.megaColumns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.megaColumn {
+  padding: 0.9rem 0.9rem 0.7rem;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.65);
+  border: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.megaColumn:hover {
+  background: #fff;
+  border-color: rgb(15 107 58 / 0.14);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 28px -18px rgb(10 74 40 / 0.45);
+}
+
+.megaOpen .megaColumn {
+  animation: col-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.megaOpen .megaColumn:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.megaOpen .megaColumn:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.megaOpen .megaColumn:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.megaOpen .megaColumn:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.megaOpen .megaColumn:nth-child(n + 5) {
+  animation-delay: 0.25s;
+}
+
+@keyframes col-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.megaHeading {
+  position: relative;
+  display: block;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--nac-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.megaHeading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 28px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--nac-accent);
+  transition: width 0.3s ease;
+}
+
+.megaColumn:hover .megaHeading::after,
+.megaHeading:hover::after {
+  width: 56px;
+}
+
+.megaHeading:hover {
+  color: var(--nac-primary-dark);
+}
+
+.megaList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dropLink,
+.activeDropLink {
+  position: relative;
+  display: block;
+  padding: 0.45rem 0.6rem 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--nac-ink);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.dropLink::before,
+.activeDropLink::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--nac-accent);
+  opacity: 0;
+  transform: translateY(-50%) scale(0.3);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropLink:hover {
+  background: var(--nac-tint);
+  color: var(--nac-primary);
+  transform: translateX(3px);
+}
+
+.dropLink:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.activeDropLink {
+  background: var(--nac-tint);
+  color: var(--nac-primary);
+  font-weight: 700;
+}
+
+.activeDropLink::before {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.dropLink:focus-visible,
+.activeDropLink:focus-visible,
+.megaHeading:focus-visible,
+.megaAll:focus-visible {
+  outline: 3px solid var(--nac-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .megaOpen,
+  .megaOpen .megaColumn {
+    animation: none;
+  }
+
+  .megaColumn,
+  .megaAll,
+  .megaAll::after,
+  .dropLink,
+  .megaHeading::after {
+    transition: none;
+  }
+}

@@ -2,8 +2,126 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { isNavActive, primaryNav } from "@/lib/navigation";
+import { useEffect, useId, useRef, useState } from "react";
+import { isNavActive, primaryNav, type NavItem } from "@/lib/navigation";
+import { NavMegaPanel } from "./nav-mega-panel";
 import styles from "./desktop-nav.module.css";
+
+function MegaGroup({
+  item,
+  pathname,
+}: {
+  item: Extract<NavItem, { type: "group" }>;
+  pathname: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLLIElement>(null);
+  const panelId = useId();
+  const columns = item.columns ?? [];
+  const groupActive =
+    isNavActive(pathname, item.href) ||
+    item.children.some((child) => isNavActive(pathname, child.href));
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  return (
+    <li ref={rootRef} className={styles.group}>
+      <button
+        type="button"
+        className={groupActive ? styles.activeTrigger : styles.trigger}
+        aria-expanded={open}
+        aria-controls={panelId}
+        aria-haspopup="true"
+        onClick={() => setOpen((value) => !value)}
+      >
+        {item.label}
+        <span className={styles.chevron} aria-hidden="true">
+          ▾
+        </span>
+      </button>
+      <NavMegaPanel
+        id={panelId}
+        overviewHref={item.href}
+        columns={columns}
+        pathname={pathname}
+        open={open}
+      />
+    </li>
+  );
+}
+
+function SimpleGroup({
+  item,
+  pathname,
+}: {
+  item: Extract<NavItem, { type: "group" }>;
+  pathname: string;
+}) {
+  const groupActive =
+    isNavActive(pathname, item.href) ||
+    item.children.some((child) => isNavActive(pathname, child.href));
+
+  return (
+    <li className={styles.group}>
+      <Link
+        href={item.href}
+        className={groupActive ? styles.activeTrigger : styles.trigger}
+        aria-haspopup="true"
+      >
+        {item.label}
+        <span className={styles.chevron} aria-hidden="true">
+          ▾
+        </span>
+      </Link>
+      <ul
+        className={
+          item.layout === "horizontal"
+            ? styles.dropdownHorizontal
+            : styles.dropdown
+        }
+      >
+        {item.children.map((child) => {
+          const active = isNavActive(pathname, child.href, {
+            exact: child.href === item.href,
+          });
+          return (
+            <li key={`${child.href}-${child.label}`}>
+              <Link
+                href={child.href}
+                className={active ? styles.activeDropLink : styles.dropLink}
+                aria-current={active ? "page" : undefined}
+              >
+                {child.label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </li>
+  );
+}
 
 export function DesktopNav() {
   const pathname = usePathname();
@@ -27,45 +145,14 @@ export function DesktopNav() {
             );
           }
 
-          const groupActive =
-            isNavActive(pathname, item.href) ||
-            item.children.some((child) => isNavActive(pathname, child.href));
+          if (item.columns && item.columns.length > 0) {
+            return (
+              <MegaGroup key={item.label} item={item} pathname={pathname} />
+            );
+          }
 
           return (
-            <li key={item.label} className={styles.group}>
-              <Link
-                href={item.href}
-                className={groupActive ? styles.activeTrigger : styles.trigger}
-                aria-haspopup="true"
-              >
-                {item.label}
-                <span className={styles.chevron} aria-hidden="true">
-                  ▾
-                </span>
-              </Link>
-              <ul className={styles.dropdown}>
-                {item.children.map((child) => {
-                  // Index links like "All programmes" share the group href —
-                  // match exactly so child routes don't keep them selected.
-                  const active = isNavActive(pathname, child.href, {
-                    exact: child.href === item.href,
-                  });
-                  return (
-                    <li key={`${child.href}-${child.label}`}>
-                      <Link
-                        href={child.href}
-                        className={
-                          active ? styles.activeDropLink : styles.dropLink
-                        }
-                        aria-current={active ? "page" : undefined}
-                      >
-                        {child.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
+            <SimpleGroup key={item.label} item={item} pathname={pathname} />
           );
         })}
       </ul>

@@ -30,12 +30,12 @@ export default async function HomePage() {
 
   return (
     <div className={styles.home}>
-      <HeroSlideshow slides={home.slides} />
+      <HeroSlideshow slides={home.slides} identity={home.identity} />
       <HomeIdentitySection identity={home.identity} />
+      <FeaturedConcepts concepts={home.featuredConcepts} />
       <KeyFiguresStrip figures={home.keyFigures} />
       <LatestStories stories={home.stories} />
       <LatestVideos videos={home.videos} />
-      <FeaturedConcepts concepts={home.featuredConcepts} />
       {settings.externalServices.youthGoBudget.trim() ? (
         <YouthGoBudgetPromo href={settings.externalServices.youthGoBudget} />
       ) : null}

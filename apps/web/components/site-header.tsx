@@ -11,13 +11,14 @@ export function SiteHeader() {
           {/* eslint-disable-next-line @next/next/no-img-element -- same static brand asset as admin/login */}
           <img
             src="/brand/nac-logo.png"
-            alt="Network for Active Citizens"
+            alt=""
             className={styles.logo}
             width={112}
             height={112}
           />
           <span className={styles.brandText}>
-            <span className={styles.org}>Network for Active Citizens</span>
+            <span className={styles.orgShort}>NAC</span>
+            <span className={styles.orgFull}>Network for Active Citizens</span>
             <span className={styles.tagline}>
               Locally Engaged, Globally Connected
             </span>
@@ -25,6 +26,11 @@ export function SiteHeader() {
         </Link>
 
         <DesktopNav />
+        <div className={styles.actions}>
+          <Link href="/contact" className={styles.contact}>
+            Contact
+          </Link>
+        </div>
         <MobileNav />
       </div>
     </header>

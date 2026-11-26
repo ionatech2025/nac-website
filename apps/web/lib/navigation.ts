@@ -1,13 +1,29 @@
 import { programmeNavLinks } from "./programmes-data";
+import {
+  youthSpacesNavColumns,
+  youthSpacesNavLinks,
+  type YouthSpacesNavColumn,
+} from "./youth-spaces-data";
 
 export type NavLink = {
   label: string;
   href: string;
 };
 
+export type NavColumn = YouthSpacesNavColumn;
+
 export type NavItem =
   | { type: "link"; label: string; href: string }
-  | { type: "group"; label: string; href: string; children: NavLink[] };
+  | {
+      type: "group";
+      label: string;
+      href: string;
+      children: NavLink[];
+      /** Desktop mega-style row instead of a tall vertical menu. */
+      layout?: "vertical" | "horizontal";
+      /** Optional region columns (Youth Spaces mega menu). */
+      columns?: NavColumn[];
+    };
 
 /**
  * Primary navigation. Member organisations appear as a top-level item and
@@ -36,7 +52,14 @@ export const primaryNav: NavItem[] = [
     label: "Member organisations",
     href: "/member-organisations",
   },
-  { type: "link", label: "Youth Spaces", href: "/youth-spaces" },
+  {
+    type: "group",
+    label: "Youth Spaces",
+    href: "/youth-spaces",
+    layout: "horizontal",
+    children: youthSpacesNavLinks(),
+    columns: youthSpacesNavColumns(),
+  },
   { type: "link", label: "Opportunities", href: "/opportunities" },
   { type: "link", label: "Events", href: "/events" },
   {
