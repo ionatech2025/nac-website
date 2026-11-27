@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import { DocumentFilters } from "@/components/downloads/document-filters";
 import { DocumentList } from "@/components/downloads/document-list";
+import { MediaTabs } from "@/components/galleries/media-tabs";
 import {
   listDocumentCategories,
   listDocumentsPage,
 } from "@/lib/downloads-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "./downloads.module.css";
 
-export const metadata: Metadata = {
-  title: "Downloads",
+export const metadata: Metadata = publicPageMetadata({
+  title: "Documents",
   description:
     "Download NAC strategic plans, reports, guides and forms. File size and type are shown for each document.",
-};
+  path: "/downloads",
+});
 
 type Props = {
   searchParams: Promise<{ page?: string; category?: string }>;
@@ -30,25 +33,29 @@ export default async function DownloadsPage({ searchParams }: Props) {
 
   return (
     <section className={styles.page} aria-labelledby="downloads-heading">
-      <p className={styles.eyebrow}>Network for Active Citizens</p>
-      <h1 id="downloads-heading" className={styles.title}>
-        Downloads
-      </h1>
-      <p className={styles.lead}>
-        Published documents from across the network. Filter by category to narrow
-        the library.
-      </p>
-      <p className={styles.note}>
-        Files are typically PDF and kept within the 2.5 MB upload limit used
-        elsewhere on the site.
-      </p>
-      <DocumentFilters categories={categories} activeSlug={categorySlug} />
-      <DocumentList
-        documents={result.items}
-        page={result.page}
-        pageCount={result.pageCount}
-        categorySlug={categorySlug}
-      />
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <p className={styles.eyebrow}>Media Center</p>
+          <h1 id="downloads-heading" className={styles.title}>
+            Documents
+          </h1>
+          <p className={styles.lead}>
+            Published documents from across the network. Filter by category to
+            narrow the library.
+          </p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <MediaTabs active="documents" />
+        <DocumentFilters categories={categories} activeSlug={categorySlug} />
+        <DocumentList
+          documents={result.items}
+          page={result.page}
+          pageCount={result.pageCount}
+          categorySlug={categorySlug}
+        />
+      </div>
     </section>
   );
 }

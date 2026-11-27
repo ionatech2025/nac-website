@@ -66,15 +66,15 @@ export async function getPrimaryNav(): Promise<NavItem[]> {
     { type: "link", label: "Events", href: "/events" },
     {
       type: "group",
-      label: "Galleries",
+      label: "Media",
       href: "/galleries",
       children: [
-        { label: "Photo Gallery", href: "/galleries/photos" },
-        { label: "Video Gallery", href: "/galleries/videos" },
+        { label: "Photos", href: "/galleries/photos" },
+        { label: "Videos", href: "/galleries/videos" },
+        { label: "Documents", href: "/downloads" },
       ],
     },
     { type: "link", label: "Blogs & News", href: "/news" },
-    { type: "link", label: "Downloads", href: "/downloads" },
     {
       type: "group",
       label: "Contact Us",

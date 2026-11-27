@@ -8,38 +8,42 @@ type Props = {
   why: string;
 };
 
+type Block = {
+  id: string;
+  mark: string;
+  title: string;
+  text: string;
+};
+
 export function AboutSections({ mission, vision, whatWeDo, why }: Props) {
+  const blocks: Block[] = [
+    { id: "vision", mark: "V", title: "Our vision", text: vision },
+    { id: "mission", mark: "M", title: "Our mission", text: mission },
+    { id: "what", mark: "A", title: "What we do", text: whatWeDo },
+    { id: "why", mark: "W", title: "Why", text: why },
+  ].filter((block) => block.text.trim());
+
+  if (blocks.length === 0) return null;
+
   return (
-    <div className={styles.stack}>
-      <section aria-labelledby="about-mission-heading">
-        <h2 id="about-mission-heading" className={styles.heading}>
-          Our mission
-        </h2>
-        <RichText text={mission} className={styles.rich} />
-      </section>
-
-      <section aria-labelledby="about-vision-heading">
-        <h2 id="about-vision-heading" className={styles.heading}>
-          Our vision
-        </h2>
-        <RichText text={vision} className={styles.rich} />
-      </section>
-
-      <section aria-labelledby="about-what-heading">
-        <h2 id="about-what-heading" className={styles.heading}>
-          What we do
-        </h2>
-        <RichText text={whatWeDo} className={styles.rich} />
-      </section>
-
-      {why.trim() ? (
-        <section aria-labelledby="about-why-heading">
-          <h2 id="about-why-heading" className={styles.heading}>
-            Why
-          </h2>
-          <RichText text={why} className={styles.rich} />
+    <div className={styles.grid}>
+      {blocks.map((block) => (
+        <section
+          key={block.id}
+          className={styles.card}
+          aria-labelledby={`about-${block.id}-heading`}
+        >
+          <span className={styles.mark} aria-hidden="true">
+            {block.mark}
+          </span>
+          <div className={styles.body}>
+            <h2 id={`about-${block.id}-heading`} className={styles.heading}>
+              {block.title}
+            </h2>
+            <RichText text={block.text} className={styles.rich} />
+          </div>
         </section>
-      ) : null}
+      ))}
     </div>
   );
 }

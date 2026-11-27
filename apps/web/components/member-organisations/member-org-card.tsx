@@ -14,7 +14,7 @@ export function MemberOrgCard({ organisation }: Props) {
 
   return (
     <li className={styles.item}>
-      <Link href={href} className={styles.card}>
+      <article className={styles.card}>
         <div className={styles.media}>
           {coverUrl ? (
             <Image
@@ -24,6 +24,7 @@ export function MemberOrgCard({ organisation }: Props) {
               height={400}
               className={styles.image}
               sizes="(max-width: 700px) 100vw, (max-width: 1000px) 50vw, 33vw"
+              unoptimized
             />
           ) : (
             <div className={styles.placeholder} aria-hidden="true" />
@@ -32,9 +33,11 @@ export function MemberOrgCard({ organisation }: Props) {
         <div className={styles.copy}>
           <h2 className={styles.title}>{organisation.name}</h2>
           <p className={styles.excerpt}>{organisation.excerpt}</p>
-          <span className={styles.more}>View organisation</span>
+          <Link href={href} className={styles.more}>
+            View organisation
+          </Link>
         </div>
-      </Link>
+      </article>
     </li>
   );
 }

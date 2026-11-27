@@ -11,25 +11,19 @@ type Props = {
   items: NavItem[];
 };
 
-function MegaGroup({
-  item,
-  pathname,
-}: {
-  item: Extract<NavItem, { type: "group" }>;
-  pathname: string;
-}) {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLLIElement>(null);
-  const panelId = useId();
-  const columns = item.columns ?? [];
-  const groupActive =
-    isNavActive(pathname, item.href) ||
-    item.children.some((child) => isNavActive(pathname, child.href));
+type GroupItem = Extract<NavItem, { type: "group" }>;
 
+function useCloseOnNavigate(pathname: string, setOpen: (v: boolean) => void) {
   useEffect(() => {
     setOpen(false);
-  }, [pathname]);
+  }, [pathname, setOpen]);
+}
 
+function useOutsideClose(
+  open: boolean,
+  rootRef: React.RefObject<HTMLElement | null>,
+  setOpen: (v: boolean) => void,
+) {
   useEffect(() => {
     if (!open) return;
 
@@ -48,7 +42,31 @@ function MegaGroup({
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open]);
+  }, [open, rootRef, setOpen]);
+}
+
+function MegaGroup({
+  item,
+  pathname,
+  open,
+  onToggle,
+  onClose,
+}: {
+  item: GroupItem;
+  pathname: string;
+  open: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}) {
+  const rootRef = useRef<HTMLLIElement>(null);
+  const panelId = useId();
+  const columns = item.columns ?? [];
+  const groupActive =
+    isNavActive(pathname, item.href) ||
+    item.children.some((child) => isNavActive(pathname, child.href));
+
+  useCloseOnNavigate(pathname, onClose);
+  useOutsideClose(open, rootRef, onClose);
 
   return (
     <li ref={rootRef} className={styles.group}>
@@ -58,7 +76,7 @@ function MegaGroup({
         aria-expanded={open}
         aria-controls={panelId}
         aria-haspopup="true"
-        onClick={() => setOpen((value) => !value)}
+        onClick={onToggle}
       >
         {item.label}
         <span className={styles.chevron} aria-hidden="true">
@@ -79,27 +97,43 @@ function MegaGroup({
 function SimpleGroup({
   item,
   pathname,
+  open,
+  onToggle,
+  onClose,
 }: {
-  item: Extract<NavItem, { type: "group" }>;
+  item: GroupItem;
   pathname: string;
+  open: boolean;
+  onToggle: () => void;
+  onClose: () => void;
 }) {
+  const rootRef = useRef<HTMLLIElement>(null);
+  const panelId = useId();
   const groupActive =
     isNavActive(pathname, item.href) ||
     item.children.some((child) => isNavActive(pathname, child.href));
 
+  useCloseOnNavigate(pathname, onClose);
+  useOutsideClose(open, rootRef, onClose);
+
   return (
-    <li className={styles.group}>
-      <Link
-        href={item.href}
+    <li ref={rootRef} className={styles.group}>
+      <button
+        type="button"
         className={groupActive ? styles.activeTrigger : styles.trigger}
+        aria-expanded={open}
+        aria-controls={panelId}
         aria-haspopup="true"
+        onClick={onToggle}
       >
         {item.label}
         <span className={styles.chevron} aria-hidden="true">
           ▾
         </span>
-      </Link>
+      </button>
       <ul
+        id={panelId}
+        hidden={!open}
         className={
           item.layout === "horizontal"
             ? styles.dropdownHorizontal
@@ -116,6 +150,7 @@ function SimpleGroup({
                 href={child.href}
                 className={active ? styles.activeDropLink : styles.dropLink}
                 aria-current={active ? "page" : undefined}
+                onClick={onClose}
               >
                 {child.label}
               </Link>
@@ -129,6 +164,7 @@ function SimpleGroup({
 
 export function DesktopNav({ items }: Props) {
   const pathname = usePathname();
+  const [openLabel, setOpenLabel] = useState<string | null>(null);
 
   return (
     <nav className={styles.nav} aria-label="Primary">
@@ -142,6 +178,7 @@ export function DesktopNav({ items }: Props) {
                   href={item.href}
                   className={active ? styles.activeLink : styles.link}
                   aria-current={active ? "page" : undefined}
+                  onClick={() => setOpenLabel(null)}
                 >
                   {item.label}
                 </Link>
@@ -149,14 +186,33 @@ export function DesktopNav({ items }: Props) {
             );
           }
 
+          const open = openLabel === item.label;
+          const onToggle = () =>
+            setOpenLabel((current) => (current === item.label ? null : item.label));
+          const onClose = () => setOpenLabel(null);
+
           if (item.columns && item.columns.length > 0) {
             return (
-              <MegaGroup key={item.label} item={item} pathname={pathname} />
+              <MegaGroup
+                key={item.label}
+                item={item}
+                pathname={pathname}
+                open={open}
+                onToggle={onToggle}
+                onClose={onClose}
+              />
             );
           }
 
           return (
-            <SimpleGroup key={item.label} item={item} pathname={pathname} />
+            <SimpleGroup
+              key={item.label}
+              item={item}
+              pathname={pathname}
+              open={open}
+              onToggle={onToggle}
+              onClose={onClose}
+            />
           );
         })}
       </ul>

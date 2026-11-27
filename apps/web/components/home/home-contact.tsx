@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { ExternalLink } from "@/components/external-link";
-import { whatsappHref, type SiteSettings } from "@/lib/site-settings";
+import type { SiteSettings } from "@/lib/site-settings";
 import styles from "./home-contact.module.css";
 
 type Props = {
@@ -8,8 +7,6 @@ type Props = {
 };
 
 export function HomeContactSummary({ settings }: Props) {
-  const whatsapp = whatsappHref(settings.whatsapp);
-
   return (
     <section className={styles.section} aria-labelledby="home-contact-heading">
       <div className={styles.inner}>
@@ -46,11 +43,6 @@ export function HomeContactSummary({ settings }: Props) {
               {settings.email.trim() ? (
                 <li>
                   <a href={`mailto:${settings.email}`}>{settings.email}</a>
-                </li>
-              ) : null}
-              {whatsapp ? (
-                <li>
-                  <ExternalLink href={whatsapp}>Chat on WhatsApp</ExternalLink>
                 </li>
               ) : null}
             </ul>

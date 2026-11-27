@@ -24,6 +24,10 @@ export function SiteFooter({ settings }: Props) {
     fileType: file.fileType,
   }));
   const whatsapp = whatsappHref(settings.whatsapp);
+  const socialItems = [
+    ...settings.social,
+    ...(whatsapp ? [{ label: "WhatsApp", href: whatsapp }] : []),
+  ];
 
   return (
     <footer className={styles.footer}>
@@ -86,24 +90,21 @@ export function SiteFooter({ settings }: Props) {
                 <a href={`mailto:${settings.email}`}>{settings.email}</a>
               </li>
             ) : null}
-            {whatsapp ? (
-              <li>
-                <IconWhatsApp className={styles.icon} />
-                <ExternalLink href={whatsapp}>WhatsApp</ExternalLink>
-              </li>
-            ) : null}
           </ul>
         </div>
 
         <div>
-          {settings.social.length > 0 ? (
+          {socialItems.length > 0 ? (
             <>
               <h2 className={styles.heading}>Connect</h2>
               <ul className={styles.socialRow} aria-label="Social media profiles">
-                {settings.social.map((item) => {
-                  const Icon = socialFooterIcon(item.label);
+                {socialItems.map((item) => {
+                  const Icon =
+                    item.label === "WhatsApp"
+                      ? IconWhatsApp
+                      : socialFooterIcon(item.label);
                   return (
-                    <li key={item.href}>
+                    <li key={`${item.label}-${item.href}`}>
                       <ExternalLink
                         href={item.href}
                         className={styles.socialLink}

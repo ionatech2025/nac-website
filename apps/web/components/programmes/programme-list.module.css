@@ -1,12 +1,18 @@
 .list {
   display: grid;
-  gap: 1.75rem;
+  gap: 1.25rem;
   list-style: none;
   margin-top: 1.75rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 720px) {
   .list {
-    gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

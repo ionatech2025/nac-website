@@ -19,6 +19,10 @@ const nextConfig = {
         hostname: "nacuganda.org",
         pathname: "/sites/default/files/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
     ],
   },
   // bodySizeLimit stays under experimental even though Server Actions are stable (Next 16).
