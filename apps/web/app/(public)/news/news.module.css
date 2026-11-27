@@ -30,3 +30,8 @@
   line-height: 1.6;
   color: var(--nac-muted);
 }
+
+.page :global(nav[aria-label="Media types"]) {
+  margin-top: 1.35rem;
+  margin-bottom: 0.25rem;
+}

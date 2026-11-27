@@ -160,7 +160,7 @@ export async function getHomePageData(): Promise<HomePageData> {
       id: partner.id,
       name: partner.name,
       logoUrl: partner.logo
-        ? mediaVariantUrl(partner.logo, "thumb")
+        ? mediaVariantUrl(partner.logo, "medium")
         : undefined,
       websiteUrl: partner.websiteUrl?.trim() || undefined,
     })),
