@@ -26,8 +26,8 @@ export type NavItem =
     };
 
 /**
- * Primary navigation. Member organisations appear as a top-level item and
- * under About so the directory is easy to find on desktop and mobile.
+ * Primary navigation. Member organisations live under About Us;
+ * Contact Us dropdown covers inquiries and complaints (no extra Contact CTA).
  */
 export const primaryNav: NavItem[] = [
   { type: "link", label: "Home", href: "/" },
@@ -46,11 +46,6 @@ export const primaryNav: NavItem[] = [
     label: "Programmes",
     href: "/programs",
     children: programmeNavLinks(),
-  },
-  {
-    type: "link",
-    label: "Member organisations",
-    href: "/member-organisations",
   },
   {
     type: "group",
