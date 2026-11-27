@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MediaTabs } from "@/components/galleries/media-tabs";
 import { ArticleList } from "@/components/news/article-list";
 import { listArticlesPage } from "@/lib/news-data";
 import { publicPageMetadata } from "@/lib/page-metadata";
@@ -21,7 +22,7 @@ export default async function NewsPage({ searchParams }: Props) {
 
   return (
     <section className={styles.page} aria-labelledby="news-heading">
-      <p className={styles.eyebrow}>Network for Active Citizens</p>
+      <p className={styles.eyebrow}>Media Center</p>
       <h1 id="news-heading" className={styles.title}>
         Blogs & News
       </h1>
@@ -29,6 +30,7 @@ export default async function NewsPage({ searchParams }: Props) {
         Stories and updates from youth organisers and partners across the NAC
         network.
       </p>
+      <MediaTabs active="news" />
       <ArticleList
         articles={result.items}
         page={result.page}

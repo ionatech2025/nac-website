@@ -72,9 +72,9 @@ export async function getPrimaryNav(): Promise<NavItem[]> {
         { label: "Photos", href: "/galleries/photos" },
         { label: "Videos", href: "/galleries/videos" },
         { label: "Documents", href: "/downloads" },
+        { label: "Blogs & News", href: "/news" },
       ],
     },
-    { type: "link", label: "Blogs & News", href: "/news" },
     {
       type: "group",
       label: "Contact Us",

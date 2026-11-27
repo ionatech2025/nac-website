@@ -24,9 +24,10 @@ export function PartnersStrip({ partners }: Props) {
             <Image
               src={partner.logoUrl}
               alt={partner.name}
-              width={160}
-              height={64}
+              width={220}
+              height={88}
               className={styles.logo}
+              unoptimized
             />
           ) : (
             <span className={styles.name}>{partner.name}</span>
@@ -39,7 +40,7 @@ export function PartnersStrip({ partners }: Props) {
                   {content}
                 </ExternalLink>
               ) : (
-                content
+                <div className={styles.link}>{content}</div>
               )}
             </li>
           );
