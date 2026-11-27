@@ -3,9 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { isNavActive, primaryNav, type NavItem } from "@/lib/navigation";
+import { isNavActive, type NavItem } from "@/lib/navigation";
 import { NavMegaPanel } from "./nav-mega-panel";
 import styles from "./desktop-nav.module.css";
+
+type Props = {
+  items: NavItem[];
+};
 
 function MegaGroup({
   item,
@@ -123,13 +127,13 @@ function SimpleGroup({
   );
 }
 
-export function DesktopNav() {
+export function DesktopNav({ items }: Props) {
   const pathname = usePathname();
 
   return (
     <nav className={styles.nav} aria-label="Primary">
       <ul className={styles.list}>
-        {primaryNav.map((item) => {
+        {items.map((item) => {
           if (item.type === "link") {
             const active = isNavActive(pathname, item.href);
             return (

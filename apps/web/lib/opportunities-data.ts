@@ -1,13 +1,14 @@
 /**
- * Opportunities seed/fallback for Epic E8 (Dev A).
- * Matches Dev B contract shape; swap to @repo/database helpers later.
+ * Opportunities (E08) — published opportunities from `@repo/database`.
  */
 
 import {
-  SEED_OPPORTUNITIES,
-  SEED_OPPORTUNITY_TYPES,
-  type SeedOpportunity,
-} from "./opportunities-seed";
+  dateOnlyYmd,
+  getPublishedOpportunityBySlug,
+  labelDerivedOpportunityStatus,
+  listOpportunityTypesInUse,
+  listPublishedOpportunities,
+} from "@repo/database";
 
 export type DerivedStatus = "OPEN" | "CLOSED";
 
@@ -48,53 +49,36 @@ export type OpportunityFilters = {
   closingTo?: string;
 };
 
-function kampalaTodayYmd(now = new Date()): string {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Africa/Kampala",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(now);
-}
-
-/** Mirror Dev B deriveOpportunityStatus for published seed rows. */
-function deriveStatus(opp: SeedOpportunity, now = new Date()): DerivedStatus | "ARCHIVED" {
-  if (opp.status === "ARCHIVED" || opp.manualStatus === "ARCHIVED") return "ARCHIVED";
-  if (opp.manualStatus === "CLOSED") return "CLOSED";
-  const today = kampalaTodayYmd(now);
-  if (opp.openingDate && today < opp.openingDate) return "CLOSED";
-  if (opp.closingDate && today > opp.closingDate) return "CLOSED";
-  return "OPEN";
-}
-
-function toItem(row: SeedOpportunity): OpportunityItem | null {
-  if (row.status !== "PUBLISHED") return null;
-  const derived = deriveStatus(row);
-  if (derived === "ARCHIVED") return null;
-  const type =
-    SEED_OPPORTUNITY_TYPES.find((t) => t.slug === row.typeSlug) ?? null;
+function toItem(row: Awaited<
+  ReturnType<typeof listPublishedOpportunities>
+>[number]): OpportunityItem | null {
+  if (row.derivedStatus === "ARCHIVED") return null;
   return {
     id: row.id,
     title: row.title,
     slug: row.slug,
     description: row.description,
-    type,
-    openingDate: row.openingDate,
-    closingDate: row.closingDate,
+    type: row.type
+      ? { id: row.type.id, name: row.type.name, slug: row.type.slug }
+      : null,
+    openingDate: row.openingDate ? dateOnlyYmd(row.openingDate) : null,
+    closingDate: row.closingDate ? dateOnlyYmd(row.closingDate) : null,
     contactEmail: row.contactEmail,
     contactPhone: row.contactPhone,
     applicationInstructions: row.applicationInstructions,
-    attachments: row.attachments,
-    derivedStatus: derived,
+    attachments: row.attachments.map((attachment) => ({
+      id: attachment.id,
+      title: attachment.title?.trim() || attachment.media.fileName,
+      href: attachment.media.url,
+      fileName: attachment.media.fileName,
+      byteSize: attachment.media.byteSize ?? undefined,
+    })),
+    derivedStatus: row.derivedStatus === "OPEN" ? "OPEN" : "CLOSED",
   };
 }
 
-const published = SEED_OPPORTUNITIES.map(toItem).filter(
-  (row): row is OpportunityItem => row !== null,
-);
-
 export function labelStatus(status: DerivedStatus): string {
-  return status === "OPEN" ? "Open" : "Closed";
+  return labelDerivedOpportunityStatus(status);
 }
 
 export function formatOpportunityDate(ymd: string | null): string | null {
@@ -114,10 +98,7 @@ export function applyMailto(email: string, title: string): string {
 }
 
 export async function listOpportunityTypes(): Promise<OpportunityType[]> {
-  const used = new Set(
-    published.map((item) => item.type?.slug).filter(Boolean) as string[],
-  );
-  return SEED_OPPORTUNITY_TYPES.filter((type) => used.has(type.slug));
+  return listOpportunityTypesInUse();
 }
 
 export async function listOpportunities(
@@ -128,6 +109,10 @@ export async function listOpportunities(
   const sort = filters.sort ?? "closing-asc";
   const from = filters.closingFrom?.trim() || "";
   const to = filters.closingTo?.trim() || "";
+
+  const published = (await listPublishedOpportunities())
+    .map(toItem)
+    .filter((row): row is OpportunityItem => row !== null);
 
   let items = published.filter((item) => {
     if (status === "open" && item.derivedStatus !== "OPEN") return false;
@@ -151,5 +136,6 @@ export async function listOpportunities(
 export async function getOpportunityBySlug(
   slug: string,
 ): Promise<OpportunityItem | null> {
-  return published.find((item) => item.slug === slug) ?? null;
+  const row = await getPublishedOpportunityBySlug(slug);
+  return row ? toItem(row) : null;
 }

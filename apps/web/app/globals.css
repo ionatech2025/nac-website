@@ -1,22 +1,26 @@
 :root {
-  --nac-green: #1f7a55;
-  --nac-green-deep: #0b4e36;
-  --nac-accent: #c97816;
-  --nac-ink: #14231c;
-  --nac-muted: #4d5f56;
-  --nac-line: #d5e3db;
-  --nac-surface: #f3f8f4;
-  --nac-paper: #f7faf7;
+  /* NAC brand — forest green + warm gold, photography-first NGO feel */
+  --nac-green: #0f6b3a;
+  --nac-green-deep: #084528;
+  --nac-green-soft: #1a7f4a;
+  --nac-accent: #e0a01a;
+  --nac-accent-deep: #b87a0c;
+  --nac-ink: #12201a;
+  --nac-muted: #4a5c53;
+  --nac-line: #cfe0d5;
+  --nac-surface: #eef6f1;
+  --nac-paper: #f5f9f6;
+  --nac-cream: #f7f4ee;
   --nac-max: 72rem;
   --nac-gutter: clamp(1rem, 3.5vw, 1.75rem);
-  --nac-section-y: clamp(2.75rem, 7vw, 5rem);
-  /* Header / nav bridge tokens (used by site-header + desktop-nav CSS) */
+  --nac-section-y: clamp(3rem, 8vw, 5.5rem);
+  /* Header / nav bridge tokens */
   --color-primary: var(--nac-green);
   --color-primary-dark: var(--nac-green-deep);
   --color-accent: var(--nac-accent);
   --color-text: var(--nac-ink);
   --color-muted: var(--nac-muted);
-  --color-tint: #eaf5ee;
+  --color-tint: #e7f3eb;
   --background: var(--nac-paper);
   --foreground: var(--nac-ink);
 }
@@ -36,9 +40,9 @@ body {
   min-height: 100vh;
   color: var(--foreground);
   background:
-    radial-gradient(ellipse 70% 45% at 92% -8%, rgb(201 120 22 / 0.14), transparent 55%),
-    radial-gradient(ellipse 55% 40% at -5% 18%, rgb(31 122 85 / 0.14), transparent 50%),
-    linear-gradient(180deg, #f6faf7 0%, #eef5f0 52%, #e7f0ea 100%);
+    radial-gradient(ellipse 65% 40% at 100% -5%, rgb(224 160 26 / 0.12), transparent 55%),
+    radial-gradient(ellipse 50% 38% at -8% 12%, rgb(15 107 58 / 0.12), transparent 52%),
+    linear-gradient(180deg, #f7faf7 0%, #eef5f0 48%, #e8f1eb 100%);
   font-family: var(--font-body), "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

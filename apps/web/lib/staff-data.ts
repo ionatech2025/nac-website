@@ -1,8 +1,11 @@
 /**
- * Staff directory seed/fallback for Epic E4 (Dev A).
- * Matches `listPublishedTeamMembers` shape; swap to @repo/database later.
- * No database access. Biographies only when NAC has supplied them — never invented.
+ * Staff directory (E04) — published team members from `@repo/database`.
  */
+
+import {
+  listPublishedTeamMembers,
+  mediaVariantUrl,
+} from "@repo/database";
 
 export type StaffPhoto = {
   url: string;
@@ -21,31 +24,29 @@ export type StaffMember = {
   photo: StaffPhoto | null;
 };
 
-/** Seed list in admin-style order. Bios omitted unless NAC supplied them. */
-const seedStaff: StaffMember[] = [
-  {
-    id: "staff-1",
-    name: "Peniel Rwendeire",
-    roleTitle: "Executive Director",
-    biography: null,
-    photo: null,
-  },
-  {
-    id: "staff-2",
-    name: "Patricia Nakitto",
-    roleTitle: "Programme lead",
-    biography: null,
-    photo: null,
-  },
-];
-
 export async function listStaffMembers(): Promise<StaffMember[]> {
-  return seedStaff;
+  const rows = await listPublishedTeamMembers();
+  return rows.map((member) => ({
+    id: member.id,
+    name: member.name,
+    roleTitle: member.roleTitle,
+    biography: member.biography?.trim() || null,
+    photo: member.photo
+      ? {
+          url: member.photo.url,
+          altText: member.photo.altText,
+          thumbUrl: member.photo.thumbUrl,
+          mediumUrl: member.photo.mediumUrl,
+          width: member.photo.width,
+          height: member.photo.height,
+        }
+      : null,
+  }));
 }
 
 export function staffPhotoSrc(photo: StaffPhoto | null): string | null {
   if (!photo) return null;
-  return photo.mediumUrl ?? photo.thumbUrl ?? photo.url;
+  return mediaVariantUrl(photo, "medium");
 }
 
 export function staffInitials(name: string): string {

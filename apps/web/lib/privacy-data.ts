@@ -1,7 +1,8 @@
 /**
- * Privacy notice seed/fallback (E15-07).
- * Mirrors PageContent key `privacy` for a later getPageContent swap.
+ * Privacy notice (E15-07) — PageContent key `privacy`, with safe fallback.
  */
+
+import { getPageContent } from "@repo/database";
 
 export const PRIVACY_PAGE_KEY = "privacy";
 
@@ -10,7 +11,7 @@ export type PrivacyPageContent = {
   body: string;
 };
 
-const seed: PrivacyPageContent = {
+const FALLBACK: PrivacyPageContent = {
   title: "Privacy notice",
   body: `## Visitor statistics
 
@@ -34,5 +35,10 @@ For privacy questions about this website, use the Contact Us page or the email a
 };
 
 export async function getPrivacyPageContent(): Promise<PrivacyPageContent> {
-  return seed;
+  const page = await getPageContent(PRIVACY_PAGE_KEY);
+  if (!page?.body?.trim()) return FALLBACK;
+  return {
+    title: page.title?.trim() || FALLBACK.title,
+    body: page.body,
+  };
 }

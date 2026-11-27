@@ -1,9 +1,14 @@
 /**
- * Events seed/fallback for Epic E9 (Dev A).
- * Matches Dev B contract shape; swap to @repo/database helpers later.
+ * Events (E09) — published events from `@repo/database`.
  */
 
-import { SEED_EVENTS, type SeedEvent } from "./events-seed";
+import {
+  getPublishedEventBySlug,
+  listPublishedPastEvents,
+  listPublishedPastEventsPage,
+  listPublishedUpcomingEvents,
+  mediaVariantUrl,
+} from "@repo/database";
 
 export type EventImage = { url: string; altText: string };
 
@@ -30,29 +35,45 @@ export type EventsPage = {
   pageCount: number;
 };
 
-function toPublic(row: SeedEvent): PublicEvent | null {
-  if (row.status !== "PUBLISHED" && row.status !== "CANCELLED") return null;
+function toPublic(row: {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  startAt: Date;
+  endAt: Date;
+  timezone: string;
+  location: string | null;
+  registrationUrl: string | null;
+  contact: string | null;
+  status: string;
+  image: {
+    url: string;
+    altText: string | null;
+    thumbUrl?: string | null;
+    mediumUrl?: string | null;
+  } | null;
+}): PublicEvent {
   return {
     id: row.id,
     title: row.title,
     slug: row.slug,
     description: row.description,
-    startAt: row.startAt,
-    endAt: row.endAt,
+    startAt: row.startAt.toISOString(),
+    endAt: row.endAt.toISOString(),
     timezone: row.timezone || "Africa/Kampala",
     location: row.location,
-    image: row.imageUrl
-      ? { url: row.imageUrl, altText: row.imageAlt ?? row.title }
+    image: row.image
+      ? {
+          url: mediaVariantUrl(row.image, "medium"),
+          altText: row.image.altText?.trim() || row.title,
+        }
       : null,
     registrationUrl: row.registrationUrl,
     contact: row.contact,
     cancelled: row.status === "CANCELLED",
   };
 }
-
-const publicEvents = SEED_EVENTS.map(toPublic).filter(
-  (row): row is PublicEvent => row !== null,
-);
 
 function formatInZone(
   iso: string,
@@ -104,38 +125,35 @@ export function formatEventWhen(event: PublicEvent): string {
 }
 
 export async function listUpcomingEvents(limit = 50): Promise<PublicEvent[]> {
-  const now = Date.now();
-  return publicEvents
-    .filter((event) => new Date(event.endAt).getTime() >= now)
-    .sort((a, b) => a.startAt.localeCompare(b.startAt))
-    .slice(0, Math.min(Math.max(limit, 1), 100));
+  const rows = await listPublishedUpcomingEvents(limit);
+  return rows.map(toPublic);
 }
 
 export async function listPastEventsPage(request: {
   page?: number;
   pageSize?: number;
 } = {}): Promise<EventsPage> {
-  const pageSize = Math.min(Math.max(Math.floor(request.pageSize ?? 12) || 12, 1), 100);
-  const now = Date.now();
-  const past = publicEvents
-    .filter((event) => new Date(event.endAt).getTime() < now)
-    .sort((a, b) => b.startAt.localeCompare(a.startAt));
-  const pageCount = Math.max(1, Math.ceil(past.length / pageSize));
-  const page = Math.min(Math.max(Math.floor(Number(request.page)) || 1, 1), pageCount);
-  const start = (page - 1) * pageSize;
+  const page = await listPublishedPastEventsPage(request);
   return {
-    items: past.slice(start, start + pageSize),
-    page,
-    pageSize,
-    total: past.length,
-    pageCount,
+    items: page.items.map(toPublic),
+    page: page.page,
+    pageSize: page.pageSize,
+    total: page.total,
+    pageCount: page.pageCount,
   };
 }
 
 export async function listAllPublicEvents(): Promise<PublicEvent[]> {
-  return [...publicEvents].sort((a, b) => a.startAt.localeCompare(b.startAt));
+  const [upcoming, past] = await Promise.all([
+    listPublishedUpcomingEvents(100),
+    listPublishedPastEvents(100),
+  ]);
+  return [...upcoming, ...past]
+    .map(toPublic)
+    .sort((a, b) => a.startAt.localeCompare(b.startAt));
 }
 
 export async function getEventBySlug(slug: string): Promise<PublicEvent | null> {
-  return publicEvents.find((event) => event.slug === slug) ?? null;
+  const row = await getPublishedEventBySlug(slug);
+  return row ? toPublic(row) : null;
 }
