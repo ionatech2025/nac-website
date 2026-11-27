@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { isNavActive, type NavItem } from "@/lib/navigation";
 import { NavMegaPanel } from "./nav-mega-panel";
 import styles from "./desktop-nav.module.css";
@@ -13,27 +13,24 @@ type Props = {
 
 type GroupItem = Extract<NavItem, { type: "group" }>;
 
-function useCloseOnNavigate(pathname: string, setOpen: (v: boolean) => void) {
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname, setOpen]);
-}
-
 function useOutsideClose(
   open: boolean,
   rootRef: React.RefObject<HTMLElement | null>,
-  setOpen: (v: boolean) => void,
+  onClose: () => void,
 ) {
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
     if (!open) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
+        onCloseRef.current();
       }
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") onCloseRef.current();
     };
 
     document.addEventListener("mousedown", onPointerDown);
@@ -42,7 +39,7 @@ function useOutsideClose(
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
-  }, [open, rootRef, setOpen]);
+  }, [open, rootRef]);
 }
 
 function MegaGroup({
@@ -65,7 +62,6 @@ function MegaGroup({
     isNavActive(pathname, item.href) ||
     item.children.some((child) => isNavActive(pathname, child.href));
 
-  useCloseOnNavigate(pathname, onClose);
   useOutsideClose(open, rootRef, onClose);
 
   return (
@@ -113,7 +109,6 @@ function SimpleGroup({
     isNavActive(pathname, item.href) ||
     item.children.some((child) => isNavActive(pathname, child.href));
 
-  useCloseOnNavigate(pathname, onClose);
   useOutsideClose(open, rootRef, onClose);
 
   return (
@@ -166,6 +161,12 @@ export function DesktopNav({ items }: Props) {
   const pathname = usePathname();
   const [openLabel, setOpenLabel] = useState<string | null>(null);
 
+  const close = useCallback(() => setOpenLabel(null), []);
+
+  useEffect(() => {
+    setOpenLabel(null);
+  }, [pathname]);
+
   return (
     <nav className={styles.nav} aria-label="Primary">
       <ul className={styles.list}>
@@ -178,7 +179,7 @@ export function DesktopNav({ items }: Props) {
                   href={item.href}
                   className={active ? styles.activeLink : styles.link}
                   aria-current={active ? "page" : undefined}
-                  onClick={() => setOpenLabel(null)}
+                  onClick={close}
                 >
                   {item.label}
                 </Link>
@@ -188,8 +189,9 @@ export function DesktopNav({ items }: Props) {
 
           const open = openLabel === item.label;
           const onToggle = () =>
-            setOpenLabel((current) => (current === item.label ? null : item.label));
-          const onClose = () => setOpenLabel(null);
+            setOpenLabel((current) =>
+              current === item.label ? null : item.label,
+            );
 
           if (item.columns && item.columns.length > 0) {
             return (
@@ -199,7 +201,7 @@ export function DesktopNav({ items }: Props) {
                 pathname={pathname}
                 open={open}
                 onToggle={onToggle}
-                onClose={onClose}
+                onClose={close}
               />
             );
           }
@@ -211,7 +213,7 @@ export function DesktopNav({ items }: Props) {
               pathname={pathname}
               open={open}
               onToggle={onToggle}
-              onClose={onClose}
+              onClose={close}
             />
           );
         })}
