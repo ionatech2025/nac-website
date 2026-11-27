@@ -1,13 +1,12 @@
 /**
- * Downloads seed/fallback for Epic E11 (Dev A).
- * Matches Dev B contract shape; swap to @repo/database helpers later.
+ * Downloads (E11) — published documents from `@repo/database`.
  */
 
 import {
-  SEED_CATEGORIES,
-  SEED_DOCUMENTS,
-  type SeedDocument,
-} from "./downloads-seed";
+  listDocumentCategoriesInUse,
+  listPublishedDocuments,
+  listPublishedDocumentsPage,
+} from "@repo/database";
 
 export type DocumentCategory = {
   id: string;
@@ -35,27 +34,35 @@ export type DocumentsPage = {
   pageCount: number;
 };
 
-function toPublic(row: SeedDocument): PublicDocument {
-  const category =
-    SEED_CATEGORIES.find((item) => item.slug === row.categorySlug) ?? null;
+function toPublic(row: {
+  id: string;
+  title: string;
+  description: string | null;
+  fileType: string;
+  byteSize: number;
+  publishedAt: Date | null;
+  downloadPath: string;
+  category: { id: string; name: string; slug: string } | null;
+  media: { fileName: string };
+}): PublicDocument {
   return {
     id: row.id,
     title: row.title,
     description: row.description,
-    category: category
-      ? { id: category.id, name: category.name, slug: category.slug }
+    category: row.category
+      ? {
+          id: row.category.id,
+          name: row.category.name,
+          slug: row.category.slug,
+        }
       : null,
     fileType: row.fileType,
     byteSize: row.byteSize,
-    publishedAt: row.publishedAt,
+    publishedAt: row.publishedAt?.toISOString() ?? null,
     downloadPath: row.downloadPath,
-    fileName: row.fileName,
+    fileName: row.media.fileName,
   };
 }
-
-const published = [...SEED_DOCUMENTS]
-  .map(toPublic)
-  .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""));
 
 export function formatDocumentDate(iso: string | null): string | null {
   if (!iso) return null;
@@ -69,14 +76,8 @@ export function formatDocumentDate(iso: string | null): string | null {
   }).format(date);
 }
 
-/** Categories that currently have published documents. */
 export async function listDocumentCategories(): Promise<DocumentCategory[]> {
-  const used = new Set(
-    published.map((doc) => doc.category?.slug).filter(Boolean) as string[],
-  );
-  return SEED_CATEGORIES.filter((category) => used.has(category.slug)).map(
-    ({ id, name, slug }) => ({ id, name, slug }),
-  );
+  return listDocumentCategoriesInUse();
 }
 
 export async function listDocumentsPage(request: {
@@ -84,26 +85,19 @@ export async function listDocumentsPage(request: {
   pageSize?: number;
   categorySlug?: string;
 } = {}): Promise<DocumentsPage> {
-  const pageSize = Math.min(Math.max(Math.floor(request.pageSize ?? 12) || 12, 1), 100);
-  const categorySlug = request.categorySlug?.trim() || "";
-  const filtered = categorySlug
-    ? published.filter((doc) => doc.category?.slug === categorySlug)
-    : published;
-  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const page = Math.min(Math.max(Math.floor(Number(request.page)) || 1, 1), pageCount);
-  const start = (page - 1) * pageSize;
+  const page = await listPublishedDocumentsPage(request);
   return {
-    items: filtered.slice(start, start + pageSize),
-    page,
-    pageSize,
-    total: filtered.length,
-    pageCount,
+    items: page.items.map(toPublic),
+    page: page.page,
+    pageSize: page.pageSize,
+    total: page.total,
+    pageCount: page.pageCount,
   };
 }
 
-/** Latest published docs for home / footer / programme blocks. */
 export async function listLatestDocuments(limit = 4): Promise<PublicDocument[]> {
-  return published.slice(0, Math.min(Math.max(limit, 1), 100));
+  const rows = await listPublishedDocuments(limit);
+  return rows.map(toPublic);
 }
 
 export function toLatestDownloadItem(doc: PublicDocument) {

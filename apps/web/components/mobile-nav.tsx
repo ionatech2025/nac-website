@@ -3,10 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { isNavActive, primaryNav } from "@/lib/navigation";
+import { isNavActive, type NavItem } from "@/lib/navigation";
 import styles from "./mobile-nav.module.css";
 
-export function MobileNav() {
+type Props = {
+  items: NavItem[];
+};
+
+export function MobileNav({ items }: Props) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const panelId = useId();
@@ -99,7 +103,7 @@ export function MobileNav() {
 
             <nav aria-label="Mobile primary">
               <ul className={styles.list}>
-                {primaryNav.map((item) => {
+                {items.map((item) => {
                   if (item.type === "link") {
                     const active = isNavActive(pathname, item.href);
                     return (

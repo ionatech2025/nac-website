@@ -1,9 +1,12 @@
 /**
- * News/articles seed/fallback for Epic E7 (Dev A).
- * Matches Dev B contract shape; swap to @repo/database helpers later.
+ * News/articles (E07) — published articles from `@repo/database`.
  */
 
-import { SEED_ARTICLES, type SeedArticle } from "./news-seed";
+import {
+  getPublishedArticleBySlug,
+  listPublishedArticlesPage,
+  mediaVariantUrl,
+} from "@repo/database";
 
 export type ArticleImage = {
   url: string;
@@ -36,44 +39,42 @@ export type ArticlesPage = {
 };
 
 function toImage(
-  url: string | null,
-  alt: string | null,
+  media: {
+    url: string;
+    altText: string | null;
+    thumbUrl?: string | null;
+    mediumUrl?: string | null;
+  } | null,
   fallbackAlt: string,
 ): ArticleImage | null {
-  if (!url) return null;
-  return { url, altText: alt?.trim() || fallbackAlt };
+  if (!media) return null;
+  return {
+    url: mediaVariantUrl(media, "medium"),
+    altText: media.altText?.trim() || fallbackAlt,
+  };
 }
 
-function toListItem(article: SeedArticle): ArticleListItem {
+function toListItem(article: {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  publishedAt: Date | null;
+  coverImage: {
+    url: string;
+    altText: string | null;
+    thumbUrl?: string | null;
+    mediumUrl?: string | null;
+  } | null;
+}): ArticleListItem {
   return {
     id: article.id,
     title: article.title,
     slug: article.slug,
-    excerpt: article.excerpt,
-    publishedAt: article.publishedAt,
-    coverImage: toImage(article.coverImageUrl, article.coverImageAlt, article.title),
+    excerpt: article.excerpt?.trim() || null,
+    publishedAt: article.publishedAt?.toISOString() ?? null,
+    coverImage: toImage(article.coverImage, article.title),
   };
-}
-
-function toDetail(article: SeedArticle): ArticleDetail {
-  return {
-    ...toListItem(article),
-    body: article.body,
-    author: article.author,
-    seoTitle: article.seoTitle,
-    seoDescription: article.seoDescription,
-    ogImage: toImage(article.ogImageUrl, article.coverImageAlt, article.title),
-  };
-}
-
-const sorted = [...SEED_ARTICLES].sort((a, b) =>
-  b.publishedAt.localeCompare(a.publishedAt),
-);
-
-function normalisePage(page?: number, pageSize = 12) {
-  const size = Math.min(Math.max(Math.floor(pageSize) || 12, 1), 100);
-  const current = Math.max(1, Math.floor(Number(page)) || 1);
-  return { page: current, pageSize: size };
 }
 
 /** Paged listing (FE-E7-01), newest first. */
@@ -81,21 +82,30 @@ export async function listArticlesPage(request: {
   page?: number;
   pageSize?: number;
 } = {}): Promise<ArticlesPage> {
-  const window = normalisePage(request.page, request.pageSize);
-  const total = sorted.length;
-  const pageCount = Math.max(1, Math.ceil(total / window.pageSize));
-  const page = Math.min(window.page, pageCount);
-  const start = (page - 1) * window.pageSize;
-  const items = sorted.slice(start, start + window.pageSize).map(toListItem);
-  return { items, page, pageSize: window.pageSize, total, pageCount };
+  const page = await listPublishedArticlesPage(request);
+  return {
+    items: page.items.map(toListItem),
+    page: page.page,
+    pageSize: page.pageSize,
+    total: page.total,
+    pageCount: page.pageCount,
+  };
 }
 
-/** Detail (FE-E7-02): null unless “published” in seed. */
+/** Detail (FE-E7-02): null unless published. */
 export async function getArticleBySlug(
   slug: string,
 ): Promise<ArticleDetail | null> {
-  const article = sorted.find((row) => row.slug === slug);
-  return article ? toDetail(article) : null;
+  const article = await getPublishedArticleBySlug(slug);
+  if (!article) return null;
+  return {
+    ...toListItem(article),
+    body: article.body,
+    author: article.author?.trim() || null,
+    seoTitle: article.seoTitle?.trim() || null,
+    seoDescription: article.seoDescription?.trim() || null,
+    ogImage: toImage(article.ogImage, article.title),
+  };
 }
 
 /** Format published date for public UI (Africa/Kampala calendar day). */

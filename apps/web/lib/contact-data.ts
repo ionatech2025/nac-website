@@ -1,7 +1,8 @@
 /**
- * Contact settings seed/fallback for Epic E12 (Dev A).
- * Matches `getPublicSiteSettings().contact` shape; swap to @repo/database later.
+ * Contact settings (E12) — from `getPublicSiteSettings().contact`.
  */
+
+import { getPublicSiteSettings } from "@repo/database";
 
 export type ContactSettings = {
   physicalAddress: string;
@@ -13,20 +14,9 @@ export type ContactSettings = {
   whatsapp: string;
 };
 
-/** Seed mirrors current public site-settings defaults (empty = hide). */
-const seedContact: ContactSettings = {
-  physicalAddress:
-    "Shaniela Courts, Plot 106, Nsubuga Road, Off Kisaasi-Kyanja Road, Kampala, Uganda",
-  postalAddress: "P.O. Box 801199 Ntinda, Uganda",
-  phone: "+256 (0) 393 216240",
-  phoneAlt: "+256 774 843 081",
-  tollFree: "+256 (0) 800 111 423",
-  email: "activecitizenuganda@gmail.com",
-  whatsapp: "256774843081",
-};
-
 export async function getContactSettings(): Promise<ContactSettings> {
-  return seedContact;
+  const settings = await getPublicSiteSettings();
+  return settings.contact;
 }
 
 export function telHref(value: string): string {

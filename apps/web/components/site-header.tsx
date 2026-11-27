@@ -1,9 +1,14 @@
 import Link from "next/link";
+import type { NavItem } from "@/lib/navigation";
 import { DesktopNav } from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
 import styles from "./site-header.module.css";
 
-export function SiteHeader() {
+type Props = {
+  items: NavItem[];
+};
+
+export function SiteHeader({ items }: Props) {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -25,8 +30,8 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <DesktopNav />
-        <MobileNav />
+        <DesktopNav items={items} />
+        <MobileNav items={items} />
       </div>
     </header>
   );

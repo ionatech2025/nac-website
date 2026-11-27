@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { defaultSiteSettings } from "@/lib/site-settings";
+import { getPrimaryNav } from "@/lib/navigation";
+import { getSiteSettings } from "@/lib/site-settings";
 import styles from "./(public)/public.module.css";
 import pageStyles from "@/components/page-placeholder.module.css";
 import stateStyles from "@/components/content-states.module.css";
 
-export default function RootNotFound() {
+export default async function RootNotFound() {
+  const [settings, nav] = await Promise.all([
+    getSiteSettings(),
+    getPrimaryNav(),
+  ]);
+
   return (
     <div className={styles.shell}>
-      <SiteHeader />
+      <SiteHeader items={nav} />
       <main id="main" className={styles.main}>
         <section className={pageStyles.section} aria-labelledby="missing-title">
           <p className={pageStyles.kicker}>Page not found</p>
@@ -29,7 +35,7 @@ export default function RootNotFound() {
           </div>
         </section>
       </main>
-      <SiteFooter settings={defaultSiteSettings} />
+      <SiteFooter settings={settings} />
     </div>
   );
 }

@@ -62,9 +62,6 @@ export function HeroSlideshow({ slides, identity }: Props) {
           <Link href="/youth-spaces" className={styles.secondary}>
             Youth spaces
           </Link>
-          <Link href="/contact" className={styles.secondary}>
-            Get in touch
-          </Link>
         </div>
       </div>
 

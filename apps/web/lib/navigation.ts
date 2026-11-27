@@ -27,57 +27,65 @@ export type NavItem =
 
 /**
  * Primary navigation. Member organisations live under About Us;
- * Contact Us dropdown covers inquiries and complaints (no extra Contact CTA).
+ * Contact Us dropdown covers inquiries and complaints.
  */
-export const primaryNav: NavItem[] = [
-  { type: "link", label: "Home", href: "/" },
-  {
-    type: "group",
-    label: "About Us",
-    href: "/about",
-    children: [
-      { label: "About Us", href: "/about" },
-      { label: "Our Staff", href: "/staff" },
-      { label: "Member organisations", href: "/member-organisations" },
-    ],
-  },
-  {
-    type: "group",
-    label: "Programmes",
-    href: "/programs",
-    children: programmeNavLinks(),
-  },
-  {
-    type: "group",
-    label: "Youth Spaces",
-    href: "/youth-spaces",
-    layout: "horizontal",
-    children: youthSpacesNavLinks(),
-    columns: youthSpacesNavColumns(),
-  },
-  { type: "link", label: "Opportunities", href: "/opportunities" },
-  { type: "link", label: "Events", href: "/events" },
-  {
-    type: "group",
-    label: "Galleries",
-    href: "/galleries",
-    children: [
-      { label: "Photo Gallery", href: "/galleries/photos" },
-      { label: "Video Gallery", href: "/galleries/videos" },
-    ],
-  },
-  { type: "link", label: "Blogs & News", href: "/news" },
-  { type: "link", label: "Downloads", href: "/downloads" },
-  {
-    type: "group",
-    label: "Contact Us",
-    href: "/contact",
-    children: [
-      { label: "Inquiries", href: "/contact" },
-      { label: "Complaints", href: "/complaints" },
-    ],
-  },
-];
+export async function getPrimaryNav(): Promise<NavItem[]> {
+  const [programmeChildren, youthChildren, youthColumns] = await Promise.all([
+    programmeNavLinks(),
+    youthSpacesNavLinks(),
+    youthSpacesNavColumns(),
+  ]);
+
+  return [
+    { type: "link", label: "Home", href: "/" },
+    {
+      type: "group",
+      label: "About Us",
+      href: "/about",
+      children: [
+        { label: "About Us", href: "/about" },
+        { label: "Our Staff", href: "/staff" },
+        { label: "Member organisations", href: "/member-organisations" },
+      ],
+    },
+    {
+      type: "group",
+      label: "Programmes",
+      href: "/programs",
+      children: programmeChildren,
+    },
+    {
+      type: "group",
+      label: "Youth Spaces",
+      href: "/youth-spaces",
+      layout: "horizontal",
+      children: youthChildren,
+      columns: youthColumns,
+    },
+    { type: "link", label: "Opportunities", href: "/opportunities" },
+    { type: "link", label: "Events", href: "/events" },
+    {
+      type: "group",
+      label: "Galleries",
+      href: "/galleries",
+      children: [
+        { label: "Photo Gallery", href: "/galleries/photos" },
+        { label: "Video Gallery", href: "/galleries/videos" },
+      ],
+    },
+    { type: "link", label: "Blogs & News", href: "/news" },
+    { type: "link", label: "Downloads", href: "/downloads" },
+    {
+      type: "group",
+      label: "Contact Us",
+      href: "/contact",
+      children: [
+        { label: "Inquiries", href: "/contact" },
+        { label: "Complaints", href: "/complaints" },
+      ],
+    },
+  ];
+}
 
 /**
  * Active-state helper. Use `exact` for index links that share a prefix with

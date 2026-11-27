@@ -1,12 +1,12 @@
 /**
  * Public site settings for layout (footer, contact, social, E14).
- * Seed mirrors `getPublicSiteSettings()` shape; empty string = hide that field.
+ * Empty string = hide that field.
  */
 
 import {
-  listLatestDocuments,
-  toLatestDownloadItem,
-} from "./downloads-data";
+  getPublicSiteSettings,
+  listPublishedDocuments,
+} from "@repo/database";
 
 export type SiteDownload = {
   title: string;
@@ -63,20 +63,6 @@ const EXTERNAL_LABELS: { key: keyof ExternalServices; label: string }[] = [
   { key: "slogbaa", label: "SLOGBAA" },
 ];
 
-const seedSocial: SocialProfiles = {
-  facebook: "https://facebook.com/networkforactivecitizens",
-  x: "https://twitter.com/activecitizensu",
-  instagram: "",
-  youtube: "",
-  linkedin: "https://linkedin.com/company/network-for-active-citizens",
-  tiktok: "",
-};
-
-const seedExternal: ExternalServices = {
-  youthGoBudget: "https://youthgobudgetapp.org",
-  slogbaa: "https://slogbaa.org",
-};
-
 export function linksFromSocial(
   social: SocialProfiles,
 ): { label: string; href: string }[] {
@@ -107,34 +93,65 @@ export function whatsappHref(value: string): string | null {
 export const defaultSiteSettings: SiteSettings = {
   orgName: "Network for Active Citizens",
   tagline: "Locally Engaged, Globally Connected",
-  address:
-    "Shaniela Courts, Plot 106, Nsubuga Road, Off Kisaasi-Kyanja Road, Kampala, Uganda",
-  postal: "P.O. Box 801199 Ntinda, Uganda",
-  phones: ["+256 (0) 393 216240", "+256 774 843 081", "+256 701 840 078"],
-  tollFree: "+256 (0) 800 111 423",
-  email: "activecitizenuganda@gmail.com",
-  whatsapp: "256774843081",
+  address: "",
+  postal: "",
+  phones: [],
+  tollFree: "",
+  email: "",
+  whatsapp: "",
   copyright: `© ${new Date().getFullYear()} Network for Active Citizens (NAC)`,
-  socialProfiles: seedSocial,
-  externalServices: seedExternal,
-  social: linksFromSocial(seedSocial),
-  external: linksFromExternal(seedExternal),
+  socialProfiles: {
+    facebook: "",
+    x: "",
+    instagram: "",
+    youtube: "",
+    linkedin: "",
+    tiktok: "",
+  },
+  externalServices: {
+    youthGoBudget: "https://youthgobudgetapp.org",
+    slogbaa: "https://slogbaa.org",
+  },
+  social: [],
+  external: [
+    { label: "Youth Go Budget", href: "https://youthgobudgetapp.org" },
+    { label: "SLOGBAA", href: "https://slogbaa.org" },
+  ],
   latestDownloads: [],
 };
 
-/** Seed/fallback until public pages call `getPublicSiteSettings()` live. */
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const latest = await listLatestDocuments(4);
+  const [settings, documents] = await Promise.all([
+    getPublicSiteSettings(),
+    listPublishedDocuments(4),
+  ]);
+
+  const phones = [settings.contact.phone, settings.contact.phoneAlt]
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  const socialProfiles: SocialProfiles = { ...settings.social };
+  const externalServices: ExternalServices = { ...settings.external };
+
   return {
-    ...defaultSiteSettings,
-    latestDownloads: latest.map((doc) => {
-      const item = toLatestDownloadItem(doc);
-      return {
-        title: item.title,
-        href: item.href,
-        byteSize: item.byteSize,
-        fileType: item.fileType,
-      };
-    }),
+    orgName: defaultSiteSettings.orgName,
+    tagline: defaultSiteSettings.tagline,
+    address: settings.contact.physicalAddress.trim(),
+    postal: settings.contact.postalAddress.trim(),
+    phones,
+    tollFree: settings.contact.tollFree.trim(),
+    email: settings.contact.email.trim(),
+    whatsapp: settings.contact.whatsapp.trim(),
+    copyright: defaultSiteSettings.copyright,
+    socialProfiles,
+    externalServices,
+    social: linksFromSocial(socialProfiles),
+    external: linksFromExternal(externalServices),
+    latestDownloads: documents.map((doc) => ({
+      title: doc.title,
+      href: doc.downloadPath,
+      byteSize: doc.byteSize,
+      fileType: doc.fileType,
+    })),
   };
 }
