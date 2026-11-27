@@ -1,9 +1,4 @@
-import { ExternalLink } from "@/components/external-link";
-import {
-  telHref,
-  whatsappHref,
-  type ContactSettings,
-} from "@/lib/contact-data";
+import { telHref, type ContactSettings } from "@/lib/contact-data";
 import styles from "./contact-details.module.css";
 
 type Props = {
@@ -12,7 +7,6 @@ type Props = {
 
 export function ContactDetails({ contact }: Props) {
   const phones = [contact.phone, contact.phoneAlt].filter((v) => v.trim());
-  const whatsapp = whatsappHref(contact.whatsapp);
 
   return (
     <section className={styles.section} aria-labelledby="contact-details-heading">
@@ -34,9 +28,9 @@ export function ContactDetails({ contact }: Props) {
         </div>
       ) : null}
 
-      {phones.length > 0 || contact.tollFree.trim() || contact.email.trim() || whatsapp ? (
+      {phones.length > 0 || contact.tollFree.trim() || contact.email.trim() ? (
         <div className={styles.block}>
-          <h3 className={styles.label}>Call, mail &amp; chat</h3>
+          <h3 className={styles.label}>Call &amp; mail</h3>
           <ul className={styles.list}>
             {phones.map((phone) => (
               <li key={phone}>
@@ -52,11 +46,6 @@ export function ContactDetails({ contact }: Props) {
             {contact.email.trim() ? (
               <li>
                 <a href={`mailto:${contact.email.trim()}`}>{contact.email}</a>
-              </li>
-            ) : null}
-            {whatsapp ? (
-              <li>
-                <ExternalLink href={whatsapp}>WhatsApp</ExternalLink>
               </li>
             ) : null}
           </ul>

@@ -34,29 +34,37 @@ export default async function AboutPage() {
 
   return (
     <article className={styles.page}>
-      <header className={styles.header}>
-        <p className={styles.eyebrow}>Network for Active Citizens</p>
-        <h1 className={styles.title}>{about.title}</h1>
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <p className={styles.eyebrow}>Network for Active Citizens</p>
+          <h1 className={styles.title}>{about.title}</h1>
+          <p className={styles.lead}>
+            Founded in 2017 to build youth resilience across Uganda through
+            capability development, shared spaces, and policy outreach.
+          </p>
+        </div>
       </header>
 
-      <AboutImages images={about.images} />
+      <div className={styles.body}>
+        <AboutImages images={about.images} />
 
-      {hasCopy ? (
-        <AboutSections
-          mission={about.mission}
-          vision={about.vision}
-          whatWeDo={about.whatWeDo}
-          why={about.why}
-        />
-      ) : (
-        <EmptyState
-          title="About copy coming soon"
-          message="Mission, vision and story will appear here once content is ready."
-        />
-      )}
+        {hasCopy ? (
+          <AboutSections
+            mission={about.mission}
+            vision={about.vision}
+            whatWeDo={about.whatWeDo}
+            why={about.why}
+          />
+        ) : (
+          <EmptyState
+            title="About copy coming soon"
+            message="Mission, vision and story will appear here once content is ready."
+          />
+        )}
 
-      <AboutKeyFigures figures={figures} />
-      <AboutProgrammes programmes={programmes} />
+        <AboutKeyFigures figures={figures} />
+        <AboutProgrammes programmes={programmes} />
+      </div>
     </article>
   );
 }

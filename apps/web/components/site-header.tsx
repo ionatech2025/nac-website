@@ -22,11 +22,8 @@ export function SiteHeader({ items }: Props) {
             height={112}
           />
           <span className={styles.brandText}>
-            <span className={styles.orgShort}>NAC</span>
-            <span className={styles.orgFull}>Network for Active Citizens</span>
-            <span className={styles.tagline}>
-              Locally Engaged, Globally Connected
-            </span>
+            <span className={styles.taglineLine}>Locally Engaged</span>
+            <span className={styles.taglineLine}>Globally Connected</span>
           </span>
         </Link>
 

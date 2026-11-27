@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { AlbumList } from "@/components/galleries/album-list";
+import { MediaTabs } from "@/components/galleries/media-tabs";
 import { listAlbumsPage } from "@/lib/galleries-data";
+import { publicPageMetadata } from "@/lib/page-metadata";
 import styles from "../galleries.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = publicPageMetadata({
   title: "Photo Gallery",
-  description: "Browse published NAC photo albums.",
-};
+  description: "Browse published NAC photo albums from programmes and events.",
+  path: "/galleries/photos",
+});
 
 type Props = {
   searchParams: Promise<{ page?: string }>;
@@ -19,22 +21,27 @@ export default async function PhotoGalleryPage({ searchParams }: Props) {
 
   return (
     <section className={styles.page} aria-labelledby="photos-heading">
-      <p className={styles.eyebrow}>Galleries</p>
-      <h1 id="photos-heading" className={styles.title}>
-        Photo Gallery
-      </h1>
-      <p className={styles.lead}>
-        Albums of network activity. Open an album to browse photos in a
-        lightbox.
-      </p>
-      <p className={styles.back}>
-        <Link href="/galleries">← All galleries</Link>
-      </p>
-      <AlbumList
-        albums={result.items}
-        page={result.page}
-        pageCount={result.pageCount}
-      />
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <p className={styles.eyebrow}>Media Center</p>
+          <h1 id="photos-heading" className={styles.title}>
+            Photos
+          </h1>
+          <p className={styles.lead}>
+            Albums of network activity. Open an album to browse photos in a
+            lightbox.
+          </p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <MediaTabs active="photos" />
+        <AlbumList
+          albums={result.items}
+          page={result.page}
+          pageCount={result.pageCount}
+        />
+      </div>
     </section>
   );
 }
